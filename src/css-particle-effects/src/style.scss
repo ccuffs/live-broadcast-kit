@@ -1,0 +1,189 @@
+body {
+   padding:40px 0;
+   font-family: 'bebas', sans-serif;
+   background-color:#fff;
+   .textcontainer {padding:40px 0;text-align:center;}
+   .particletext {
+      text-align:center;
+      font-size:48px;
+      position: relative;
+      &.bubbles {
+         >.particle {
+            opacity:0;
+            position: absolute;
+            background-color:rgba(33,150,243,0.5);
+            animation: bubbles 3s ease-in infinite;
+            border-radius:100%;
+         }
+      }
+      &.hearts {
+         >.particle {
+            opacity:0;
+            position: absolute;
+            background-color:rgba(204,42,93,1);
+            animation: hearts 3s ease-in infinite;
+            &:before, &:after {
+               position: absolute;
+               content: '';
+               border-radius:100px;
+               top:0px;
+               left:0px;
+               width:100%;
+               height:100%;
+               background-color:rgba(204,42,93,1);
+            }
+            &:before {
+               transform:translateX(-50%);
+            }
+            &:after {
+               transform:translateY(-50%);
+            }
+         }
+      }
+      &.lines {
+         >.particle {
+            position: absolute;
+            background-color:rgba(244,67,54,0.5);
+            animation: lines 3s linear infinite;
+         }
+      }
+      &.confetti {
+         >.particle {
+            opacity:0;
+            position: absolute;
+            animation: confetti 3s ease-in infinite;
+            &.c1 {
+               background-color:rgba(76,175,80,0.5);
+            }
+            &.c2 {
+               background-color:rgba(156,39,176,0.5);
+            }
+         }
+      }
+      &.fire {
+         >.particle {
+            position: absolute;
+            background-color:rgba(255,193,7,0.5);
+            border-radius:40px;
+            border-top-right-radius:0px;
+            animation: fires 0.8s linear infinite;
+               transform:rotate(-45deg);
+            opacity:0;
+            &:before {
+               position: absolute;
+               content: '';
+               top:60%;
+               left:40%;
+               transform:translate(-50%,-50%);
+               width:50%;
+               height:50%;
+               border-radius:40px;
+               border-top-right-radius:0px;
+               background-color:rgba(251,140,0,0.5);
+            }
+         }
+      }
+      
+      &.sunbeams {
+         >.particle {
+            position: absolute;
+            background-color:rgba(253,216,53,0.5);
+            animation: sunbeams 3s linear infinite;
+         }
+      }
+   }
+}
+
+@keyframes bubbles {
+   0% {
+      opacity: 0;
+   }
+   20% { //show and hint at moving
+      opacity: 1;
+      transform:translate(0, -20%);
+   }
+   100% {
+      opacity: 0;
+      transform:translate(0, -1000%); //Big bubbles move faster
+   }
+}
+@keyframes hearts {
+   0% {
+      opacity: 0;
+      transform:translate(0, 0%) rotate(45deg);
+   }
+   20% { //show and hint at moving
+      opacity: 0.8;
+      transform:translate(0, -20%) rotate(45deg);
+   }
+   100% {
+      opacity: 0;
+      transform:translate(0, -1000%) rotate(45deg); //Big hearts move faster
+   }
+}
+@keyframes lines {
+   0%, 50%, 100% {
+      transform:translateY(0%);
+   }
+   25% {
+      transform:translateY(100%);
+   }
+   75% {
+      transform:translateY(-100%);
+   }
+}
+@keyframes confetti {
+   0% {
+      opacity:0;
+      transform:translateY(0%) rotate(0deg);
+   }
+   10% {
+      opacity:1;
+   }
+   35% {
+      transform:translateY(-800%) rotate(270deg);
+   }
+   80% {
+      opacity:1;
+   }
+   100% {
+      opacity:0;
+      transform:translateY(2000%) rotate(1440deg);
+   }
+}
+@keyframes fires {
+   0% {
+      transform: rotate(-70deg) translateY(0%);
+   }
+   25% {
+      transform: rotate(-20deg) translateY(-5%);
+      opacity:1;
+   }
+   50%{
+      transform: rotate(-70deg) translateY(-10%);
+   }
+   75% {
+      transform: rotate(-20deg) translateY(-20%);
+   }
+   100% {
+      transform: rotate(-70deg) translateY(-40%);
+      opacity:1;
+   }
+}
+@keyframes sunbeams {
+   0% {
+      transform:translateY(40%) rotate(0deg);
+   }
+   50% {
+      transform:translateY(-40%) rotate(180deg);
+   }
+   100% {
+      transform:translateY(40%) rotate(360deg);
+   }
+   0%,14%,17%,43%,53%,71%,80%,94%,100% {
+      opacity:0;
+   }
+   6%,15%,24%,28%,48%,55%,78%,82%,99% {
+      opacity:1;
+   }
+}

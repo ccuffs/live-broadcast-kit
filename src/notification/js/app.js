@@ -1,0 +1,1 @@
+const urlParams = new URLSearchParams(queryString);

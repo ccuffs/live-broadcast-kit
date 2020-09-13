@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+		<meta name="viewport" content="width=device-width, initial-scale=1"> 
+		<title>Notification Styles Inspiration | Other Thumb Slider</title>
+		<meta name="description" content="Various styles and effects for unobtrusive notifications on a website" />
+		<meta name="keywords" content="notification, inspiration, style, effect, growl, javascript" />
+		<meta name="author" content="Codrops" />
+		<link rel="shortcut icon" href="../favicon.ico">
+		<link href="http://fonts.googleapis.com/css?family=Raleway:400,300,700" rel="stylesheet" type="text/css">
+		<link rel="stylesheet" type="text/css" href="css/normalize.css" />
+		<link rel="stylesheet" type="text/css" href="css/demo.css" />
+		<link rel="stylesheet" type="text/css" href="css/ns-default.css" />
+		<link rel="stylesheet" type="text/css" href="css/ns-style-other.css" />
+		<link rel="stylesheet" type="text/css" href="css/custom.css" />
+		<script src="js/modernizr.custom.js"></script>
+		<!--[if IE]>
+  		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
+	</head>
+	<body style="background: transparent;">
+		<!-- images that appaer in the notifications should be preloaded -->
+		<div style="overflow: hidden; opacity: 0; width: 0px; height:0px;"><img src="img/user1.jpg" /></div>
+
+		<script src="js/classie.js"></script>
+		<script src="js/notificationFx.js"></script>
+		<script>
+			(function() {
+				window.addEventListener('load', function() {
+                    var queryString = window.location.search;
+                    var urlParams = new URLSearchParams(queryString);
+
+                    var icon = urlParams.get('icon') || 'img/cc.png';
+                    var text = urlParams.get('text') || '';
+                    var ttl = parseInt(urlParams.get('ttl') || 6) * 1000;
+
+					setTimeout( function() {
+						var notification = new NotificationFx({
+							message : '<div class="ns-thumb cc"><img src="' + icon + '"/></div><div class="ns-content"><p>' + text + '</p></div>',
+							layout : 'other',
+							ttl : ttl,
+							effect : 'thumbslider',
+							type : 'error', // notice, warning, error or success
+							onClose : function() {
+							}
+						});
+
+						// show the notification
+						notification.show();
+
+					}, 1000 );
+				} );
+			})();
+		</script>
+	</body>
+</html>

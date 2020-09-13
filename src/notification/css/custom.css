@@ -1,0 +1,15 @@
+.ns-close {
+    display: none;
+}
+
+.ns-thumb.cc img {
+    width: 64px;
+    height: 64px;
+}
+
+.ns-content p {
+    font-size: 26px;
+    font-family: 'Roboto';
+    font-weight: 400 !important;
+    color: #373737;
+}
