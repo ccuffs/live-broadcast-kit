@@ -14,7 +14,8 @@
 		<link rel="stylesheet" type="text/css" href="css/demo.css" />
 		<link rel="stylesheet" type="text/css" href="css/ns-default.css" />
         <link rel="stylesheet" type="text/css" href="css/ns-style-other.css" />
-		<link rel="stylesheet" type="text/css" href="css/custom.css" />
+        <link rel="stylesheet" type="text/css" href="css/custom.css" />
+        <link rel="stylesheet" type="text/css" href="../../media/fontawesome-5.13.0/css/all.min.css">
 		<script src="js/modernizr.custom.js"></script>
 		<script src="js/snap.svg-min.js"></script>
 		<!--[if IE]>
@@ -35,24 +36,34 @@
 		<script src="js/notificationFx.js"></script>
 		<script>
 			(function() {
-				var svgshape = document.getElementById( 'notification-shape' ),
-					s = Snap( svgshape.querySelector( 'svg' ) ),
-					path = s.select( 'path' ),
-					pathConfig = {
-						from : path.attr( 'd' ),
-						to : svgshape.getAttribute( 'data-path-to' )
-					};
+                var queryString = window.location.search;
+                var urlParams = new URLSearchParams(queryString);
+
+                var icon = urlParams.get('icon') || 'twitch';
+                var title = urlParams.get('title') || '';
+                var text = urlParams.get('text') || '';
+                var pallet = urlParams.get('pallet') || '';
+                var ttl = parseInt(urlParams.get('ttl') || 6) * 1000;
+
+				var svgshape = document.getElementById('notification-shape');
+				var	s = Snap( svgshape.querySelector('svg'));
+				var	path = s.select('path');
+				var	pathConfig = {
+                    from : path.attr('d'),
+                    to : svgshape.getAttribute('data-path-to')
+                };
 
                 window.addEventListener('load', function() {
 					setTimeout( function() {
-						path.animate( { 'path' : pathConfig.to }, 300, mina.easeinout );
+						path.animate({ 'path' : pathConfig.to }, 300, mina.easeinout);
 						
 						// create the notification
 						var notification = new NotificationFx({
 							wrapper : svgshape,
-							message : '<p><span class="icon icon-bulb"></span> I\'m appaering in a morphed shape thanks to <a href="http://snapsvg.io/">Snap.svg</a></p>',
+							message : '<p><span class="icon fa-2x"><i class="fab fa-' + icon + ' fa-2x"></i></span>'+ (title ? '<strong>' + title + '</strong><br/>' : '') + text +'</p>',
 							layout : 'other',
 							effect : 'cornerexpand',
+							ttl : ttl,
 							type : 'notice', // notice, warning or error
 							onClose : function() {
 								setTimeout(function() {
@@ -63,6 +74,10 @@
 
 						// show the notification
 						notification.show();
+
+                        if(pallet) {
+                            classie.add(notification.options.wrapper, pallet);
+                        }
 					}, 1000);
 				} );
 			})();

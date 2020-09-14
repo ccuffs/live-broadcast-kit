@@ -28,3 +28,39 @@
     font-size: 18px;
     font-weight: 300 !important;
 }
+
+.ns-effect-cornerexpand .icon {
+	color: #5a7d98;
+	background: #fff;
+	display: block;
+	width: 4em;
+	height: 4em;
+	line-height: 5.3;
+	margin: 0.25em auto 0.5em;
+	border-radius: 50%;
+}
+
+.ns-effect-cornerexpand p {
+    font-size: 1.2em;
+}
+
+.ns-effect-cornerexpand strong {
+    font-size: 1.1em;
+    clear: both;
+}
+
+.red .ns-effect-cornerexpand {
+	background: red;
+}
+
+.red .ns-effect-cornerexpand .icon {
+	color: red;
+}
+
+.purple .ns-effect-cornerexpand {
+	background: #9147FF;
+}
+
+.purple .ns-effect-cornerexpand .icon {
+	color: #9147FF;
+}
