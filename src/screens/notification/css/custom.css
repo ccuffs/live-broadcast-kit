@@ -36,7 +36,7 @@
 	width: 4em;
 	height: 4em;
 	line-height: 5.3;
-	margin: 0.25em auto 0.5em;
+	margin: 0.25em auto 0;
 	border-radius: 50%;
 }
 
@@ -45,8 +45,7 @@
 }
 
 .ns-effect-cornerexpand strong {
-    font-size: 1.1em;
-    clear: both;
+    font-size: 1.3em;
 }
 
 .red .ns-effect-cornerexpand {
@@ -63,4 +62,12 @@
 
 .purple .ns-effect-cornerexpand .icon {
 	color: #9147FF;
+}
+
+.blueish .ns-effect-cornerexpand {
+	background: #7085D5;
+}
+
+.blueish .ns-effect-cornerexpand .icon {
+	color: #7085D5;
 }

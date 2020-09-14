@@ -40,6 +40,7 @@
                 var urlParams = new URLSearchParams(queryString);
 
                 var icon = urlParams.get('icon') || 'twitch';
+                var frame = urlParams.get('frame') || 'icon fa-2x';
                 var title = urlParams.get('title') || '';
                 var text = urlParams.get('text') || '';
                 var pallet = urlParams.get('pallet') || '';
@@ -60,7 +61,7 @@
 						// create the notification
 						var notification = new NotificationFx({
 							wrapper : svgshape,
-							message : '<p><span class="icon fa-2x"><i class="fab fa-' + icon + ' fa-2x"></i></span>'+ (title ? '<strong>' + title + '</strong><br/>' : '') + text +'</p>',
+							message : '<p><span class="' + frame + '"><i class="fab fa-' + icon + ' fa-2x"></i></span><br />'+ (title ? '<strong>' + title + '</strong><br/>' : '') + text +'</p>',
 							layout : 'other',
 							effect : 'cornerexpand',
 							ttl : ttl,
