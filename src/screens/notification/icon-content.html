@@ -32,13 +32,14 @@
                     var queryString = window.location.search;
                     var urlParams = new URLSearchParams(queryString);
 
-                    var icon = urlParams.get('icon') || 'img/cc.png';
+                    var icon = urlParams.get('icon') || 'cc.svg';
                     var text = urlParams.get('text') || '';
+                    var subtext = urlParams.get('subtext') || '';
                     var ttl = parseInt(urlParams.get('ttl') || 6) * 1000;
 
 					setTimeout( function() {
 						var notification = new NotificationFx({
-							message : '<div class="ns-thumb cc"><img src="' + icon + '"/></div><div class="ns-content"><p>' + text + '</p></div>',
+							message : '<div class="ns-thumb cc"><img src="img/' + icon + '"/></div><div class="ns-content"><p style="'+ (!subtext ? 'padding-top: 12px;' : '') +'">' + text + '</p>' + (subtext ? '<small>' + subtext + '</small>' : '') + '</div>',
 							layout : 'other',
 							ttl : ttl,
 							effect : 'thumbslider',

@@ -3,13 +3,28 @@
 }
 
 .ns-thumb.cc img {
-    width: 64px;
-    height: 64px;
+    width: 80px;
+    height: 80px;
 }
 
-.ns-content p {
+
+.ns-effect-thumbslider .ns-content {
+	background: #fff;
+	color: #343434;
     font-size: 26px;
     font-family: 'Roboto';
     font-weight: 400 !important;
-    color: #373737;
+	padding: 7px 40px 0 100px;
+	height: 80px;
+	line-height: 0;
+}
+
+.ns-effect-thumbslider .ns-content p {
+	line-height: 40px;
+}
+
+.ns-effect-thumbslider .ns-content small {
+    line-height: 10px;
+    font-size: 18px;
+    font-weight: 300 !important;
 }
