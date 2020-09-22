@@ -71,3 +71,19 @@
 .blueish .ns-effect-cornerexpand .icon {
 	color: #7085D5;
 }
+
+.pink .ns-effect-cornerexpand {
+	background: #D62976;
+}
+
+.pink .ns-effect-cornerexpand .icon {
+	color: #D62976;
+}
+
+.black .ns-effect-cornerexpand {
+	background: #000;
+}
+
+.black .ns-effect-cornerexpand .icon {
+	color: #000;
+}

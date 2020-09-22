@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Screen test</title>
+
+    <style type="text/css">
+        body {
+            margin: 0;
+            padding: 0;
+            background: #ff00ff;
+        }
+        .centralize {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 1080px;
+        }
+
+        img {
+            width: 800px;
+            height: auto;
+        }
+    </style>
+</head>
+
+<body>
+
+    <section
+        style="background: url('./img/cc-bw-15fps-complete.jpg') 0% 50%; background-size: cover;">
+
+        <div style="position: absolute; width: 100%; height: 100%;">
+            <div class="centralize">
+                <img src="./img/cc-logo.svg"/>
+            </div>
+        </div>
+
+        <video poster="" autoplay="" muted="" loop="" style="z-index: 0;">
+            <source src="./video/cc-bw-15fps-complete.mp4 " type="video/mp4">
+        </video>
+    </section>
+</body>
+
+</html>
