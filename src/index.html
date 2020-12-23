@@ -6,46 +6,593 @@
     <title>Live Broadcast Kit • CC UFFS</title>
 
     <link href="./media/fontawesome-5.13.0/css/all.min.css" type="text/css" rel="stylesheet">
-    <link href="./css/bootstrap-dark.min.css" rel="stylesheet">
+    <link href="./media/cssanimation.io/cssanimation.min.css" type="text/css" rel="stylesheet">
+    <link href="./media/woah/woah.css" type="text/css" rel="stylesheet">
+    <link href="./css/bootstrap-dark.min.css" type="text/css" rel="stylesheet">
+
     <link href="./css/main.css" rel="stylesheet">
 </head>
 
 <body>
     <div id="menu">
         <div class="wrapper">
-            <div class="row brand">
+            <div class="row brand align-middle">
                 <div class="col">
-                    <i class="fa fa-user"></i>jkgh
+                    <h4>
+                        <span class="badge badge-pill badge-danger"><i class="fa fa-video"></i> Live</span>
+                        Broadcast Kit
+                        <span class="badge badge-dark float-right version">v1.0.0</span>
+                    </h4>
                 </div>
             </div>
+           
             <form>
-                <div class="form-group">
-                  <label for="exampleFormControlInput1">Email address</label>
-                  <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+                <p class="title"><i class="fa fa-tv"></i> Content area</p>
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        <label for="settingsContentWidth">Width</label>
+                        <input type="input" class="form-control" id="settingsContentWidth" value="1920">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="settingsContentHeight">Height</label>
+                        <input type="input" class="form-control" id="settingsContentHeight" value="1080">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="settingsSizePreset">Size presets</label>
+                        <select class="form-control" id="settingsSizePreset">
+                            <option>custom</option>
+                            <option>16:9</option>
+                            <option>2</option>
+                        </select>
+                    </div>
                 </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        <label for="settingsContentPaddingLeft">Left</label>
+                        <input type="input" class="form-control" id="settingsContentPaddingLeft" value="0">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="settingsContentPaddingTop">Top</label>
+                        <input type="input" class="form-control" id="settingsContentPaddingTop" value="0">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="settingsContentPaddingRight">Right</label>
+                        <input type="input" class="form-control" id="settingsContentPaddingRight" value="0">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="settingsContentPaddingBottom">Bottom</label>
+                        <input type="input" class="form-control" id="settingsContentPaddingBottom" value="0">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="settingsContentScale">Scale</label>
+                        <div class="input-group">
+                            <input type="number" step="0.1" min="0.1" class="form-control" id="settingsContentScale" value="1.0">
+                            <div class="input-group-append">
+                                <span class="input-group-text">x</span>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="settingsContentBgColor">background-color</label>
+                        <input type="color" class="form-control" id="settingsContentBgColor" value="#ff00ff">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="exampleFormControlInput1">Email address</label>
+                        <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="exampleFormControlInput1">Email address</label>
+                        <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+                    </div>
+                </div>                
+
                 <div class="form-group">
-                  <label for="exampleFormControlSelect1">Example select</label>
-                  <select class="form-control" id="exampleFormControlSelect1">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
+                    <label for="exampleFormControlSelect1">Example select</label>
+                    <select class="form-control" id="exampleFormControlSelect1">
+                        <option>1</option>
+                        <option>2</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="exampleFormControlTextarea1">Example textarea</label>
+                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                </div>
+
+                <div class="form-group">
+                  <label for="woah">Woah</label>
+                  <select class="picker form-control" name="woah" id="woah">
+                    <optgroup label="Woah">
+                      <option value="wowzors">wowzors</option>
+                      <option value="comeInStyle">comeInStyle</option>
+                      <option value="leaveInStyle">leaveInStyle</option>
+                      <option value="dealWithIt">dealWithIt</option>
+                      <option value="rotateComplex">rotateComplex</option>
+                      <option value="rotateComplexOut">rotateComplexOut</option>
+                      <option value="flyOut">flyOut</option>
+                      <option value="flyIn">flyIn</option>
+                      <option value="fedoraTip">fedoraTip</option>
+                      <option value="blackMirror">blackMirror</option>
+                      <option value="blackMirrorTextVersion">blackMirrorTextVersion</option>
+                      <option value="spin3D">spin3D</option>
+                      <option value="simpleEntrance">simpleEntrance</option>
+                      <option value="scaleOut">scaleOut</option>
+                    </optgroup>
+                    <optgroup label="Wow">
+                      <option value="starWars">starWars</option>
+                      <option value="blazingStar">blazingStar</option>
+                      <option value="blazingStarText">blazingStarText</option>
+                    </optgroup>
+                    <optgroup label="Normie">
+                      <option value="fadeIn">fadeIn</option>
+                      <option value="pulse">pulse</option>
+                      <option value="shaker">shaker</option>
+                    </optgroup>
                   </select>
                 </div>
                 <div class="form-group">
-                  <label for="exampleFormControlSelect2">Example multiple select</label>
-                  <select multiple class="form-control" id="exampleFormControlSelect2">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label for="exampleFormControlTextarea1">Example textarea</label>
-                  <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                    <label for="animationcss">animationcss</label>
+                    <select class="picker form-control" name="animationcss" id="animationcss">
+                        <optgroup label="Striking">
+                            <option value="hu__hu__">hu... hu...</option>
+                            <option value="leSnake">Snake</option>
+                            <option value="lePeek">Peek</option>
+                            <option value="effect3d">3D Effect</option>
+                            <option value="leRainDrop">Rain Drop</option>
+                            <option value="pepe">Pe Pe</option>
+                            <option value="leWaterWave">Water Wave</option>
+                            <option value="lightning">Lightning</option>
+                            <option value="leJoltZoom">Jolt Zoom</option>
+                            <option value="typing">Typing</option>
+                            <option value="electricity">Electricity</option>
+                            <option value="wipe">Wipe</option>
+                            <option value="open">Open</option>
+                            <option value="leMagnify">Magnify</option>
+                            <option value="leBeat">Letter Beat</option>
+                        </optgroup>
+                        <optgroup label="Letter Fade In">
+                            <option value="leFadeIn">Fade In</option>
+                            <option value="leFadeInLeft">Fade In Left</option>
+                            <option value="leFadeInRight">Fade In Right</option>
+                            <option value="leFadeInTop">Fade In Top</option>
+                            <option value="leFadeInBottom">Fade In Bottom</option>
+                        </optgroup>
+                        <optgroup label="Letter Fade Out">
+                            <option value="leFadeOut">Fade Out</option>
+                            <option value="leFadeOutLeft">Fade Out Left</option>
+                            <option value="leFadeOutRight">Fade Out Right</option>
+                            <option value="leFadeOutTop">Fade Out Top</option>
+                            <option value="leFadeOutBottom">Fade Out Bottom</option>
+                        </optgroup>
+                        <optgroup label="Moving Back">
+                            <option value="leMovingBackFromRight">Moving Back From Right</option>
+                            <option value="leMovingBackFromLeft">Moving Back From Left</option>
+                        </optgroup>
+                        <optgroup label="Kick out">
+                            <option value="leKickOutFront">Kick Out Front</option>
+                            <option value="leKickOutBehind">Kick Out Behind</option>
+                        </optgroup>
+                        <optgroup label="Letter Skate">
+                            <option value="leSkateX">Skate Left Right</option>
+                            <option value="leSkateY">Skate Top Bottom</option>
+                            <option value="leSkateXY">Skate Both</option>
+                        </optgroup>
+                        <optgroup label="Letter Scale">
+                            <option value="leScaleXIn">ScaleX In</option>
+                            <option value="leScaleXOut">ScaleX Out</option>
+                            <option value="leScaleYIn">ScaleY In</option>
+                            <option value="leScaleYOut">ScaleY Out</option>
+                        </optgroup>
+                        <optgroup label="Letter Jump">
+                            <option value="leJump">Letter Jump</option>
+                        </optgroup>
+                        <optgroup label="Letter Abound">
+                            <option value="leAboundTop">Abound Top</option>
+                            <option value="leAboundBottom">Abound Bottom</option>
+                            <option value="leAboundLeft">Abound Left</option>
+                            <option value="leAboundRight">Abound Right</option>
+                        </optgroup>
+                        <optgroup label="Letter Flying In">
+                            <option value="leFlyInTop">Fly In Top</option>
+                            <option value="leFlyInLeft">Fly In Left</option>
+                            <option value="leFlyInRight">Fly In Right</option>
+                            <option value="leFlyInBottom">Fly In Bottom</option>
+                        </optgroup>
+                        <optgroup label="Letter Flying Out">
+                            <option value="leFlyOutTop">Fly Out Top</option>
+                            <option value="leFlyOutLeft">Fly Out Left</option>
+                            <option value="leFlyOutRight">Fly Out Right</option>
+                            <option value="leFlyOutBottom">Fly Out Bottom</option>
+                        </optgroup>
+                        <optgroup label="Letter Door Open &amp; Close">
+                            <option value="leDoorCloseLeft">Door Close Left</option>
+                            <option value="leDoorOpenRight">Door Open Right</option>
+                            <option value="leDoorCloseRight">Door Close Right</option>
+                            <option value="leDoorOpenLeft">Door Open Left</option>
+                        </optgroup>
+                        <optgroup label="Letter Hang And Drop">
+                            <option value="leHangAndDropLeft">Hang And Drop Left</option>
+                            <option value="leHangAndDropRight">Hang And Drop Right</option>
+                        </optgroup>
+                        <optgroup label="Letter Shake">
+                            <option value="leRencontre">Rencontre</option>
+                            <option value="lePulseShake">Pulse Shake</option>
+                            <option value="leHorizontalShake">Horizontal Shake</option>
+                            <option value="leVerticalShake">Shake Vertical</option>
+                            <option value="leMadMax">Shake - Mad Max</option>
+                            <option value="leHorizontalTremble">Horizontal Tremble</option>
+                            <option value="leVerticalTremble">Vertical Tremble</option>
+                            <option value="leCrazyCool">Crazy Cool</option>
+                            <option value="leVibration">Vibration</option>
+                        </optgroup>
+                        <optgroup label="Letter Push Release">
+                            <option value="lePushReleaseFrom">Push Release From</option>
+                            <option value="lePushReleaseFromLeft">Push Release From Left</option>
+                            <option value="lePushReleaseFromTop">Push Release From Top</option>
+                            <option value="lePushReleaseFromBottom">Push Release From Bottom</option>
+                            <option value="lePushReleaseTo">Push Release To</option>
+                            <option value="lePushReleaseToTop">Push Release To Top</option>
+                            <option value="lePushReleaseToBottom">Push Release To Bottom</option>
+                        </optgroup>
+                        <optgroup label="Letter Flip">
+                            <option value="leFlipInTop">Flip In Top</option>
+                            <option value="leFlipOutTop">Flip Out Top</option>
+                            <option value="leFlipInBottom">Flip In Bottom</option>
+                            <option value="leFlipOutBottom">Flip Out Bottom</option>
+                        </optgroup>
+                        <optgroup label="Letter Elevate">
+                            <option value="leElevateLeft">Elevate Left</option>
+                            <option value="leElevateRight">Elevate Right</option>
+                        </optgroup>
+                        <optgroup label="Letter Roll From">
+                            <option value="leRollFromLeft">Roll From Left</option>
+                            <option value="leRollFromRight">Roll From Right</option>
+                            <option value="leRollFromTop">Roll From Top</option>
+                            <option value="leRollFromBottom">Roll From Bottom</option>
+                        </optgroup>
+                        <optgroup label="Letter Roll To">
+                            <option value="leRollToLeft">Roll To Left</option>
+                            <option value="leRollToRight">Roll To Right</option>
+                            <option value="leRollToTop">Roll To Top</option>
+                            <option value="leRollToBottom">Roll To Bottom</option>
+                        </optgroup>
+                        <optgroup label="Letter Rotate In skate">
+                            <option value="leRotateSkateInRight">Rotate Skate In Right</option>
+                            <option value="leRotateSkateInLeft">Rotate Skate In Left</option>
+                            <option value="leRotateSkateInTop">Rotate Skate In Top</option>
+                            <option value="leRotateSkateInBottom">Rotate Skate In Bottom</option>
+                        </optgroup>
+                        <optgroup label="Letter Rotate Out skate">
+                            <option value="leRotateSkateOutRight">Rotate Skate Out Right</option>
+                            <option value="leRotateSkateOutLeft">Rotate Skate Out Left</option>
+                            <option value="leRotateSkateOutTop">Rotate Skate Out Top</option>
+                            <option value="leRotateSkateOutBottom">Rotate Skate Out Bottom</option>
+                        </optgroup>
+                        <optgroup label="Letter Rotate Zoom">
+                            <option value="leRotateXZoomIn">Rotate X Zoom In</option>
+                            <option value="leRotateXZoomOut">Rotate X Zoom Out</option>
+                            <option value="leRotateYZoomIn">Rotate Y Zoom In</option>
+                            <option value="leRotateYZoomOut">Rotate Y Zoom Out</option>
+                        </optgroup>
+                        <optgroup label="Letter Rotate">
+                            <option value="leRotateIn">Rotate In</option>
+                            <option value="leRotateOut">Rotate Out</option>
+                            <option value="leRotateInLeft">Rotate In Left</option>
+                            <option value="leRotateOutLeft">Rotate Out Left</option>
+                            <option value="leRotateInRight">Rotate In Right</option>
+                            <option value="leRotateOutRight">Rotate Out Right</option>
+                        </optgroup>
+                        <optgroup label="Letter Spin">
+                            <option value="leSpinInLeft">Spin In Left</option>
+                            <option value="leSpinInRight">Spin In Right</option>
+                            <option value="leSpinOutLeft">Spin Out Left</option>
+                            <option value="leSpinOutRight">Spin Out Right</option>
+                        </optgroup>
+                        <optgroup label="Letter Blur In">
+                            <option value="leBlurIn">Blur In</option>
+                            <option value="leBlurInRight">Blur In Right</option>
+                            <option value="leBlurInLeft">Blur In Left</option>
+                            <option value="leBlurInTop">Blur In Top</option>
+                            <option value="leBlurInBottom">Blur In Bottom</option>
+                        </optgroup>
+                        <optgroup label="Letter Blur Out">
+                            <option value="leBlurOut">Blur Out</option>
+                            <option value="leBlurOutRight">Blur Out Right</option>
+                            <option value="leBlurOutLeft">Blur Out Left</option>
+                            <option value="leBlurOutTop">Blur Out Top</option>
+                            <option value="leBlurOutBottom">Blur Out Bottom</option>
+                        </optgroup>
+                        <optgroup label="Letter Pop Up">
+                            <option value="lePopUp">Pop Up</option>
+                            <option value="lePopUpLeft">Pop Up Left</option>
+                            <option value="lePopUpRight">Pop Up Right</option>
+                        </optgroup>
+                        <optgroup label="Letter Popup Out">
+                            <option value="lePopOut">Pop Out</option>
+                            <option value="lePopOutLeft">Pop Out Left</option>
+                            <option value="lePopOutRight">Pop Out Right</option>
+                        </optgroup>
+                        <optgroup label="Letter Bouncing">
+                            <option value="leBounceFromTop">Bounce From Top</option>
+                            <option value="leBounceFromDown">Bounce From Down</option>
+                            <option value="leBounceY">Bounce Y</option>
+                            <option value="leBounceZoomIn">Bounce Zoom In</option>
+                            <option value="leBounceZoomOut">Bounce Zoom Out</option>
+                        </optgroup>
+                        <optgroup label="Letter Perspective">
+                            <option value="lePerspectiveOutTop">Letter Perspective Out Top</option>
+                            <option value="lePerspectiveOutBottom">Letter Perspective Out Bottom</option>
+                        </optgroup>
+                        <optgroup label="Letter Zoom In">
+                            <option value="leZoomIn">Zoom In</option>
+                            <option value="leZoomInLeft">Zoom In Left</option>
+                            <option value="leZoomInRight">Zoom In Right</option>
+                            <option value="leZoomInTop">ZoomIn Top</option>
+                            <option value="leZoomInBottom">Zoom In Bottom</option>
+                        </optgroup>
+                        <optgroup label="Letter Zoom Out">
+                            <option value="leZoomOut">Zoom Out</option>
+                            <option value="leZoomOutLeft">Zoom Out Left</option>
+                            <option value="leZoomOutRight">Zoom Out Right</option>
+                            <option value="leZoomOutTop">Zoom Out Top</option>
+                            <option value="leZoomOutBottom">Zoom Out Bottom</option>
+                        </optgroup>
+                        <optgroup label="Letter Dance In">
+                            <option value="leDanceInTop">Dance In Top</option>
+                            <option value="leDanceInMiddle">Dance In Middle</option>
+                            <option value="leDanceInBottom">Dance In Bottom</option>
+                        </optgroup>
+                        <optgroup label="Letter Dance In">
+                            <option value="leDanceOutTop">Dance Out Top</option>
+                            <option value="leDanceOutMiddle">Dance Out Middle</option>
+                            <option value="leDanceOutBottom">Dance Out Bottom</option>
+                        </optgroup>
+                        <optgroup label="One after One Fade">
+                            <option value="oaoFadeIn">One after One Fade In</option>
+                            <option value="oaoFadeOut">One after One Fade Out</option>
+                        </optgroup>
+                        <optgroup label="One after One Fly">
+                            <option value="oaoFlyIn">One after One Fly In</option>
+                            <option value="oaoFlyOut">One after One Fly Out</option>
+                        </optgroup>
+                        <optgroup label="One after One Rotate">
+                            <option value="oaoRotateIn">One after One Rotate In</option>
+                            <option value="oaoRotateOut">One after One Rotate Out</option>
+                            <option value="oaoRotateXIn">One after One Rotate X In</option>
+                            <option value="oaoRotateXOut">One after One Rotate X Out</option>
+                            <option value="oaoRotateYIn">One after One Rotate Y In</option>
+                            <option value="oaoRotateYOut">One after One Rotate Y Out</option>
+                        </optgroup>
+                        <optgroup label="Fade In">
+                            <option value="fadeIn">Fade In</option>
+                            <option value="fadeInLeft">Fade In Left</option>
+                            <option value="fadeInRight">Fade In Right</option>
+                            <option value="fadeInTop">Fade In Top</option>
+                            <option value="fadeInBottom">Fade In Bottom</option>
+                        </optgroup>
+                        <optgroup label="Fade Out">
+                            <option value="fadeOut">Fade Out</option>
+                            <option value="fadeOutLeft">Fade Out Left</option>
+                            <option value="fadeOutRight">Fade Out Right</option>
+                            <option value="fadeOutTop">Fade Out Top</option>
+                            <option value="fadeOutBottom">Fade Out Bottom</option>
+                        </optgroup>
+                        <optgroup label="Move From">
+                            <option value="moveFromLeft">Move From Left</option>
+                            <option value="moveFromRight">Move From Right</option>
+                            <option value="moveFromTop">Move From Top</option>
+                            <option value="moveFromBottom">Move From Bottom</option>
+                        </optgroup>
+                        <optgroup label="Move Out">
+                            <option value="moveToLeft">Move To Left</option>
+                            <option value="moveToRight"> Move To Right</option>
+                            <option value="moveToTop">Move To Top</option>
+                            <option value="moveToBottom">Move To Bottom</option>
+                        </optgroup>
+                        <optgroup label="Door">
+                            <option value="doorCloseFromLeft">Door Close From Left</option>
+                            <option value="doorOpenFromRight">Door Open From Right</option>
+                            <option value="doorCloseFromRight">Door Close From Right</option>
+                            <option value="doorOpenFromLeft">Door Open From Left</option>
+                        </optgroup>
+                        <optgroup label="Heartbeat">
+                            <option value="heartbeatSlow">Heartbeat Slow</option>
+                            <option value="heartbeatFast">Heartbeat Fast</option>
+                        </optgroup>
+                        <optgroup label="Hang On">
+                            <option value="hangOnLeft">Hang On Left</option>
+                            <option value="hangOnRight">Hang On Right</option>
+                        </optgroup>
+                        <optgroup label="Hang And Drop">
+                            <option value="hangAndDropLeft">Hang And Drop Left</option>
+                            <option value="hangAndDropRight">Hang And Drop Right</option>
+                        </optgroup>
+                        <optgroup label="Shake">
+                            <option value="pulseShake">Pulse Shake</option>
+                            <option value="horizontalShake">Horizontal Shake</option>
+                            <option value="verticalShake">Shake Vertical</option>
+                            <option value="madMax">Mad Max</option>
+                            <option value="coolHorizontalShake">Cool Horizontal Shake</option>
+                            <option value="coolVerticalShake">Cool Vertical Shake</option>
+                            <option value="quietMad">Quiet Mad</option>
+                            <option value="vibration">Vibration</option>
+                        </optgroup>
+                        <optgroup label="Push Release From">
+                            <option value="pushReleaseFrom">Push Release From</option>
+                            <option value="pushReleaseFromLeft">Push Release From Left</option>
+                            <option value="pushReleaseFromRight">Push Release From Right</option>
+                            <option value="pushReleaseFromTop">Push Release From Top</option>
+                            <option value="pushReleaseFromBottom">Push Release From Bottom</option>
+                        </optgroup>
+                        <optgroup label="Push Release To">
+                            <option value="pushReleaseTo">Push Release To</option>
+                            <option value="pushReleaseToLeft">Push Release To Left</option>
+                            <option value="pushReleaseToRight">Push Release To Right</option>
+                            <option value="pushReleaseToTop">Push ReleaseTom Top</option>
+                            <option value="pushReleaseToBottom">Push Release To Bottom</option>
+                        </optgroup>
+                        <optgroup label="Flip X">
+                            <option value="flipX">Flip X</option>
+                            <option value="flipXZoomIn">Flip X Zoom In</option>
+                            <option value="flipXZoomOut">Flip X Zoom Out</option>
+                        </optgroup>
+                        <optgroup label="Flip Y">
+                            <option value="flipY">Flip Y</option>
+                            <option value="flipYZoomIn">Flip Y Zoom In</option>
+                            <option value="flipYZoomOut">Flip Y Zoom Out</option>
+                        </optgroup>
+                        <optgroup label="Skew">
+                            <option value="skewLeft">Skew Left</option>
+                            <option value="skewRight">Skew Right</option>
+                            <option value="skewInLeft">Skew In Left</option>
+                            <option value="skewInRight">Skew In Right</option>
+                            <option value="skewOutLeft">Skew Out Left</option>
+                            <option value="skewOutRight">Skew Out Right</option>
+                        </optgroup>
+                        <optgroup label="Shock In">
+                            <option value="shockZoom">Shock Zoom</option>
+                            <option value="shockInLeft">Shock In left</option>
+                            <option value="shockInRight">Shock In Right</option>
+                            <option value="shockInTop">Shock In Top</option>
+                            <option value="shockInBottom">Shock In Bottom</option>
+                        </optgroup>
+                        <optgroup label="Pull Push">
+                            <option value="pullRelease">Pull Release</option>
+                            <option value="pushRelease">Push Release</option>
+                        </optgroup>
+                        <optgroup label="Swing">
+                            <option value="swingInLeft">Swing In Left</option>
+                            <option value="swingInRight">Swing In Right</option>
+                            <option value="swingInTop">Swing In Top</option>
+                            <option value="swingInBottom">Swing In Bottom</option>
+                        </optgroup>
+                        <optgroup label="Elevate">
+                            <option value="elevateLeft">Elevate Left</option>
+                            <option value="elevateRight">Elevate Right</option>
+                        </optgroup>
+                        <optgroup label="Roll From">
+                            <option value="rollFromLeft">Roll From Left</option>
+                            <option value="rollFromRight">Roll From Left</option>
+                            <option value="rollFromTop">Roll From Top</option>
+                            <option value="rollFromBottom">Roll From Bottom</option>
+                        </optgroup>
+                        <optgroup label="Roll To">
+                            <option value="rollToLeft">Roll To Left</option>
+                            <option value="rollToRight">Roll To Left</option>
+                            <option value="rollToTop">Roll To Top</option>
+                            <option value="rollToBottom">Roll To Bottom</option>
+                        </optgroup>
+                        <optgroup label="Rotation">
+                            <option value="rotate">Rotate</option>
+                            <option value="rotateX">Rotate X</option>
+                            <option value="rotateXIn">Rotate X In</option>
+                            <option value="rotateXOut">Rotate X Out</option>
+                            <option value="rotateY">Rotate Y</option>
+                            <option value="rotateYIn">Rotate Y In</option>
+                            <option value="rotateYOut">Rotate Y Out</option>
+                        </optgroup>
+                        <optgroup label="Rotate In">
+                            <option value="rotateInLeft">Rotate In Left</option>
+                            <option value="rotateInRight">Rotate In Right</option>
+                            <option value="rotateInTop">Rotate In Top</option>
+                            <option value="rotateInBottom">Rotate In Bottom</option>
+                        </optgroup>
+                        <optgroup label="Rotate Out">
+                            <option value="rotateOutLeft">Rotate Out Left</option>
+                            <option value="rotateOutRight">Rotate Out Right</option>
+                            <option value="rotateOutTop">Rotate Out Top</option>
+                            <option value="rotateOutBottom">Rotate Out Bottom</option>
+                        </optgroup>
+                        <optgroup label="Spin To">
+                            <option value="spinToLeft">Spin To Left</option>
+                            <option value="spinToRight">Spin To Right</option>
+                            <option value="spinToTop">Spin To Top</option>
+                            <option value="spinToBottom">Spin To Bottom</option>
+                        </optgroup>
+                        <optgroup label="Spin From">
+                            <option value="spinFromLeft">Spin From Left</option>
+                            <option value="spinFromRight">Spin From Right</option>
+                            <option value="spinFromTop">Spin From Top</option>
+                            <option value="spinFromBottom">Spin From Bottom</option>
+                        </optgroup>
+                        <optgroup label="Blur In">
+                            <option value="blurIn">Blur In</option>
+                            <option value="blurInLeft">Blur In Left</option>
+                            <option value="blurInRight">Blur In Right</option>
+                            <option value="blurInTop">Blur In Top</option>
+                            <option value="blurInBottom">Blur In Bottom</option>
+                        </optgroup>
+                        <optgroup label="Blur Out">
+                            <option value="blurOut">Blur Out</option>
+                            <option value="blurOutLeft">Blur Out Left</option>
+                            <option value="blurOutRight">Blur Out Right</option>
+                            <option value="blurOutTop">Blur Out Top</option>
+                            <option value="blurOutBottom">Blur Out Bottom</option>
+                        </optgroup>
+                        <optgroup label="Bounce">
+                            <option value="bounceFromTop">Bounce From Top</option>
+                            <option value="bounceFromDown">Bounce From Down</option>
+                            <option value="bounceX">Bounce X</option>
+                            <option value="bounceY">Bounce Y</option>
+                            <option value="bounceZoomIn">Bounce Zoom In</option>
+                            <option value="bounceZoomOut">Bounce Zoom Out</option>
+                        </optgroup>
+                        <optgroup label="Bounce In">
+                            <option value="bounceInTop">Bounce In Top</option>
+                            <option value="bounceInLeft">Bounce In Left</option>
+                            <option value="bounceInRight">Bounce In Right</option>
+                            <option value="bounceInBottom">Bounce In Bottom</option>
+                        </optgroup>
+                        <optgroup label="Bounce Out">
+                            <option value="bounceOutTop">Bounce Out Top</option>
+                            <option value="bounceOutLeft">Bounce Out Left</option>
+                            <option value="bounceOutRight">Bounce Out Right</option>
+                            <option value="bounceOutBottom">Bounce Out Bottom</option>
+                        </optgroup>
+                        <optgroup label="Perspective">
+                            <option value="perspectiveToTop">Perspective To Top</option>
+                            <option value="perspectiveToBottom">Perspective To Bottom</option>
+                        </optgroup>
+                        <optgroup label="Zoom In">
+                            <option value="zoomIn">Zoom In</option>
+                            <option value="zoomInLeft">Zoom In Left</option>
+                            <option value="zoomInRight">Zoom In Right</option>
+                            <option value="zoomInTop">Zoom In Top</option>
+                            <option value="zoomInBottom">Zoom In Bottom</option>
+                        </optgroup>
+                        <optgroup label="Zoom Out">
+                            <option value="zoomOut">Zoom Out</option>
+                            <option value="zoomOutLeft">Zoom Out Left</option>
+                            <option value="zoomOutRight">Zoom Out Right</option>
+                            <option value="zoomOutTop">Zoom Out Top</option>
+                            <option value="zoomOutBottom">Zoom Out Bottom</option>
+                        </optgroup>
+                        <optgroup label="Scale And Zoom In">
+                            <option value="scaleZoomInLeft">Scale And Zoom In Left</option>
+                            <option value="scaleZoomInRight">Scale And Zoom In Right</option>
+                            <option value="scaleZoomInTop">Scale And Zoom In Top</option>
+                            <option value="scaleZoomInBottom">Scale And Zoom In Bottom</option>
+                        </optgroup>
+                        <optgroup label="Scale And Zoom Out">
+                            <option value="scaleZoomOutLeft">Scale And Zoom Out Left</option>
+                            <option value="scaleZoomOutRight">Scale And Zoom Out Right</option>
+                            <option value="scaleZoomOutTop">Scale And Zoom Out Top</option>
+                            <option value="scaleZoomOutBottom">Scale And Zoom Out Bottom</option>
+                        </optgroup>
+                        <optgroup label="Dance">
+                            <option value="danceTop">Dance Top</option>
+                            <option value="danceMiddle">Dance Middle</option>
+                            <option value="danceBottom">Dance Bottom</option>
+                        </optgroup>
+                    </select>
                 </div>
             </form>
         </div>
@@ -80,11 +627,13 @@
         <li><a href="./screens/blank/index.html" target="content">blank</a></li>
         <li><a href="./screens/notification/icon-content.html?text=Fernando Bevilacqua&subtext=&ttl=20&icon=cc.svg" target="content">icon-content</a></li>
     </div>
-    
+
     <iframe src="./screens/blank/index.html" name="content" id="content" scrolling="no"></iframe>
     
     <script src="js/jquery-3.5.1.min.js"></script>
     <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/hotkeys.min.js"></script>
     <script src="js/main.js"></script>
+    <script src="media/cssanimation.io/letteranimation.min.js"></script>
 </body>
 </html>

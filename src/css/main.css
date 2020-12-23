@@ -14,12 +14,38 @@ body {
     overflow: scroll;
 }
 
+#menu label {
+  opacity: 0.7;
+}
+
+#menu p.title {
+  opacity: 0.8;
+  font-weight: 500;
+  font-size: 1.1em;
+  padding-bottom: 10px;
+  border-bottom: solid 1px #303438;
+}
+
+#menu p.title i {
+  opacity: 0.4;
+  font-size: 0.8em;
+  margin-right: 3px;
+}
+
 #menu div.wrapper {
     padding: 15px;
 }
 
 #menu div.brand {
-    margin-bottom: 10px;
+    margin-top: 5px;
+    margin-bottom: 20px;
+}
+
+#menu .version {
+  font-size: 0.6em;
+  font-weight: 500;
+  padding: 5px;
+  opacity: 0.5;
 }
 
 #content {
