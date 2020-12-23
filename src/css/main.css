@@ -19,16 +19,18 @@ body {
 }
 
 #menu p.title {
-  opacity: 0.8;
+  opacity: 0.9;
   font-weight: 500;
   font-size: 1.1em;
-  padding-bottom: 10px;
-  border-bottom: solid 1px #303438;
+  margin-top: 15px;
+  margin-bottom: 10px;
+  padding: 6px;
+  background: #101113;
 }
-
 #menu p.title i {
-  opacity: 0.4;
-  font-size: 0.8em;
+  color: #ff8989;
+  opacity: 0.8;
+  font-size: 1.1em;
   margin-right: 3px;
 }
 
