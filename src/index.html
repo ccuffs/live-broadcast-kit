@@ -3,57 +3,88 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Inicial • Ciência da Computação</title>
+    <title>Live Broadcast Kit • CC UFFS</title>
 
-    <link href="//fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i" rel="stylesheet">
-    <link href="https://cc.uffs.edu.br/media/fontawesome-5.13.0/css/all.min.css" type="text/css" rel="stylesheet">
-
-    <link href="https://cc.uffs.edu.br/css/bootstrap-vanilla.css" type="text/css" rel="stylesheet">
-    <link href="https://cc.uffs.edu.br/css/bootstrap-dark.css" type="text/css" rel="stylesheet">
-    <link href="https://cc.uffs.edu.br/css/main.css?20200904" rel="stylesheet">
-    <link href="https://cc.uffs.edu.br/css/main-dark.css?20200904" rel="stylesheet">
-
-    <!-- HTML5 Shiv and Media Query Support for IE -->
-    <!--[if lt IE 9]>
-      <script src="https://cc.uffs.edu.br/js/vendor/html5shiv.min.js"></script>
-      <script src="https://cc.uffs.edu.br/js/vendor/respond.min.js"></script>
-    <![endif]-->
+    <link href="./media/fontawesome-5.13.0/css/all.min.css" type="text/css" rel="stylesheet">
+    <link href="./css/bootstrap-dark.min.css" rel="stylesheet">
+    <link href="./css/main.css" rel="stylesheet">
 </head>
 
-<body id="js-body">
-    <!--[if lt IE 9]><div class="upgrade notice-warning"><strong>Your browser is quite old!</strong> Why not <a href="http://whatbrowser.org/">upgrade to a newer one</a> to better enjoy this site?</div><![endif]-->
-    <div id="menu" style="width: 400px; position: absolute; top: 0; left: 0; border: 1px solid white">
-        
-        <li><a href="./screens/notification/corner-top-right.html?title=Quarentena UFFS&ttl=20&icon=discord&frame=fa-3x&pallet=blueish&text=%23geral<br>discord.gg/Gj7Nx7x" target="iframeScreen">Discord - corner</a></li>
-        <li><a href="./screens/notification/corner-top-right.html?title=Youtube&ttl=20&icon=youtube&frame=fa-3x&pallet=red&text=uffs.cc%2Fyoutube" target="iframeScreen">Youtube - corner</a></li>
-        <li><a href="./screens/notification/corner-top-right.html?title=Instagram&ttl=20&icon=instagram&frame=fa-3x&pallet=pink&text=@computacaouffs" target="iframeScreen">Instagram - corner</a></li>
-        <li><a href="./screens/notification/corner-top-right.html?title=Github&text=github.com%2Fccuffs&ttl=20&icon=github&frame=fa-3x&pallet=black" target="iframeScreen">Github - corner</a></li>
+<body>
+    <div id="menu">
+        <div class="wrapper">
+            <div class="row brand">
+                <div class="col">
+                    <i class="fa fa-user"></i>jkgh
+                </div>
+            </div>
+            <form>
+                <div class="form-group">
+                  <label for="exampleFormControlInput1">Email address</label>
+                  <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+                </div>
+                <div class="form-group">
+                  <label for="exampleFormControlSelect1">Example select</label>
+                  <select class="form-control" id="exampleFormControlSelect1">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="exampleFormControlSelect2">Example multiple select</label>
+                  <select multiple class="form-control" id="exampleFormControlSelect2">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="exampleFormControlTextarea1">Example textarea</label>
+                  <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                </div>
+            </form>
+        </div>
+
+        <li><a href="./screens/notification/corner-top-right.html?title=Quarentena UFFS&ttl=20&icon=discord&frame=fa-3x&pallet=blueish&text=%23geral<br>discord.gg/Gj7Nx7x" target="content">Discord - corner</a></li>
+        <li><a href="./screens/notification/corner-top-right.html?title=Youtube&ttl=20&icon=youtube&frame=fa-3x&pallet=red&text=uffs.cc%2Fyoutube" target="content">Youtube - corner</a></li>
+        <li><a href="./screens/notification/corner-top-right.html?title=Instagram&ttl=20&icon=instagram&frame=fa-3x&pallet=pink&text=@computacaouffs" target="content">Instagram - corner</a></li>
+        <li><a href="./screens/notification/corner-top-right.html?title=Github&text=github.com%2Fccuffs&ttl=20&icon=github&frame=fa-3x&pallet=black" target="content">Github - corner</a></li>
         <li></li>
-        <li><a href="./screens/notification/icon-content.html?text=github.com%2Fccuffs&subtext=Aplicativos, materiais e discussões.&ttl=20&icon=github.png" target="iframeScreen">github - overlay</a></li>
-        <li><a href="./screens/notification/icon-content.html?text=cc.uffs.edu.br%2Fhorario&subtext=&ttl=20&icon=cc.png" target="iframeScreen">/horario - overlay</a></li>
-        <li><a href="./screens/notification/icon-content.html?text=computacao.ch@uffs.edu.br&subtext=E-mail da Coordenação do Curso.&ttl=20&icon=cc.svg" target="iframeScreen">computacao.ch - overlay</a></li>
+        <li><a href="./screens/notification/icon-content.html?text=github.com%2Fccuffs&subtext=Aplicativos, materiais e discussões.&ttl=20&icon=github.png" target="content">github - overlay</a></li>
+        <li><a href="./screens/notification/icon-content.html?text=cc.uffs.edu.br%2Fhorario&subtext=&ttl=20&icon=cc.png" target="content">/horario - overlay</a></li>
+        <li><a href="./screens/notification/icon-content.html?text=computacao.ch@uffs.edu.br&subtext=E-mail da Coordenação do Curso.&ttl=20&icon=cc.svg" target="content">computacao.ch - overlay</a></li>
         <li></li>
-        <li><a href="./screens/notification/icon-content.html?text=Fernando Bevilacqua&subtext=Coordenador, Curso de Ciência da Computação (UFFS)&ttl=20&icon=cc.svg" target="iframeScreen">fernando - overlay</a></li>
-        <li><a href="./screens/notification/icon-content.html?text=Luciano Lores Caimi&subtext=Coordenador Adjunto, Curso de Ciência da Computação (UFFS)&ttl=20&icon=cc.svg" target="iframeScreen">caimi - overlay</a></li>
-        <li><a href="./screens/notification/icon-content.html?text=Andressa Sebben&subtext=Professora, Curso de Ciência da Computação (UFFS)&ttl=20&icon=cc.svg" target="iframeScreen">andressa - overlay</a></li>
-        <li><a href="./screens/notification/icon-content.html?text=Denio Duarte&subtext=Professor, Curso de Ciência da Computação (UFFS)&ttl=20&icon=cc.svg" target="iframeScreen">denio - overlay</a></li>
-        <li><a href="./screens/notification/icon-content.html?text=Guilherme dal Bianco&subtext=Professor, Curso de Ciência da Computação (UFFS)&ttl=20&icon=cc.svg" target="iframeScreen">guilherme - overlay</a></li>
-        <li><a href="./screens/notification/icon-content.html?text=Emilio Wuergues&subtext=Professor, Curso de Ciência da Computação (UFFS)&ttl=20&icon=cc.svg" target="iframeScreen">emilio - overlay</a></li>
-        <li><a href="./screens/notification/icon-content.html?text=Adriano Sanick Padilha&subtext=Professor, Curso de Ciência da Computação (UFFS)&ttl=20&icon=cc.svg" target="iframeScreen">padilha - overlay</a></li>
-        <li><a href="./screens/notification/icon-content.html?text=Raquel Aparecida Pegoraro&subtext=Professor, Curso de Ciência da Computação (UFFS)&ttl=20&icon=cc.svg" target="iframeScreen">raquel - overlay</a></li>
-        <li><a href="./screens/notification/icon-content.html?text=Graziela Simone Tonin&subtext=Professor, Curso de Ciência da Computação (UFFS)&ttl=20&icon=cc.svg" target="iframeScreen">grazi - overlay</a></li>
-        <li><a href="./screens/notification/icon-content.html?text=Claunir Pavan&subtext=Professor, Curso de Ciência da Computação (UFFS)&ttl=20&icon=cc.svg" target="iframeScreen">pavan - overlay</a></li>
-        <li><a href="./screens/notification/icon-content.html?text=Marco Aurelio Spohn&subtext=Professor, Curso de Ciência da Computação (UFFS)&ttl=20&icon=cc.svg" target="iframeScreen">marco - overlay</a></li>
-        <li><a href="./screens/notification/icon-content.html?text=Geomar Schneider&subtext=Professor, Curso de Ciência da Computação (UFFS)&ttl=20&icon=cc.svg" target="iframeScreen">geomar - overlay</a></li>
-        <li><a href="./screens/notification/icon-content.html?text=Andrei Braga&subtext=Professor, Curso de Ciência da Computação (UFFS)&ttl=20&icon=cc.svg" target="iframeScreen">andrei - overlay</a></li>
+        <li><a href="./screens/notification/icon-content.html?text=Fernando Bevilacqua&subtext=Coordenador, Curso de Ciência da Computação (UFFS)&ttl=20&icon=cc.svg" target="content">fernando - overlay</a></li>
+        <li><a href="./screens/notification/icon-content.html?text=Luciano Lores Caimi&subtext=Coordenador Adjunto, Curso de Ciência da Computação (UFFS)&ttl=20&icon=cc.svg" target="content">caimi - overlay</a></li>
+        <li><a href="./screens/notification/icon-content.html?text=Andressa Sebben&subtext=Professora, Curso de Ciência da Computação (UFFS)&ttl=20&icon=cc.svg" target="content">andressa - overlay</a></li>
+        <li><a href="./screens/notification/icon-content.html?text=Denio Duarte&subtext=Professor, Curso de Ciência da Computação (UFFS)&ttl=20&icon=cc.svg" target="content">denio - overlay</a></li>
+        <li><a href="./screens/notification/icon-content.html?text=Guilherme dal Bianco&subtext=Professor, Curso de Ciência da Computação (UFFS)&ttl=20&icon=cc.svg" target="content">guilherme - overlay</a></li>
+        <li><a href="./screens/notification/icon-content.html?text=Emilio Wuergues&subtext=Professor, Curso de Ciência da Computação (UFFS)&ttl=20&icon=cc.svg" target="content">emilio - overlay</a></li>
+        <li><a href="./screens/notification/icon-content.html?text=Adriano Sanick Padilha&subtext=Professor, Curso de Ciência da Computação (UFFS)&ttl=20&icon=cc.svg" target="content">padilha - overlay</a></li>
+        <li><a href="./screens/notification/icon-content.html?text=Raquel Aparecida Pegoraro&subtext=Professor, Curso de Ciência da Computação (UFFS)&ttl=20&icon=cc.svg" target="content">raquel - overlay</a></li>
+        <li><a href="./screens/notification/icon-content.html?text=Graziela Simone Tonin&subtext=Professor, Curso de Ciência da Computação (UFFS)&ttl=20&icon=cc.svg" target="content">grazi - overlay</a></li>
+        <li><a href="./screens/notification/icon-content.html?text=Claunir Pavan&subtext=Professor, Curso de Ciência da Computação (UFFS)&ttl=20&icon=cc.svg" target="content">pavan - overlay</a></li>
+        <li><a href="./screens/notification/icon-content.html?text=Marco Aurelio Spohn&subtext=Professor, Curso de Ciência da Computação (UFFS)&ttl=20&icon=cc.svg" target="content">marco - overlay</a></li>
+        <li><a href="./screens/notification/icon-content.html?text=Geomar Schneider&subtext=Professor, Curso de Ciência da Computação (UFFS)&ttl=20&icon=cc.svg" target="content">geomar - overlay</a></li>
+        <li><a href="./screens/notification/icon-content.html?text=Andrei Braga&subtext=Professor, Curso de Ciência da Computação (UFFS)&ttl=20&icon=cc.svg" target="content">andrei - overlay</a></li>
         <li></li>
-        <li><a href="./screens/video-logo/index.html" target="iframeScreen">video-logo</a></li>
+        <li><a href="./screens/video-logo/index.html" target="content">video-logo</a></li>
         <li></li>
-        <li><a href="./screens/alert-message/index.html?size=6&icon=fa-check-circle&type=success&title=Hey&text=ISso é uim test&ttl=10" target="iframeScreen">alert</a></li>
-        <li><a href="./screens/test/index.html" target="iframeScreen">test</a></li>
-        <li><a href="./screens/blank/index.html" target="iframeScreen">blank</a></li>
-        <li><a href="./screens/notification/icon-content.html?text=Fernando Bevilacqua&subtext=&ttl=20&icon=cc.svg" target="iframeScreen">icon-content</a></li>
+        <li><a href="./screens/alert-message/index.html?size=6&icon=fa-check-circle&type=success&title=Hey&text=ISso é uim test&ttl=10" target="content">alert</a></li>
+        <li><a href="./screens/test/index.html" target="content">test</a></li>
+        <li><a href="./screens/blank/index.html" target="content">blank</a></li>
+        <li><a href="./screens/notification/icon-content.html?text=Fernando Bevilacqua&subtext=&ttl=20&icon=cc.svg" target="content">icon-content</a></li>
     </div>
-    <iframe src="./screens/blank/index.html" name="iframeScreen" scrolling="no" style="width: 1920px; height: 1080px; position: absolute; top: 0; left: 420px; border: 1px solid #343434; overflow: hidden; background: #ff00ff;"></iframe>
+    
+    <iframe src="./screens/blank/index.html" name="content" id="content" scrolling="no"></iframe>
+    
+    <script src="js/jquery-3.5.1.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/main.js"></script>
 </body>
 </html>
