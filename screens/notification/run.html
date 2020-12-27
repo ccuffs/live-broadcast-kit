@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+		<meta name="viewport" content="width=device-width, initial-scale=1"> 
+		<title>Notification Runner</title>
+		<link href="http://fonts.googleapis.com/css?family=Raleway:400,300,700" rel="stylesheet" type="text/css">
+		<link rel="stylesheet" type="text/css" href="css/normalize.css" />
+		<link rel="stylesheet" type="text/css" href="css/demo.css" />
+		<link rel="stylesheet" type="text/css" href="css/ns-default.css" />
+		<link rel="stylesheet" type="text/css" href="css/ns-style-other.css" />
+		<link rel="stylesheet" type="text/css" href="css/custom.css" />
+		<script src="js/modernizr.custom.js"></script>
+		<!--[if IE]>
+  		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+
+        <style type="text/css">
+            body {
+                margin: 0;
+                padding: 0;
+                padding-top: 950px;
+                background: #ff00ff;
+			}
+			
+			.ns-effect-boxspinner {
+				background: #2f00ff;
+			}
+         </style>
+
+	</head>
+	<body>
+		<script src="js/classie.js"></script>
+		<script src="js/notificationFx.js"></script>
+		<script>
+			(function() {
+				window.addEventListener('load', function() {
+					var lbk = window.parent.LBK.init(window);
+
+                    var icon = lbk.param('icon', 'cc.svg');
+                    var message = lbk.param('message');
+                    var text = lbk.param('text', '');
+                    var subtext = lbk.param('subtext', '');
+                    var effect = lbk.param('effect', 'thumbslider');
+                    var layout = lbk.param('layout', 'other');
+                    var type = lbk.param('type', 'error');
+                    var delay = parseFloat(lbk.param('delay') || 1.0) * 1000;
+                    var ttl = parseFloat(lbk.param('ttl') || 6.0) * 1000;
+
+					layout = 'other';
+					effect = 'boxspinner';
+
+					setTimeout(function() {
+						var notification = new NotificationFx({
+							message : message || '<div class="ns-thumb cc"><img src="img/' + icon + '"/></div><div class="ns-content"><p style="'+ (!subtext ? 'padding-top: 12px;' : '') +'">' + text + '</p>' + (subtext ? '<small>' + subtext + '</small>' : '') + '</div>',
+							layout : layout,
+							ttl : ttl,
+							effect : effect,
+							type : type, // notice, warning, error or success
+							onClose : function() {
+							}
+						});
+						notification.show();
+
+						console.log(notification.ntf);
+						var el = document.createElement('div');
+						notification.ntf.append('hello', el);
+					}, delay);
+				} );
+			})();
+		</script>
+	</body>
+</html>

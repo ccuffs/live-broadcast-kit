@@ -8,16 +8,17 @@ var LBK = new function() {
     };
 
     this.init = function(win) {
+        var self = this;
         console.debug('[child:init] ', win.location.href);
 
         this.loadStyle(win, '../../media/woah/woah.css');
-
         this.addClass(win, 'main', ['woah', 'spin3D']);
-        var el = winContext.document.getElementById('main');
 
-        el.classList.add('woah');
-        el.classList.add('spin3D');
-        console.log(el);
+        return {
+            param: function(name, defaultValue) {
+                return self.param(name, defaultValue, win);
+            },
+        };
     };
 
     this.addClass = function(win, elementId, classes) {
@@ -51,7 +52,7 @@ var LBK = new function() {
 
     this.param = function(name, defaultValue, winContext) {
         var queryString = (winContext || windows).location.search;
-        console.log(queryString);
+
         var urlParams = new URLSearchParams(queryString);
         var value = urlParams.get(name) || defaultValue;
 
