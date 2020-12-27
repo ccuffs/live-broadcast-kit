@@ -11,7 +11,7 @@ var LBK = new function() {
         var self = this;
         console.debug('[child:init] ', win.location.href);
 
-        this.loadStyle(win, '../../media/woah/woah.css');
+        this.loadChildStyles(win);
         this.addClass(win, 'main', ['woah', 'spin3D']);
 
         return {
@@ -19,6 +19,19 @@ var LBK = new function() {
                 return self.param(name, defaultValue, win);
             },
         };
+    };
+
+    this.loadChildStyles = function(win) {
+        var self = this;
+        var elements = [
+            'woah/woah.css',
+            'cssanimation.io/cssanimation.min.css',
+            'animate.css/animate.min.css',
+        ];
+
+        elements.forEach(function(file) {
+            self.loadStyle(win, '../../media/' + file);
+        })
     };
 
     this.addClass = function(win, elementId, classes) {
@@ -34,16 +47,17 @@ var LBK = new function() {
         });
     };
 
-    this.loadStyle = function(winContext, url) {
-        console.log(winContext.document);
-        var link = winContext.document.createElement('link');
+    this.loadStyle = function(win, url) {
+        var link = win.document.createElement('link');
 
         link.href = url;
         link.type = 'text/css';
         link.rel = 'stylesheet';
         link.media = 'screen,print';
         
-        winContext.document.getElementsByTagName('head')[0].appendChild(link);
+        win.document.getElementsByTagName('head')[0].appendChild(link);
+
+        console.debug('Loading style', link, win);        
     }; 
 
     this.setting = function(name, defaultValue) {

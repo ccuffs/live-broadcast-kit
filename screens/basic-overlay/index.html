@@ -1,0 +1,134 @@
+<!-- https://www.twilio.com/blog/add-an-overlay-to-web-video-chat -->
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Basic overlay</title>
+    <!--[if IE]>
+  		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+
+    <style type="text/css">
+        @import url('https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            padding-top: 950px;
+            background: #ff00ff;
+            position: relative;
+            max-width: 100%;
+            font-family: 'Roboto';
+        }
+
+        #elements {
+            position: relative;
+            display: none;
+        }
+
+        .overlay {
+            position: absolute;
+            background: red;
+        }
+
+        .overlay .wrapper {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            justify-content: flex-start;
+            align-items: flex-start;
+            width: 600px;
+            height: 80px;            
+        }
+
+        .overlay .start,
+        .overlay .content,
+        .overlay .end {
+            align-self: auto;
+        }
+
+        .overlay .start {
+            order: 0;
+            width: 80px;
+            height: 100%;
+            background: blue;
+        }        
+
+        .overlay .content {
+            order: 1;
+
+            height: 100%;
+            line-height: 0%;
+            padding-left: 10px;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            background: green;
+        }   
+
+        .overlay .content h1 {
+            width: 100%;
+            font-weight: 400;
+            font-size: 1.8em;
+        }
+
+        .overlay .content small {
+            margin-top: -7%;
+            font-size: 1.0em;
+            font-weight: 300;
+        }
+
+        .overlay .content small:nth-child(3) {
+            margin-left: 1%;
+            padding-top: 2px;
+            font-size: 0.8em;
+            font-weight: 300;
+        }
+
+        .overlay .end {
+            order: 2;
+            background: transparent;
+            width: 0;
+            height: 0;
+            border-top: 80px solid rgb(204, 203, 203);
+            border-right: 80px solid transparent;
+        }        
+    </style>
+</head>
+
+<body>
+    <div id="elements">
+        <div class="overlay animate__animated animate__slideInLeft">
+            <div class="wrapper">
+                <div class="start"></div>
+                <div class="content">
+                    <h1>Fernando Bevilacqua</h1>
+                    <small>Test test</small>
+                    <small>- Test test</small>
+                </div>
+                <div class="end"></div>
+            </div>
+        </div>
+    </div>
+    <script>
+        (function () {
+            window.addEventListener('load', function () {
+                var lbk = window.parent.LBK.init(window);
+
+                var message = lbk.param('message');
+                var delay = parseFloat(lbk.param('delay') || 1.0) * 1000;
+                var ttl = parseFloat(lbk.param('ttl') || 6.0) * 1000;
+
+                var elements = document.getElementById('elements');
+
+                setTimeout(function () {
+                    elements.style.display = 'block';
+                }, delay);
+            });
+        })();
+    </script>
+</body>
+
+</html>
