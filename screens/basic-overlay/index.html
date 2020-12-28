@@ -16,7 +16,6 @@
         body {
             margin: 0;
             padding: 0;
-            padding-top: 950px;
             background: #ff00ff;
             position: relative;
             max-width: 100%;
@@ -24,13 +23,14 @@
         }
 
         #elements {
-            position: relative;
+            position: absolute;
+            top: 950px;
             display: none;
         }
 
         .overlay {
-            position: absolute;
             background: red;
+            width: 600px;
         }
 
         .overlay .wrapper {
@@ -100,7 +100,7 @@
 
 <body>
     <div id="elements">
-        <div class="overlay animate__animated animate__slideInLeft">
+        <div class="overlay cssanimation hu__hu__">
             <div class="wrapper">
                 <div class="start"></div>
                 <div class="content">
