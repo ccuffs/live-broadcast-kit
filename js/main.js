@@ -60,30 +60,45 @@ var LBK = new function() {
     };
 
     this.onScreenSelectChange = function(value, element) {
-        console.debug('onScreenSelectChange', value, element);
         this.setContentAreaURL(value);
     };
 
     this.getContentAreaURLParams = function() {
-        var data = new FormData();
+        var data = {};
+
         $('.contentParam').each(function(idx, el) {
-            var key = $(el).attr('id');
+            var name = $(el).attr('id');
             var value = $(el).val();
 
-            console.log(key, value);
-            data.append(key, value);
+            data[name] = value;
         });
-        //console.log(settings, new FormData(settings).entries());
-        console.log(data.entries());
-        var params = new URLSearchParams();
-        console.log(params);
+
         return data;
+    };
+
+    this.makeFinalContentURL = function(url, params) {
+        var finalUrl = url.replace(/(\$\{([a-zA-Z])*\})*/gi, function(matched) {
+            if(!matched) {
+                return '';
+            }
+
+            var entry = matched.replace('${', '').replace('}', '');
+
+            if(!params[entry]) {
+                console.warn('Unable to replace "' + matched + '" with property "' + entry + '" in content URL:', url);
+                return '';
+            }
+
+            return params[entry];
+        });
+
+        return finalUrl;
     };
 
     this.setContentAreaURL = function(url) {
         var contentIframe = document.getElementById('content');
-        var urlParams = this.getContentAreaURLParams();
-        var finalUrl = url + urlParams;
+        var params = this.getContentAreaURLParams();
+        var finalUrl = this.makeFinalContentURL(url, params);
 
         console.log('Set content url:', finalUrl);
         contentIframe.src = finalUrl;
@@ -218,7 +233,6 @@ var LBK = new function() {
         }
 
         el.style[prop] = value;
-        console.debug('Element style prop changed:', prop, value, el, win);
     };
 
     this.loadChildStyles = function(win) {
