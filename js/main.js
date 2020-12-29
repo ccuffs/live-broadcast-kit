@@ -3,8 +3,85 @@
  * @license MIT
  */
 var LBK = new function() {
+    this.ANIMATION_FILES = [
+        'woah.json',
+        'cssanimationio.json'
+    ];
+
+    this.animations = [];
+
     this.boot = function() {
-        console.log('boot');
+        var self = this;
+
+        console.debug('boot');
+
+        this.loadAnimations(this.ANIMATION_FILES, function() {
+            console.debug('Finished loading available animations');
+            self.buildUI();
+        });
+    };
+
+    this.buildUI = function() {
+        var self = this;
+        var components = [
+            'settingsCreationInEffect',
+            'settingsCreationMiddleEffect',
+            'settingsCreationOutEffect'
+        ]
+
+        components.forEach(function(id) {
+            var select = self.fillSelectElementWithAnimations(id, self.animations);
+
+            $(select).on('change', function(event) {
+                self.onEffectSelectChange($(this).val(), event.currentTarget);
+            });
+        });
+    };
+
+    this.onEffectSelectChange = function(value, element) {
+        console.log('onEffectSelectChange', value, element);
+    };
+
+    this.loadAnimations = function(files, callback) {
+        var self = this;
+
+        files.forEach(function(url) {
+            fetch('./media/' + url)
+                .then(response => response.json())
+                .then(function(json) {
+                    self.animations.push(json);
+                    console.debug('Animation loaded:', json.name, json.url);
+
+                    if(self.animations.length >= files.length && callback) {
+                        callback.call(self);
+                    }
+                });
+        });
+    };
+
+    this.fillSelectElementWithAnimations = function(elementId, animations) {
+        var select = document.getElementById(elementId);
+
+        animations.forEach(function(anim) {
+            for(var group in anim.elements) {
+                var elements = anim.elements[group];
+                var optgroup = document.createElement('optgroup');
+
+                optgroup.label = anim.name + ' - ' + group;
+
+                elements.forEach(function(entry) {
+                    var option = document.createElement('option');
+
+                    option.value = anim.name + '|' + entry.value;
+                    option.text = entry.name;
+                    optgroup.appendChild(option);
+                });
+
+                select.appendChild(optgroup);
+            }
+        });
+
+        return select;
     };
 
     this.init = function(win) {
@@ -12,10 +89,7 @@ var LBK = new function() {
         console.debug('[child:init] ', win.location.href);
 
         this.loadChildStyles(win);
-        
         this.runElementsAdjustmentsList(win);
-        this.adjustElementSize(win, win.document.body);
-        this.adjustElementSize(win, win.document.getElementById('elements'));
 
         this.addClass(win, 'main', ['woah', 'spin3D']);
 
@@ -46,7 +120,7 @@ var LBK = new function() {
             if(!runList.length) {
                 return;
             }
-            console.log(runList);
+
             var elementId = runList[0];
             var element = win.document.getElementById(elementId);
 
@@ -70,20 +144,6 @@ var LBK = new function() {
 
         el.style[prop] = value;
         console.debug('Element style prop changed:', prop, value, el, win);
-    };
-
-    this.adjustElementSize = function(win, el) {
-        if(!el) {
-            return;
-        }
-
-        var windowWidth = this.param('windowWidth', 1920, win) | 0;
-        var windowHeight = this.param('windowHeight', 1080, win) | 0;
-
-        el.style.width = windowWidth + 'px';
-        el.style.height = windowHeight + 'px';
-
-        console.debug('Element size adjusted to w:' + windowWidth + 'px h:' + windowHeight + 'px', el, win);
     };
 
     this.loadChildStyles = function(win) {

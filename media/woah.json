@@ -1,0 +1,33 @@
+{
+    "name": "Woah",
+    "baseClass": "",
+    "url": "woah/woah.css",
+    "elements": {
+        "Woah": [
+            { "value": "wowzors", "name":"wowzors" },
+            { "value": "comeInStyle", "name":"comeInStyle" },
+            { "value": "leaveInStyle", "name":"leaveInStyle" },
+            { "value": "dealWithIt", "name":"dealWithIt" },
+            { "value": "rotateComplex", "name":"rotateComplex" },
+            { "value": "rotateComplexOut", "name":"rotateComplexOut" },
+            { "value": "flyOut", "name":"flyOut" },
+            { "value": "flyIn", "name":"flyIn" },
+            { "value": "fedoraTip", "name":"fedoraTip" },
+            { "value": "blackMirror", "name":"blackMirror" },
+            { "value": "blackMirrorTextVersion", "name":"blackMirrorTextVersion" },
+            { "value": "spin3D", "name":"spin3D" },
+            { "value": "simpleEntrance", "name":"simpleEntrance" },
+            { "value": "scaleOut", "name":"scaleOut" }
+        ],
+        "Wow": [
+            { "value": "starWars", "name": "starWars" },
+            { "value": "blazingStar", "name": "blazingStar" },
+            { "value": "blazingStarText", "name": "blazingStarText" }
+        ],
+        "Normie": [
+            { "value": "fadeIn", "name": "fadeIn" },
+            { "value": "pulse", "name": "pulse" },
+            { "value": "shaker", "name": "shaker" }
+        ]
+    }
+}
