@@ -12,6 +12,11 @@ var LBK = new function() {
         console.debug('[child:init] ', win.location.href);
 
         this.loadChildStyles(win);
+        
+        this.runElementsAdjustmentsList(win);
+        this.adjustElementSize(win, win.document.body);
+        this.adjustElementSize(win, win.document.getElementById('elements'));
+
         this.addClass(win, 'main', ['woah', 'spin3D']);
 
         return {
@@ -19,6 +24,66 @@ var LBK = new function() {
                 return self.param(name, defaultValue, win);
             },
         };
+    };
+
+    // Will process something like:
+    //   adjusts=elements,width;1920px,height;1080px|other,display;block
+    //
+    // making:
+    //    elements
+    //          width: 1920px;
+    //          height: 1080px;
+    //    other
+    //          display: block;  
+    this.runElementsAdjustmentsList = function(win) {
+        var self = this;
+        var entriesString = this.param('adjusts', '', win);
+        var entries = entriesString.split('|');
+
+        entries.forEach(function(infos) {
+            var runList = infos.split(',');
+
+            if(!runList.length) {
+                return;
+            }
+            console.log(runList);
+            var elementId = runList[0];
+            var element = win.document.getElementById(elementId);
+
+            for(var i = 1; i < runList.length; i++) {
+                var pair = runList[i].split(';');
+
+                if(pair.length != 2) {
+                    console.warn('Invalid pair for adjusts list:', runList[i], infos);
+                    return;
+                }
+
+                self.changeElementStyleProp(win, element, pair[0], pair[1]);
+            }
+        });
+    };
+
+    this.changeElementStyleProp = function(win, el, prop, value) {
+        if(!el || !prop) {
+            return;
+        }
+
+        el.style[prop] = value;
+        console.debug('Element style prop changed:', prop, value, el, win);
+    };
+
+    this.adjustElementSize = function(win, el) {
+        if(!el) {
+            return;
+        }
+
+        var windowWidth = this.param('windowWidth', 1920, win) | 0;
+        var windowHeight = this.param('windowHeight', 1080, win) | 0;
+
+        el.style.width = windowWidth + 'px';
+        el.style.height = windowHeight + 'px';
+
+        console.debug('Element size adjusted to w:' + windowWidth + 'px h:' + windowHeight + 'px', el, win);
     };
 
     this.loadChildStyles = function(win) {

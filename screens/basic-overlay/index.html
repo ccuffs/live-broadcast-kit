@@ -14,18 +14,19 @@
         @import url('https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&display=swap');
 
         body {
+            display: none;
             margin: 0;
             padding: 0;
             background: #ff00ff;
             position: relative;
-            max-width: 100%;
             font-family: 'Roboto';
         }
 
         #elements {
-            position: absolute;
-            top: 950px;
-            display: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: aqua;
         }
 
         .overlay {
@@ -112,22 +113,20 @@
             </div>
         </div>
     </div>
+
+    <script src="../../js/jquery-3.5.1.min.js"></script>
     <script>
-        (function () {
-            window.addEventListener('load', function () {
-                var lbk = window.parent.LBK.init(window);
+        $(function () {
+            var lbk = window.parent.LBK.init(window);
 
-                var message = lbk.param('message');
-                var delay = parseFloat(lbk.param('delay') || 1.0) * 1000;
-                var ttl = parseFloat(lbk.param('ttl') || 6.0) * 1000;
-
-                var elements = document.getElementById('elements');
-
-                setTimeout(function () {
-                    elements.style.display = 'block';
-                }, delay);
-            });
-        })();
+            var message = lbk.param('message');
+            var delay = parseFloat(lbk.param('delay') || 1.0) * 1000;
+            var ttl = parseFloat(lbk.param('ttl') || 6.0) * 1000;
+            
+            setTimeout(function () {
+                document.body.style.display = 'block';
+            }, delay);
+        });
     </script>
 </body>
 
