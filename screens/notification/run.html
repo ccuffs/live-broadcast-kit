@@ -48,9 +48,6 @@
                     var delay = parseFloat(lbk.param('delay') || 1.0) * 1000;
                     var ttl = parseFloat(lbk.param('ttl') || 6.0) * 1000;
 
-					layout = 'other';
-					effect = 'boxspinner';
-
 					setTimeout(function() {
 						var notification = new NotificationFx({
 							message : message || '<div class="ns-thumb cc"><img src="img/' + icon + '"/></div><div class="ns-content"><p style="'+ (!subtext ? 'padding-top: 12px;' : '') +'">' + text + '</p>' + (subtext ? '<small>' + subtext + '</small>' : '') + '</div>',

@@ -5,6 +5,6 @@
     },
     {
         "name": "Run",
-        "url": "screens/notification/run.html"
+        "url": "screens/notification/run.html?text=Fernando Bevilacqua&subtext=Coordenador, Curso de Ciência da Computação (UFFS)&ttl=20&icon=cc.svg&delay=0.3&effect=thumbslider"
     }
 ]
