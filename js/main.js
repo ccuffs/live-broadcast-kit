@@ -3,12 +3,14 @@
  * @license MIT
  */
 var LBK = new function() {
+    this.SCREENS_FILE = 'screens/screens.json';
     this.ANIMATION_FILES = [
         'woah.json',
         'cssanimationio.json'
     ];
 
     this.animations = [];
+    this.screens = [];
 
     this.boot = function() {
         var self = this;
@@ -17,11 +19,26 @@ var LBK = new function() {
 
         this.loadAnimations(this.ANIMATION_FILES, function() {
             console.debug('Finished loading available animations');
-            self.buildUI();
+            self.buildEffectsUI();
+        });
+
+        this.loadScreens(this.SCREENS_FILE, function() {
+            console.debug('Finished loading available screens');
+            self.buildScreensUI();
         });
     };
 
-    this.buildUI = function() {
+    this.buildScreensUI = function() {
+        var self = this;
+        var select = self.fillSelectElementWithScreens('settingsCreationType', this.screens);
+
+        $(select).on('change', function(event) {
+            self.onScreenSelectChange($(this).val(), event.currentTarget);
+        });
+    };
+
+
+    this.buildEffectsUI = function() {
         var self = this;
         var components = [
             'settingsCreationInEffect',
@@ -39,7 +56,37 @@ var LBK = new function() {
     };
 
     this.onEffectSelectChange = function(value, element) {
-        console.log('onEffectSelectChange', value, element);
+        console.debug('onEffectSelectChange', value, element);
+    };
+
+    this.onScreenSelectChange = function(value, element) {
+        console.debug('onScreenSelectChange', value, element);
+        this.setContentAreaURL(value);
+    };
+
+    this.getContentAreaURLParams = function() {
+        var data = new FormData();
+        $('.contentParam').each(function(idx, el) {
+            var key = $(el).attr('id');
+            var value = $(el).val();
+
+            console.log(key, value);
+            data.append(key, value);
+        });
+        //console.log(settings, new FormData(settings).entries());
+        console.log(data.entries());
+        var params = new URLSearchParams();
+        console.log(params);
+        return data;
+    };
+
+    this.setContentAreaURL = function(url) {
+        var contentIframe = document.getElementById('content');
+        var urlParams = this.getContentAreaURLParams();
+        var finalUrl = url + urlParams;
+
+        console.log('Set content url:', finalUrl);
+        contentIframe.src = finalUrl;
     };
 
     this.loadAnimations = function(files, callback) {
@@ -57,6 +104,20 @@ var LBK = new function() {
                     }
                 });
         });
+    };
+
+    this.loadScreens = function(fileUrl, callback) {
+        var self = this;
+
+        fetch(fileUrl)
+            .then(response => response.json())
+            .then(function(json) {
+                self.screens = json;
+
+                if(callback) {
+                    callback.call(self);
+                }
+            });
     };
 
     this.fillSelectElementWithAnimations = function(elementId, animations) {
@@ -79,6 +140,20 @@ var LBK = new function() {
 
                 select.appendChild(optgroup);
             }
+        });
+
+        return select;
+    };
+
+    this.fillSelectElementWithScreens = function(elementId, screens) {
+        var select = document.getElementById(elementId);
+
+        screens.forEach(function(screen) {
+            var option = document.createElement('option');
+
+            option.value = screen.url;
+            option.text = screen.name;
+            select.appendChild(option);
         });
 
         return select;

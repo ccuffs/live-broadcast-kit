@@ -27,21 +27,21 @@
                 </div>
             </div>
            
-            <form>
+            <form id="settings" name="settings">
                 <p class="title" data-toggle="collapse" data-target="#settingsContent"><i class="fa fa-tv"></i> Content area</p>
                 <div id="settingsContent" class="collapse show">
                     <div class="form-row">
                         <div class="form-group col-md-3">
                             <label for="settingsContentWidth">Width</label>
-                            <input type="input" class="form-control" id="settingsContentWidth" value="1920">
+                            <input type="input" class="form-control contentParam" id="settingsContentWidth" name="settingsContentWidth" value="1920">
                         </div>
                         <div class="form-group col-md-3">
                             <label for="settingsContentHeight">Height</label>
-                            <input type="input" class="form-control" id="settingsContentHeight" value="1080">
+                            <input type="input" class="form-control contentParam" id="settingsContentHeight" name="settingsContentHeight" value="1080">
                         </div>
                         <div class="form-group col-md-6">
                             <label for="settingsSizePreset">Size presets</label>
-                            <select class="form-control" id="settingsSizePreset">
+                            <select class="form-control" id="settingsSizePreset" name="settingsSizePreset">
                                 <option>custom</option>
                                 <option>16:9</option>
                                 <option>2</option>
@@ -52,30 +52,30 @@
                     <div class="form-row">
                         <div class="form-group col-md-3">
                             <label for="settingsContentPaddingLeft">Left</label>
-                            <input type="input" class="form-control" id="settingsContentPaddingLeft" value="0">
+                            <input type="input" class="form-control contentParam" id="settingsContentPaddingLeft" value="0">
                         </div>
                         <div class="form-group col-md-3">
                             <label for="settingsContentPaddingTop">Top</label>
-                            <input type="input" class="form-control" id="settingsContentPaddingTop" value="0">
+                            <input type="input" class="form-control contentParam" id="settingsContentPaddingTop" value="0">
                         </div>
                         <div class="form-group col-md-3">
                             <label for="settingsContentPaddingRight">Right</label>
-                            <input type="input" class="form-control" id="settingsContentPaddingRight" value="0">
+                            <input type="input" class="form-control contentParam" id="settingsContentPaddingRight" value="0">
                         </div>
                         <div class="form-group col-md-3">
                             <label for="settingsContentPaddingBottom">Bottom</label>
-                            <input type="input" class="form-control" id="settingsContentPaddingBottom" value="0">
+                            <input type="input" class="form-control contentParam" id="settingsContentPaddingBottom" value="0">
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="settingsContentScale">Scale</label>
-                            <input type="number" step="0.1" min="0.1" class="form-control" id="settingsContentScale" value="1.0">
+                            <input type="number" step="0.1" min="0.1" class="form-control contentParam" id="settingsContentScale" value="1.0">
                         </div>
                         <div class="form-group col-md-6">
                             <label for="settingsContentBgColor">background-color</label>
-                            <input type="color" class="form-control" id="settingsContentBgColor" value="#ff00ff">
+                            <input type="color" class="form-control contentParam" id="settingsContentBgColor" value="#ff00ff">
                         </div>
                     </div>
                 </div>
@@ -86,25 +86,23 @@
                     <div class="form-row">
                         <div class="form-group col-md-12">
                             <label for="settingsCreationType">Type</label>
-                            <select class="form-control" id="settingsCreationType">
-                                <option>custom</option>
-                                <option>16:9</option>
-                                <option>2</option>
+                            <select class="form-control contentParam" id="settingsCreationType">
+                                <option></option>
                             </select>
                         </div>
                     </div>                
 
                     <div class="form-row">
                         <div class="form-group col-md-12">
-                            <label for="exampleFormControlTextarea1">Content</label>
-                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                            <label for="settingsCreationContent">Content</label>
+                            <textarea class="form-control contentParam" id="settingsCreationContent" rows="3"></textarea>
                         </div>
 
                         <!-- creation in -->
                         <div class="form-group col-md-6">
                             <label for="settingsCreationInAfter">In after</label>
                             <div class="input-group">
-                                <input type="number" step="0.1" min="0.1" value="1.0" class="form-control" id="settingsCreationInAfter">
+                                <input type="number" step="0.1" min="0.1" value="1.0" class="form-control contentParam" id="settingsCreationInAfter">
                                 <div class="input-group-append">
                                     <span class="input-group-text">s</span>
                                 </div>
@@ -112,7 +110,7 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label for="settingsCreationInEffect">In effect</label>
-                            <select class="form-control" id="settingsCreationInEffect">
+                            <select class="form-control contentParam" id="settingsCreationInEffect">
                                 <option></option>
                             </select>
                         </div>
@@ -121,7 +119,7 @@
                         <div class="form-group col-md-6">
                             <label for="settingsCreationMiddleAfter">Middle after</label>
                             <div class="input-group">
-                                <input type="number" step="0.1" min="0.1" value="2.0" class="form-control" id="settingsCreationMiddleAfter">
+                                <input type="number" step="0.1" min="0.1" value="2.0" class="form-control contentParam" id="settingsCreationMiddleAfter">
                                 <div class="input-group-append">
                                     <span class="input-group-text">s</span>
                                 </div>
@@ -129,7 +127,7 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label for="settingsCreationMiddleEffect">Middle effect</label>
-                            <select class="form-control" id="settingsCreationMiddleEffect">
+                            <select class="form-control contentParam" id="settingsCreationMiddleEffect">
                                 <option></option>
                             </select>
                         </div>
@@ -138,7 +136,7 @@
                         <div class="form-group col-md-6">
                             <label for="settingsCreationOutAfter">Out after</label>
                             <div class="input-group">
-                                <input type="number" step="0.1" min="0.1" value="15.0" class="form-control" id="settingsCreationOutAfter">
+                                <input type="number" step="0.1" min="0.1" value="15.0" class="form-control contentParam" id="settingsCreationOutAfter">
                                 <div class="input-group-append">
                                     <span class="input-group-text">s</span>
                                 </div>
@@ -146,7 +144,7 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label for="settingsCreationOutEffect">Out effect</label>
-                            <select class="form-control" id="settingsCreationOutEffect">
+                            <select class="form-control contentParam" id="settingsCreationOutEffect">
                                 <option></option>
                             </select>
                         </div>
@@ -171,7 +169,7 @@
                         <li class="list-group-item"><a href="./screens/test/index.html" target="content">test</a></li>
                         <li class="list-group-item"><a href="./screens/try/index.html?key=value" target="content">try</a></li>
                         <li class="list-group-item"><a href="./screens/notification/run.html?text=Fernando Bevilacqua&subtext=Coordenador, Curso de Ciência da Computação (UFFS)&ttl=20&icon=cc.svg&delay=0.3&effect=cornerexpand" target="content">run</a></li>
-                        <li class="list-group-item"><a href="./screens/basic-overlay/?ttl=20&delay=0.3&windowWidth=1920&windowHeight=1080&message=hello&adjusts=elements,width;1920px,height;1080px,justifyContent;flex-start" target="content">basic-overlay</a></li>
+                        <li class="list-group-item"><a href="./screens/basic-overlay/?ttl=20&delay=0.3&message=hello&adjusts=elements,width;1920px,height;1080px,justifyContent;flex-start" target="content">basic-overlay</a></li>
 
                         <li class="list-group-item"><a href="./screens/notification/corner-top-right.html?title=Quarentena UFFS&ttl=20&icon=discord&frame=fa-3x&pallet=blueish&text=%23geral<br>discord.gg/Gj7Nx7x" target="content">Discord - corner</a></li>
                         <li class="list-group-item"><a href="./screens/notification/corner-top-right.html?title=Youtube&ttl=20&icon=youtube&frame=fa-3x&pallet=red&text=uffs.cc%2Fyoutube" target="content">Youtube - corner</a></li>
@@ -201,7 +199,6 @@
                         <li class="list-group-item"><a href="./screens/notification/icon-content.html?text=Fernando Bevilacqua&subtext=&ttl=20&icon=cc.svg" target="content">icon-content</a></li>
                     </ul>
                 </div>
-
             </form>
         </div>
     </div>
