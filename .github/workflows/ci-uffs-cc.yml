@@ -1,13 +1,9 @@
 name: ci.uffs.cc
-on:
-  push:
-    branches:    
-      - master
-      - dev
+on: push
 env:
   BUILD_HOST: ci.uffs.cc
-  BUILD_WEB_DIRECTORY: /home/ccuffsci/ci.uffs.cc/template-english
-  BUILD_WEB_URL: https://ci.uffs.cc/template-english
+  BUILD_WEB_DIRECTORY: /home/ccuffsci/ci.uffs.cc/live-broadcast-kit
+  BUILD_WEB_URL: https://ci.uffs.cc/live-broadcast-kit
 jobs:
   build-deploy-audit:
     name: Build, deploy and audit
