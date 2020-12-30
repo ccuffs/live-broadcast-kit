@@ -18,8 +18,8 @@ jobs:
       uses: appleboy/ssh-action@master
       with:
         host: ${{ env.BUILD_HOST }}
-        username: ${{ secrets.USERNAME }}
-        password: ${{ secrets.PASSWORD }}
+        CI_USERNAME: ${{ secrets.CI_USERNAME }}
+        password: ${{ secrets.CI_PASSWORD }}
         script: |
           mkdir -p ${{ env.BUILD_WEB_DIRECTORY }}/${{ steps.extract_branch.outputs.branch }}/${{ github.sha }}
           mkdir -p ${{ env.BUILD_WEB_DIRECTORY }}/${{ steps.extract_branch.outputs.branch }}/${{ github.sha }}/_report
@@ -29,8 +29,8 @@ jobs:
         local: ${{ github.workspace }}/
         remote: ${{ env.BUILD_WEB_DIRECTORY }}/${{ steps.extract_branch.outputs.branch }}/${{ github.sha }}/
         host: ${{ env.BUILD_HOST }}
-        username: ${{ secrets.USERNAME }}
-        password: ${{ secrets.PASSWORD }}
+        CI_USERNAME: ${{ secrets.CI_USERNAME }}
+        password: ${{ secrets.CI_PASSWORD }}
     - name: Audit site performance
       uses: jakejarvis/lighthouse-action@master
       with:
@@ -46,8 +46,8 @@ jobs:
         local: ${{ github.workspace }}/report
         remote: ${{ env.BUILD_WEB_DIRECTORY }}/${{ steps.extract_branch.outputs.branch }}/${{ github.sha }}/_report/
         host: ${{ env.BUILD_HOST }}
-        username: ${{ secrets.USERNAME }}
-        password: ${{ secrets.PASSWORD }}  
+        CI_USERNAME: ${{ secrets.CI_USERNAME }}
+        password: ${{ secrets.CI_PASSWORD }}  
     - name: Summary
       run: |
         echo "Summary:"
