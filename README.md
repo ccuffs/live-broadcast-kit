@@ -21,8 +21,8 @@ You can use LBK to create different types of content, not only overlays. For ins
 * Wide variety of ready-to-use overlays and effects;
 
 ![Main screen](.github/images/lbk_screen01.png)
-<img width="350" src=".github/images/lbk-bottom-left.gif" title="Overlay at bottom left corner." align="left">
-<img width="350" src=".github/images/lbk-top-corner.gif" title="Overlay at the upper right corner.">
+<img width="390" src=".github/images/lbk-bottom-left.gif" title="Overlay at bottom left corner." align="left">
+<img width="390" src=".github/images/lbk-top-corner.gif" title="Overlay at the upper right corner.">
 
 ## Getting started
 
