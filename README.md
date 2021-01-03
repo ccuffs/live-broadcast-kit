@@ -20,9 +20,9 @@ You can use LBK to create different types of content, not only overlays. For ins
 * Create and control how items are displayed;
 * Wide variety of ready-to-use overlays and effects;
 
-![](.github/images/lbk_screen01.png)
-![](.github/images/lbk-bottom-left.gif)
-![](.github/images/lbk-top-corner.gif)
+![Main screen](.github/images/lbk_screen01.png)
+<img width="350" src=".github/images/lbk-bottom-left.gif" title="Overlay at bottom left corner." align="left">
+<img width="350" src=".github/images/lbk-top-corner.gif" title="Overlay at the upper right corner.">
 
 ## Getting started
 
@@ -46,23 +46,31 @@ This section is intended for contributors who plan on adding features, documenta
 
 ### 1. Prerequisites
 
-Before you begin, ensure you have a machine with git, node and npm. LBK already comes with all the libs it needs for basic operations, so node and npm are not totally required. 
+Before you begin, ensure you have a machine with git, node and npm. Then clone this repo:
+
+```
+git clone https://github.com/ccuffs/live-broadcast-kit
+```
+
+Enter the project folder:
+
+```
+cd live-broadcast-kit
+```
+
+LBK already comes with all the JS libs it needs for basic operations, so node and npm are not totally required. 
 
 You only need a web server or a way of servering LBK as a web page. Node and npm might help though.
 
 ### 2. Installing dependencies
 
-Clone this repo:
-
-```
-git clone https://github.com/ccuffs/live-broadcast-kit && cd live-broadcast-kit
-```
-
-Install all JS libs using npm (if you plan on working on the features that depend on them):
+Install all JS libs using npm (if you plan on working on features that depend on them):
 
 ```
 npm install
 ```
+
+If you intent to work on feature that have no external dependencies (basic operation features, for instance), you don't need `npm install`.
 
 ### 3. Running the app
 
