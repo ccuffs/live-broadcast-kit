@@ -21,8 +21,8 @@ You can use LBK to create different types of content, not only overlays. For ins
 * Wide variety of ready-to-use overlays and effects;
 
 ![Main screen](.github/images/lbk_screen01.png)
-<img width="390" src=".github/images/lbk-bottom-left.gif" title="Overlay at bottom left corner." align="left">
-<img width="390" src=".github/images/lbk-top-corner.gif" title="Overlay at the upper right corner.">
+<img width="400" src=".github/images/lbk-bottom-left.gif" title="Overlay at bottom left corner." align="left">
+<img width="400" src=".github/images/lbk-top-corner.gif" title="Overlay at the upper right corner.">
 
 ## Getting started
 
@@ -34,7 +34,7 @@ The fastest and easiest way of using LBK is accessing [livebk.app.uffs.cc](https
 
 ### Use with OBS
 
-When using [OBS](https://obsproject.com), for live broadcasting or recording, add a [Browser Source]https://obsproject.com/wiki/Sources-Guide#browsersource). Set the URL of your browser source as [https://livebk.app.uffs.cc](https://livebk.app.uffs.cc). Then, use your browser window/tab with LBK to control the content displayed on OBS (within the browser source).
+When using [OBS](https://obsproject.com), for live broadcasting or recording, add a [Browser Source](https://obsproject.com/wiki/Sources-Guide#browsersource). Set the URL of your browser source as [https://livebk.app.uffs.cc](https://livebk.app.uffs.cc). Then, use your browser window/tab with LBK to control the content displayed on OBS (within the browser source).
 
 ### Use with Streamlabs OBS
 
