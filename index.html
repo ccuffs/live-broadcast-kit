@@ -11,6 +11,7 @@
     <link href="./media/animate.css/animate.min.css" type="text/css" rel="stylesheet">
     <link href="./css/bootstrap-dark.min.css" type="text/css" rel="stylesheet">
 
+    <!-- app styles -->
     <link href="./css/main.css" rel="stylesheet">
 </head>
 
@@ -161,11 +162,14 @@
                     </div>      
 
                     <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <button class="btn btn-block btn-secondary"><i class="fa fa-play-circle"></i> Test</button>
+                        <div class="form-group col-md-4">
+                            <a class="btn btn-block btn-secondary" id="btnTest"><i class="fa fa-play-circle"></i> Test</a>
                         </div>
-                        <div class="form-group col-md-6">
-                            <button type="submit" class="btn btn-block btn-light"><i class="fa fa-plus-circle"></i> Add</button>
+                        <div class="form-group col-md-4">
+                            <a class="btn btn-block btn-light" id="btnRecord"><i class="fa fa-plus-circle"></i> Record</a>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <a class="btn btn-block btn-light" id="btnAdd"><i class="fa fa-plus-circle"></i> Add</a>
                         </div>
                     </div>
                 </div>
@@ -213,7 +217,7 @@
         </div>
     </div>
 
-    <iframe src="./screens/blank/index.html" name="content" id="content" scrolling="no"></iframe>
+    <iframe src="./screens/blank/index.html" name="content" id="content" scrolling="no" allow="display" allow="display-capture"></iframe>
     
     <script src="js/jquery-3.5.1.min.js"></script>
     <script src="js/bootstrap.bundle.min.js"></script>

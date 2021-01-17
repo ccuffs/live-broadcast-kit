@@ -11,6 +11,9 @@ var LBK = new function() {
 
     this.animations = [];
     this.screens = [];
+    this.recorder = null;
+    this.recordingData = [];
+    this.recorderStream;
 
     this.boot = function() {
         var self = this;
@@ -26,6 +29,26 @@ var LBK = new function() {
             console.debug('Finished loading available screens');
             self.buildScreensUI();
         });
+
+        this.buildSidePanelUI();
+    };
+
+    this.buildSidePanelUI = function() {
+        var self = this;
+
+        $('#btnRecord').on('click', function(event) {
+            self.startRecording();
+
+            setTimeout(function() {
+                console.log('Auto stop');
+                self.stopRecording();
+            }, 6000);
+
+            setTimeout(function() {
+                console.log('Save');
+                self.saveRecording();
+            }, 10000);
+        });
     };
 
     this.buildScreensUI = function() {
@@ -36,7 +59,6 @@ var LBK = new function() {
             self.onScreenSelectChange($(this).val(), event.currentTarget);
         });
     };
-
 
     this.buildEffectsUI = function() {
         var self = this;
@@ -285,6 +307,105 @@ var LBK = new function() {
         var value = urlParams.get(name) || defaultValue;
 
         return value;
+    };
+
+    this.mixAudioStreams = function(stream1, stream2) {
+        const ctx = new AudioContext();
+        const dest = ctx.createMediaStreamDestination();
+    
+        if(stream1.getAudioTracks().length > 0)
+            ctx.createMediaStreamSource(stream1).connect(dest);
+    
+        if(stream2.getAudioTracks().length > 0)
+            ctx.createMediaStreamSource(stream2).connect(dest);
+    
+        let tracks = dest.stream.getTracks();
+        tracks = tracks.concat(stream1.getVideoTracks()).concat(stream2.getVideoTracks());
+    
+        return new MediaStream(tracks)
+    };
+    
+    this.generateFilename = function() {
+        const now = new Date();
+        const timestamp = now.toISOString();
+        return `recording_${timestamp}`;
+    };
+    
+    this.startRecording = async function() {
+        var self = this;
+        let gumStream, gdmStream;
+        
+        this.recordingData = [];
+    
+        try {
+            gumStream = await navigator.mediaDevices.getUserMedia({video: false, audio: true});
+            gdmStream = await navigator.mediaDevices.getDisplayMedia({video: {displaySurface: "browser"}, audio: true});
+    
+        } catch (e) {
+            console.error("capture failure", e);
+            return
+        }
+    
+        this.recorderStream = gumStream ? this.mixAudioStreams(gumStream, gdmStream) : gdmStream;
+        this.recorder = new MediaRecorder(this.recorderStream, {mimeType: 'video/webm'});
+    
+        this.recorder.ondataavailable = e => {
+            console.log('ondataavailable', e);
+            if (e.data && e.data.size > 0) {
+                self.recordingData.push(e.data);
+                console.log('self.recordingData', self.recordingData);
+            }
+        };
+    
+        this.recorder.onStop = () => {
+            self.recorderStream.getTracks().forEach(track => track.stop());
+            gumStream.getTracks().forEach(track => track.stop());
+            gdmStream.getTracks().forEach(track => track.stop());
+    
+        };
+    
+        this.recorderStream.addEventListener('inactive', () => {
+            console.log('Capture stream inactive');
+            self.stopRecording();
+        });
+    
+        this.recorder.start();
+        console.log("started recording");
+    };
+    
+    this.stopRecording = function () {
+        console.log("Stopping recording");
+        this.recorder.stop();
+    };
+    
+    this.pauseRecording = function() {
+        if(this.recorder.state ==='paused'){
+            this.recorder.resume();
+        } else if (recorder.state === 'recording'){
+            this.recorder.pause();
+    
+        } else {
+            console.error(`recorder in unhandled state: ${this.recorder.state}`);
+        }
+    
+        console.log(`recorder ${this.recorder.state === 'paused' ? "paused" : "recording"}`);
+    };
+    
+    this.saveRecording = function() {
+        console.log(this.recordingData);
+        const blob = new Blob(this.recordingData, {type: 'video/webm'});
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.style.display = 'none';
+        a.href = url;
+        a.download = `${this.generateFilename()}.webm`;
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(() => {
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+            console.log(`${a.download} save option shown`);
+        }, 100);
     };
 };
 
