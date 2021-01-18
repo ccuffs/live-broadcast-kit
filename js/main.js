@@ -21,7 +21,7 @@ var LBK = new function() {
 
     this.recorder = null;
     this.recordingData = [];
-    this.recorderStream;
+    this.recorderStream = null;
     this.isProcessingRecordingResult = false;
     this.recordingPanel = null;
     this.recordButton = null;
@@ -109,12 +109,33 @@ var LBK = new function() {
         $(this.recordButton).on('click', function(event) {
             self.onRecordButtonClick();
         });
+
+        $('#settingsRecordingToggle').on('change', async function(event) {
+            var checked = event.currentTarget.checked;
+            
+            if(!checked || self.recorder) {
+                return;
+            }
+
+            // This is the first time recording is enabled.
+            // First of all, pop open the content area:
+            self.popupContentArea('./screens/recording/setup.html');
+
+            // Adjust the content area pop up to look like a modal
+            // to explain what needs to happen.
+            self.resizeContentArea(400, 800);
+
+            // Create the recorder so the user can select the screen to record.
+            await self.createRecorder();
+
+            // Show recording preview in iframe
+            self.setContentAreaIframeUrl('./screens/recording/');
+        });
     };
 
     this.onRecordButtonClick = async function() {
         if(!this.recorder) {
             this.setContentAreaAsExternalWindow(true);
-            await this.createRecorder();
             this.startRecording();
             return;
         }
@@ -258,21 +279,30 @@ var LBK = new function() {
         return document.getElementById('settingsContentExternaWindow').checked;
     };
 
-    this.popupContentArea = function(url) {
+    this.isRecordingEnabled = function() {
+        return document.getElementById('settingsRecordingToggle').checked;
+    };
+
+    this.popupContentArea = function(url, width, height) {
         var self = this;
         var contentSize = this.getSettingsContentSizes();
+
+        const w = width || contentSize.width;
+        const h = height || contentSize.height;
+
         var windowFeatures = 'menubar=no,location=no,resizable=no,scrollbars=no,status=no';
-        
+
         this.windowContentArea = window.open(url, 'Content | Live Broadcast Kit • CC UFFS', windowFeatures);
-        this.windowContentArea.resizeTo(contentSize.width, contentSize.height);
+        this.windowContentArea.resizeTo(w, h);
 
         this.windowContentArea.onbeforeunload = function() {
+            console.log('Content area external window closed!');
             self.windowContentArea = null;
             self.setContentAreaAsExternalWindow(false);
         };
     };
 
-    this.updateContentAreaPopup = function(url) {
+    this.setContentAreaPopupUrl = function(url) {
         if(!this.isUsingContentAreaAsExternalWindow()) {
             return;
         }
@@ -284,7 +314,7 @@ var LBK = new function() {
         this.windowContentArea.location = url;
     };
 
-    this.updateContentAreaIframe = function(url) {
+    this.setContentAreaIframeUrl = function(url) {
         var contentIframe = document.getElementById('content');
         contentIframe.src = url;
     };
@@ -296,8 +326,8 @@ var LBK = new function() {
         console.log('Set content url:', finalUrl);
         this.contentAreaUrl = finalUrl;
 
-        this.updateContentAreaIframe(finalUrl);
-        this.updateContentAreaPopup(finalUrl);
+        this.setContentAreaIframeUrl(finalUrl);
+        this.setContentAreaPopupUrl(finalUrl);
     };
 
     this.loadAnimations = function(files, callback) {
@@ -370,18 +400,23 @@ var LBK = new function() {
         return select;
     };
 
-    this.init = function(win) {
+    this.init = function(win, ignoreAdjustList) {
         var self = this;
         console.debug('[child:init] ', win.location.href);
 
         this.loadChildStyles(win);
-        this.runElementsAdjustmentsList(win);
-
-        this.addClass(win, 'main', ['woah', 'spin3D']);
+        
+        if(!ignoreAdjustList) {
+            console.log('run stuff');
+            this.runElementsAdjustmentsList(win);
+        }
 
         return {
             param: function(name, defaultValue) {
                 return self.param(name, defaultValue, win);
+            },
+            getPlaybackSrcObject: function() {
+                return self.recorderStream;
             },
         };
     };
@@ -515,10 +550,10 @@ var LBK = new function() {
         let gumStream, gdmStream;
         
         this.recordingData = [];
-    
+        
         try {
             gumStream = await navigator.mediaDevices.getUserMedia({video: false, audio: true});
-            gdmStream = await navigator.mediaDevices.getDisplayMedia({video: {displaySurface: "browser"}, audio: true});
+            gdmStream = await navigator.mediaDevices.getDisplayMedia({video: {displaySurface: 'application', frameRate: null}, audio: true});
     
         } catch (e) {
             console.error('Problem to create recorder:', e);
@@ -561,6 +596,19 @@ var LBK = new function() {
     this.updateRecordingUI = function() {
         var panel = this.recordingPanel;
 
+        if(!this.isRecordingEnabled()) {
+            if(!panel.hasClass('hide')) {
+                panel.removeClass('show');
+                panel.addClass('hide');
+            }
+            return;
+        }
+
+        if(!panel.hasClass('show')) {
+            panel.removeClass('hide');
+            panel.addClass('show');
+        }
+
         if(!this.recorder) {
             return;
         }
@@ -569,19 +617,6 @@ var LBK = new function() {
             this.recordButton.innerHTML = 'Stop';
         } else {
             this.recordButton.innerHTML = 'Record';
-        }
-
-        if(!this.isRecording()) {
-            if(!panel.hasClass('hide')) {
-                panel.removeClass('show');
-                panel.addClass('hide');
-            }
-            return;
-        } else {
-            if(!panel.hasClass('show')) {
-                panel.removeClass('hide');
-                panel.addClass('show');
-            }
         }
     };
 

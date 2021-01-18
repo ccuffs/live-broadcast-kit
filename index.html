@@ -83,7 +83,7 @@
                     </div>
 
                     <div class="form-row">
-                        <div class="form-group col-md-8">
+                        <div class="form-group col-md-6">
                             <label for="settingsContentPopup">External window</label>
                             <input type="checkbox" class="form-control contentParam" id="settingsContentExternaWindow" data-toggle="toggle" data-onstyle="primary" data-offstyle="outline-secondary" data-size="sm">
                         </div>
@@ -171,20 +171,30 @@
                     </div>      
 
                     <div class="form-row">
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-6">
                             <a class="btn btn-block btn-primary" id="btnTest"><i class="fa fa-play-circle"></i> Test</a>
                         </div>
-                        <div class="form-group col-md-4">
-                            <a class="btn btn-block btn-danger" id="btnRecord"><i class="fa fa-dot-circle"></i> Record</a>
-                        </div>
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-6">
                             <a class="btn btn-block btn-primary" id="btnAdd"><i class="fa fa-plus-square"></i> Add</a>
                         </div>
                     </div>
                 </div>
 
-                <div id="settingsRecordingPanel" class="collapse hide panel">
-                    <i class="fa fa-compact-disc fa-spin"></i> kjh
+                <p class="title" data-toggle="collapse" data-target="#settingsRecording"><i class="fa fa-cubes"></i> Recording</p>
+
+                <div id="settingsRecording" class="collapse show panel">
+                    <div class="form-row">
+                        <div class="form-group col-md-12 justify-content-center">
+                            <label for="settingsRecordingToggle">Recording is currently</label>
+                            <input type="checkbox" class="form-control" id="settingsRecordingToggle" data-toggle="toggle" data-onstyle="primary" data-offstyle="outline-danger" data-on="Enabled" data-off="Disabled" data-size="sm">
+                        </div>
+                    </div>
+
+                    <div id="settingsRecordingPanel" class="form-row collapse hide panel">
+                        <div class="form-group col-md-6">
+                            <a class="btn btn-block btn-primary" id="btnRecord"><i class="fa fa-plus-square"></i> Record</a>
+                        </div>
+                    </div>
                 </div>
                 
                 <p class="title" data-toggle="collapse" data-target="#settingsElements"><i class="fa fa-cubes"></i> Elements</p>
