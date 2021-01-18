@@ -8,9 +8,15 @@ var LBK = new function() {
         'woah.json',
         'cssanimationio.json'
     ];
+    this.SIZE_PRESETS = {
+        '16:9': {name: '16:9', width: 1920, height: 1080}
+    };
 
     this.animations = [];
     this.screens = [];
+
+    this.windowContentArea = null;
+
     this.recorder = null;
     this.recordingData = [];
     this.recorderStream;
@@ -33,8 +39,54 @@ var LBK = new function() {
         this.buildSidePanelUI();
     };
 
+    this.buildSizePresetsSelect = function() {
+        var self = this;
+        var select = document.getElementById('settingsSizePreset');
+
+        select.options[select.options.length] = new Option('custom', 'custom');
+
+        for(var id in this.SIZE_PRESETS) {
+            var entry = this.SIZE_PRESETS[id];
+            select.options[select.options.length] = new Option(entry.name, id);
+        };
+
+        $(select).on('change', function(el) {
+            var value = $(this).val();
+            var entry = self.SIZE_PRESETS[value];
+
+            if(!entry || value == 'custom') {
+                return;
+            }
+
+            document.getElementById('settingsContentWidth').value = entry.width;
+            document.getElementById('settingsContentHeight').value = entry.height;
+
+            self.resizeContentArea(entry.width, entry.height);
+        });
+    };
+
+    this.resizeContentArea = function(width, height) {
+        // TODO: update iframe size here too.
+
+        if(!this.windowContentArea) {
+            return;
+        }
+
+        this.windowContentArea.resizeTo(width, height);
+    };
+    
     this.buildSidePanelUI = function() {
         var self = this;
+
+        this.buildSizePresetsSelect();
+
+        $('.contentParam').on('change', function(el) {
+            var el = $(this);
+            var name = el.attr('id');
+            var value = el.val();
+
+            self.onSettingsChange(name, value);
+        });
 
         $('#btnRecord').on('click', function(event) {
             self.startRecording();
@@ -49,6 +101,26 @@ var LBK = new function() {
                 self.saveRecording();
             }, 10000);
         });
+    };
+
+    this.getSettingsContentSizes = function() {
+        var ret = {
+            width: document.getElementById('settingsContentWidth').value,
+            height: document.getElementById('settingsContentHeight').value
+        };
+
+        return ret;
+    };
+
+    this.onSettingsChange = function(name, value) {
+        if(name == 'settingsContentWidth' || name == 'settingsContentHeight') {
+            var sizes = this.getSettingsContentSizes();
+            var width = name == 'settingsContentWidth' ? value : sizes.width;
+            var height = name == 'settingsContentHeight' ? value : sizes.height;
+            
+            this.resizeContentArea(width, height);
+            $('#settingsSizePreset').val('custom');
+        }
     };
 
     this.buildScreensUI = function() {
@@ -117,13 +189,41 @@ var LBK = new function() {
         return finalUrl;
     };
 
-    this.setContentAreaURL = function(url) {
+    this.popupContentArea = function(url) {
+        var self = this;
+        var contentSize = this.getSettingsContentSizes();
+        var windowFeatures = 'menubar=no,location=no,resizable=no,scrollbars=no,status=no';
+        
+        this.windowContentArea = window.open(url, 'Content | Live Broadcast Kit • CC UFFS', windowFeatures);
+        this.windowContentArea.resizeTo(contentSize.width, contentSize.height);
+
+        this.windowContentArea.onbeforeunload = function() {
+            self.windowContentArea = null;
+        };
+    };
+
+    this.updateContentAreaPopup = function(url) {
+        if(!this.windowContentArea) {
+            this.popupContentArea(url);
+            return;
+        }
+
+        this.windowContentArea.location = url;
+    };
+
+    this.updateContentAreaIframe = function(url) {
         var contentIframe = document.getElementById('content');
+        contentIframe.src = url;
+    };
+
+    this.setContentAreaURL = function(url) {
         var params = this.getContentAreaURLParams();
         var finalUrl = this.makeFinalContentURL(url, params);
 
         console.log('Set content url:', finalUrl);
-        contentIframe.src = finalUrl;
+        
+        this.updateContentAreaIframe(finalUrl);
+        this.updateContentAreaPopup(finalUrl);
     };
 
     this.loadAnimations = function(files, callback) {

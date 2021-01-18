@@ -117,7 +117,8 @@
     <script src="../../js/jquery-3.5.1.min.js"></script>
     <script>
         $(function () {
-            var lbk = window.parent.LBK.init(window);
+            var parentWindow = window.opener || window.parent;
+            var lbk = parentWindow.LBK.init(window);
 
             var message = lbk.param('message');
             var delay = parseFloat(lbk.param('delay') || 1.0) * 1000;

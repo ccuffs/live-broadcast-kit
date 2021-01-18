@@ -32,6 +32,12 @@
                 <p class="title" data-toggle="collapse" data-target="#settingsContent"><i class="fa fa-tv"></i> Content area</p>
                 <div id="settingsContent" class="collapse show">
                     <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="settingsSizePreset">Size presets</label>
+                            <select class="form-control contentParam" id="settingsSizePreset" name="settingsSizePreset">
+                                <!-- Added dynamically -->
+                            </select>
+                        </div>
                         <div class="form-group col-md-3">
                             <label for="settingsContentWidth">Width</label>
                             <input type="input" class="form-control contentParam" id="settingsContentWidth" name="settingsContentWidth" value="1920">
@@ -39,14 +45,6 @@
                         <div class="form-group col-md-3">
                             <label for="settingsContentHeight">Height</label>
                             <input type="input" class="form-control contentParam" id="settingsContentHeight" name="settingsContentHeight" value="1080">
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="settingsSizePreset">Size presets</label>
-                            <select class="form-control" id="settingsSizePreset" name="settingsSizePreset">
-                                <option>custom</option>
-                                <option>16:9</option>
-                                <option>2</option>
-                            </select>
                         </div>
                     </div>
 
@@ -160,6 +158,31 @@
                             </select>
                         </div>
                     </div>      
+
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <a class="btn btn-block btn-secondary" id="btnTest"><i class="fa fa-play-circle"></i> Test</a>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <a class="btn btn-block btn-light" id="btnRecord"><i class="fa fa-plus-circle"></i> Record</a>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <a class="btn btn-block btn-light" id="btnAdd"><i class="fa fa-plus-circle"></i> Add</a>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="title" data-toggle="collapse" data-target="#settingsRecording"><i class="fa fa-cubes"></i> Recording</p>
+
+                <div id="settingsRecording" class="collapse show panel">
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label for="settingsCreationType">Type</label>
+                            <select class="form-control contentParam" id="settingsCreationType">
+                                <option></option>
+                            </select>
+                        </div>
+                    </div>
 
                     <div class="form-row">
                         <div class="form-group col-md-4">
