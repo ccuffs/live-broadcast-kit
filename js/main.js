@@ -22,6 +22,9 @@ var LBK = new function() {
     this.recorder = null;
     this.recordingData = [];
     this.recorderStream;
+    this.isProcessingRecordingResult = false;
+    this.recordingPanel = null;
+    this.recordButton = null;
 
     this.boot = function() {
         var self = this;
@@ -40,6 +43,25 @@ var LBK = new function() {
 
         this.buildSidePanelUI();
         this.setContentAreaURL(this.DEFAULT_CONTENT_AREA_URL);
+        
+        // Create a ticker function
+        window.requestAnimationFrame(function(timestamp) {
+            self.doTick(timestamp);
+        });
+    };
+
+    this.doTick = function(timestamp) {
+        var self = this;
+
+        this.tick();
+
+        window.requestAnimationFrame(function(timestamp) {
+            self.doTick(timestamp);
+        });
+    };
+
+    this.tick = function() {
+        this.updateRecordingUI();
     };
 
     this.buildSizePresetsSelect = function() {
@@ -79,19 +101,40 @@ var LBK = new function() {
     };
     
     this.buildRecordingUI = function() {
-        $('#btnRecord').on('click', function(event) {
-            self.startRecording();
+        var self = this;
 
-            setTimeout(function() {
-                console.log('Auto stop');
-                self.stopRecording();
-            }, 6000);
+        this.recordingPanel = $('#settingsRecordingPanel');
+        this.recordButton = document.getElementById('btnRecord');
 
-            setTimeout(function() {
-                console.log('Save');
-                self.saveRecording();
-            }, 10000);
+        $(this.recordButton).on('click', function(event) {
+            self.onRecordButtonClick();
         });
+    };
+
+    this.onRecordButtonClick = async function() {
+        if(!this.recorder) {
+            this.setContentAreaAsExternalWindow(true);
+            await this.createRecorder();
+            this.startRecording();
+            return;
+        }
+
+        if(this.recorder.state == 'recording') {
+            this.stopRecording();
+            return;
+        }
+
+        if(this.recorder.state == 'inactive') {
+            this.startRecording();
+            return;
+        }
+
+        if(this.recorder.state == 'paused') {
+            // TODO: add togglePauseResumeRecording()
+            return;
+        }
+
+        console.log('onRecordButtonClick', this, this.recorder.state);
     };
 
     this.buildSidePanelUI = function() {
@@ -461,8 +504,13 @@ var LBK = new function() {
         const timestamp = now.toISOString();
         return `recording_${timestamp}`;
     };
-    
-    this.startRecording = async function() {
+
+    this.onRecordingDataAvailable = function() {
+        this.isProcessingRecordingResult = false;
+        console.log('self.recordingData', this.recordingData);
+    };
+
+    this.createRecorder = async function() {
         var self = this;
         let gumStream, gdmStream;
         
@@ -473,7 +521,7 @@ var LBK = new function() {
             gdmStream = await navigator.mediaDevices.getDisplayMedia({video: {displaySurface: "browser"}, audio: true});
     
         } catch (e) {
-            console.error("capture failure", e);
+            console.error('Problem to create recorder:', e);
             return
         }
     
@@ -481,40 +529,76 @@ var LBK = new function() {
         this.recorder = new MediaRecorder(this.recorderStream, {mimeType: 'video/webm'});
     
         this.recorder.ondataavailable = e => {
-            console.log('ondataavailable', e);
-            if (e.data && e.data.size > 0) {
-                self.recordingData.push(e.data);
-                console.log('self.recordingData', self.recordingData);
+            if (!e.data || e.data.size <= 0) {
+                return;
             }
+
+            self.recordingData.push(e.data);
+            self.onRecordingDataAvailable(e);
         };
     
-        this.recorder.onStop = () => {
+        this.recorder.onStop = function() {
             self.recorderStream.getTracks().forEach(track => track.stop());
             gumStream.getTracks().forEach(track => track.stop());
             gdmStream.getTracks().forEach(track => track.stop());
-    
         };
     
-        this.recorderStream.addEventListener('inactive', () => {
+        this.recorderStream.addEventListener('inactive', function() {
             console.log('Capture stream inactive');
             self.stopRecording();
         });
-    
+    };
+
+    this.startRecording = function() {
+        if(!this.recorder) {
+            console.error('Trying to record without a recorder.');
+            return;
+        }
         this.recorder.start();
-        console.log("started recording");
+        this.isProcessingRecordingResult = false;
     };
     
+    this.updateRecordingUI = function() {
+        var panel = this.recordingPanel;
+
+        if(!this.recorder) {
+            return;
+        }
+
+        if(this.recorder.state ==='recording') {
+            this.recordButton.innerHTML = 'Stop';
+        } else {
+            this.recordButton.innerHTML = 'Record';
+        }
+
+        if(!this.isRecording()) {
+            if(!panel.hasClass('hide')) {
+                panel.removeClass('show');
+                panel.addClass('hide');
+            }
+            return;
+        } else {
+            if(!panel.hasClass('show')) {
+                panel.removeClass('hide');
+                panel.addClass('show');
+            }
+        }
+    };
+
     this.stopRecording = function () {
-        console.log("Stopping recording");
         this.recorder.stop();
+        this.isProcessingRecordingResult = true;        
     };
-    
-    this.pauseRecording = function() {
+
+    this.isRecording = function() {
+        return this.recorder && (this.recorder.state === 'recording' || this.recorder.state === 'paused');
+    }
+   
+    this.togglePauseResumeRecording = function() {
         if(this.recorder.state ==='paused'){
             this.recorder.resume();
-        } else if (recorder.state === 'recording'){
+        } else if (this.recorder.state === 'recording'){
             this.recorder.pause();
-    
         } else {
             console.error(`recorder in unhandled state: ${this.recorder.state}`);
         }
