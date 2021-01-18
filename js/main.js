@@ -3,6 +3,7 @@
  * @license MIT
  */
 var LBK = new function() {
+    this.DEFAULT_CONTENT_AREA_URL = 'screens/blank/';
     this.SCREENS_FILE = 'screens/screens.json';
     this.ANIMATION_FILES = [
         'woah.json',
@@ -15,6 +16,7 @@ var LBK = new function() {
     this.animations = [];
     this.screens = [];
 
+    this.contentAreaUrl = '';
     this.windowContentArea = null;
 
     this.recorder = null;
@@ -37,6 +39,7 @@ var LBK = new function() {
         });
 
         this.buildSidePanelUI();
+        this.setContentAreaURL(this.DEFAULT_CONTENT_AREA_URL);
     };
 
     this.buildSizePresetsSelect = function() {
@@ -75,19 +78,7 @@ var LBK = new function() {
         this.windowContentArea.resizeTo(width, height);
     };
     
-    this.buildSidePanelUI = function() {
-        var self = this;
-
-        this.buildSizePresetsSelect();
-
-        $('.contentParam').on('change', function(el) {
-            var el = $(this);
-            var name = el.attr('id');
-            var value = el.val();
-
-            self.onSettingsChange(name, value);
-        });
-
+    this.buildRecordingUI = function() {
         $('#btnRecord').on('click', function(event) {
             self.startRecording();
 
@@ -100,6 +91,26 @@ var LBK = new function() {
                 console.log('Save');
                 self.saveRecording();
             }, 10000);
+        });
+    };
+
+    this.buildSidePanelUI = function() {
+        var self = this;
+
+        this.buildSizePresetsSelect();
+        this.buildRecordingUI();
+
+        $('#settingsContentExternaWindow').on('change', function(event) {
+            var checked = event.currentTarget.checked;
+            self.setContentAreaAsExternalWindow(checked);
+        });
+
+        $('.contentParam').on('change', function(el) {
+            var el = $(this);
+            var name = el.attr('id');
+            var value = el.val();
+
+            self.onSettingsChange(name, value);
         });
     };
 
@@ -189,6 +200,21 @@ var LBK = new function() {
         return finalUrl;
     };
 
+    this.setContentAreaAsExternalWindow = function(value) {
+        $('#settingsContentExternaWindow').bootstrapToggle(value ? 'on' : 'off', true);
+
+        if(value && !this.windowContentArea) {
+            this.popupContentArea(this.contentAreaUrl);
+
+        } else if(!value && this.windowContentArea) {
+            this.windowContentArea.window.close();
+        }
+    };
+
+    this.isUsingContentAreaAsExternalWindow = function() {
+        return document.getElementById('settingsContentExternaWindow').checked;
+    };
+
     this.popupContentArea = function(url) {
         var self = this;
         var contentSize = this.getSettingsContentSizes();
@@ -199,13 +225,17 @@ var LBK = new function() {
 
         this.windowContentArea.onbeforeunload = function() {
             self.windowContentArea = null;
+            self.setContentAreaAsExternalWindow(false);
         };
     };
 
     this.updateContentAreaPopup = function(url) {
+        if(!this.isUsingContentAreaAsExternalWindow()) {
+            return;
+        }
+
         if(!this.windowContentArea) {
             this.popupContentArea(url);
-            return;
         }
 
         this.windowContentArea.location = url;
@@ -221,7 +251,8 @@ var LBK = new function() {
         var finalUrl = this.makeFinalContentURL(url, params);
 
         console.log('Set content url:', finalUrl);
-        
+        this.contentAreaUrl = finalUrl;
+
         this.updateContentAreaIframe(finalUrl);
         this.updateContentAreaPopup(finalUrl);
     };

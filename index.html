@@ -11,6 +11,9 @@
     <link href="./media/animate.css/animate.min.css" type="text/css" rel="stylesheet">
     <link href="./css/bootstrap-dark.min.css" type="text/css" rel="stylesheet">
 
+    <!-- 3rd party styles -->
+    <link href="./css/bootstrap4-toggle.min.css" rel="stylesheet">
+
     <!-- app styles -->
     <link href="./css/main.css" rel="stylesheet">
 </head>
@@ -72,9 +75,17 @@
                             <label for="settingsContentScale">Scale</label>
                             <input type="number" step="0.1" min="0.1" class="form-control contentParam" id="settingsContentScale" value="1.0">
                         </div>
+                        
                         <div class="form-group col-md-6">
                             <label for="settingsContentBgColor">background-color</label>
                             <input type="color" class="form-control contentParam" id="settingsContentBgColor" value="#ff00ff">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-8">
+                            <label for="settingsContentPopup">External window</label>
+                            <input type="checkbox" class="form-control contentParam" id="settingsContentExternaWindow" data-toggle="toggle" data-onstyle="primary" data-offstyle="outline-secondary" data-size="sm">
                         </div>
                     </div>
                 </div>
@@ -161,38 +172,13 @@
 
                     <div class="form-row">
                         <div class="form-group col-md-4">
-                            <a class="btn btn-block btn-secondary" id="btnTest"><i class="fa fa-play-circle"></i> Test</a>
+                            <a class="btn btn-block btn-primary" id="btnTest"><i class="fa fa-play-circle"></i> Test</a>
                         </div>
                         <div class="form-group col-md-4">
-                            <a class="btn btn-block btn-light" id="btnRecord"><i class="fa fa-plus-circle"></i> Record</a>
+                            <a class="btn btn-block btn-danger" id="btnRecord"><i class="fa fa-dot-circle"></i> Record</a>
                         </div>
                         <div class="form-group col-md-4">
-                            <a class="btn btn-block btn-light" id="btnAdd"><i class="fa fa-plus-circle"></i> Add</a>
-                        </div>
-                    </div>
-                </div>
-
-                <p class="title" data-toggle="collapse" data-target="#settingsRecording"><i class="fa fa-cubes"></i> Recording</p>
-
-                <div id="settingsRecording" class="collapse show panel">
-                    <div class="form-row">
-                        <div class="form-group col-md-12">
-                            <label for="settingsCreationType">Type</label>
-                            <select class="form-control contentParam" id="settingsCreationType">
-                                <option></option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group col-md-4">
-                            <a class="btn btn-block btn-secondary" id="btnTest"><i class="fa fa-play-circle"></i> Test</a>
-                        </div>
-                        <div class="form-group col-md-4">
-                            <a class="btn btn-block btn-light" id="btnRecord"><i class="fa fa-plus-circle"></i> Record</a>
-                        </div>
-                        <div class="form-group col-md-4">
-                            <a class="btn btn-block btn-light" id="btnAdd"><i class="fa fa-plus-circle"></i> Add</a>
+                            <a class="btn btn-block btn-primary" id="btnAdd"><i class="fa fa-plus-square"></i> Add</a>
                         </div>
                     </div>
                 </div>
@@ -245,6 +231,7 @@
     <script src="js/jquery-3.5.1.min.js"></script>
     <script src="js/bootstrap.bundle.min.js"></script>
     <script src="js/hotkeys.min.js"></script>
+    <script src="js/bootstrap4-toggle.min.js"></script>
     <script src="js/main.js"></script>
     <script src="media/cssanimation.io/letteranimation.min.js"></script>
 </body>
