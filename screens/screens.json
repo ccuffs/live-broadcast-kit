@@ -1,9 +1,11 @@
 [
     {
+        "id": "basic.overlay",
         "name": "Basic overlay",
         "url": "screens/basic-overlay/?ttl=20&${est}&delay=0.3&message=hello&adjusts=elements,width;${settingsContentWidth}px,height;1080px,justifyContent;flex-start"
     },
     {
+        "id": "notification.run",
         "name": "Run",
         "url": "screens/notification/run.html?text=Fernando Bevilacqua&subtext=Coordenador, Curso de Ciência da Computação (UFFS)&ttl=20&icon=cc.svg&delay=0.3&effect=thumbslider"
     }

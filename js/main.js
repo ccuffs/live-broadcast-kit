@@ -3,7 +3,7 @@
  * @license MIT
  */
 var LBK = new function() {
-    this.DEFAULT_CONTENT_AREA_URL = 'screens/blank/';
+    this.DEFAULT_RUN_ELEMENT = 'default.blank';
     this.SCREENS_FILE = 'screens/screens.json';
     this.ANIMATION_FILES = [
         'woah.json',
@@ -12,6 +12,13 @@ var LBK = new function() {
     this.SIZE_PRESETS = {
         '16:9': {name: '16:9', width: 1920, height: 1080}
     };
+
+    this.elements = {
+        'default.blank': {url: './screens/blank', name: 'Blank'},
+        'default.test': {url: './screens/test', name: 'Color test'},
+    };
+
+    this.elementBeingRun = undefined;
 
     this.animations = [];
     this.screens = [];
@@ -42,7 +49,7 @@ var LBK = new function() {
         });
 
         this.buildSidePanelUI();
-        this.setContentAreaURL(this.DEFAULT_CONTENT_AREA_URL);
+        this.runElementById(this.DEFAULT_RUN_ELEMENT);
         
         // Create a ticker function
         window.requestAnimationFrame(function(timestamp) {
@@ -110,16 +117,18 @@ var LBK = new function() {
             self.onRecordButtonClick();
         });
 
-        $('#settingsRecordingToggle').on('change', async function(event) {
+        $('#settingsRecordingEnabledToggle').on('change', async function(event) {
             var checked = event.currentTarget.checked;
             
-            if(!checked || self.recorder) {
+            if(!checked) {
+                self.setContentAreaAsExternalWindow(false);
+                self.destroyRecorder();
                 return;
             }
 
             // This is the first time recording is enabled.
-            // First of all, pop open the content area:
-            self.popupContentArea('./screens/recording/setup.html');
+            // First of all, pop open the content area.
+            self.setContentAreaAsExternalWindow(true, './screens/recording/setup.html');
 
             // Adjust the content area pop up to look like a modal
             // to explain what needs to happen.
@@ -132,6 +141,69 @@ var LBK = new function() {
             self.setContentAreaIframeUrl('./screens/recording/');
         });
     };
+
+    this.refreshElementsPanel = function() {
+        var self = this;
+        var content = '';
+
+        $('#settingsElements ul').empty();
+
+        for(var id in this.elements) {
+            var element = this.elements[id];
+            content += '<li class="list-group-item">' +
+                            '<a href="javascript:void(0);" class="click-run" data-element="' + id + '">'+ element.name +'</a>' +
+                            '<a href="javascript:void(0);" class="click-record" data-element="' + id + '">'+ element.name +'</a>' +
+                        '</li>';
+        }
+
+        $('#settingsElements ul').html(content);
+
+        $('#settingsElements a.click-run').on('click', function(event) {
+            var id = $(event.currentTarget).data('element');
+            self.runElementById(id);
+        });
+    };
+
+    this.getScreenById = function(id) {
+        var ret = null;
+
+        this.screens.forEach(function(screen) {
+            if(screen.id == id) {
+                ret = screen;
+            }
+        });
+
+        return ret;
+    };
+
+    this.runElementById = function(elementId) {
+        var element = this.elements[elementId];
+
+        if(!element) {
+            console.error('Unable to find element with id:', elementId);
+            return;
+        }
+
+        this.runElement(element);
+    };
+
+    this.runElement = function(element) {
+        console.debug('Running element:', element);
+
+        this.elementBeingRun = element;
+        var finalUrl = this.setContentAreaURL(element.url);
+        
+        // If recording is enabled, the iframe URL is fixed at the recording
+        // previwer. In such case, we don't update if, only the external
+        // window url (pop up)
+        if(!this.isRecordingEnabled()) {
+            this.setContentAreaIframeUrl(finalUrl);
+        }
+
+        if(this.isUsingContentAreaAsExternalWindow() || this.isRecordingEnabled()) {
+            this.setContentAreaPopupUrl(finalUrl);
+        }
+    }
 
     this.onRecordButtonClick = async function() {
         if(!this.recorder) {
@@ -176,6 +248,8 @@ var LBK = new function() {
 
             self.onSettingsChange(name, value);
         });
+
+        this.refreshElementsPanel();
     };
 
     this.getSettingsContentSizes = function() {
@@ -203,7 +277,8 @@ var LBK = new function() {
         var select = self.fillSelectElementWithScreens('settingsCreationType', this.screens);
 
         $(select).on('change', function(event) {
-            self.onScreenSelectChange($(this).val(), event.currentTarget);
+            var screenId = $(this).val();
+            self.onScreenSelectChange(screenId, event.currentTarget);
         });
     };
 
@@ -228,8 +303,17 @@ var LBK = new function() {
         console.debug('onEffectSelectChange', value, element);
     };
 
-    this.onScreenSelectChange = function(value, element) {
-        this.setContentAreaURL(value);
+    this.onScreenSelectChange = function(screenId, element) {
+        var screen = this.getScreenById(screenId);
+
+        if(!screen) {
+            console.warn('Unable to find screen with id:', screenId);
+        }
+
+        // TODO: create element from screen here
+        this.runElement({
+            url: screen.url
+        });
     };
 
     this.getContentAreaURLParams = function() {
@@ -264,15 +348,21 @@ var LBK = new function() {
         return finalUrl;
     };
 
-    this.setContentAreaAsExternalWindow = function(value) {
+    this.setContentAreaAsExternalWindow = function(value, url) {
         $('#settingsContentExternaWindow').bootstrapToggle(value ? 'on' : 'off', true);
 
+        url = url || this.contentAreaUrl;
+
         if(value && !this.windowContentArea) {
-            this.popupContentArea(this.contentAreaUrl);
+            this.popupContentArea(url);
 
         } else if(!value && this.windowContentArea) {
             this.windowContentArea.window.close();
         }
+    };
+
+    this.setRecordingEnabledToggle = function(value) {
+        $('#settingsRecordingEnabledToggle').bootstrapToggle(value ? 'on' : 'off', true);
     };
 
     this.isUsingContentAreaAsExternalWindow = function() {
@@ -280,10 +370,15 @@ var LBK = new function() {
     };
 
     this.isRecordingEnabled = function() {
-        return document.getElementById('settingsRecordingToggle').checked;
+        return document.getElementById('settingsRecordingEnabledToggle').checked;
     };
 
-    this.popupContentArea = function(url, width, height) {
+    this.popupContentArea = function(url, width, height, force) {
+        if(this.windowContentArea && !force) {
+            // window already exists
+            return;
+        }
+        
         var self = this;
         var contentSize = this.getSettingsContentSizes();
 
@@ -295,18 +390,25 @@ var LBK = new function() {
         this.windowContentArea = window.open(url, 'Content | Live Broadcast Kit • CC UFFS', windowFeatures);
         this.windowContentArea.resizeTo(w, h);
 
-        this.windowContentArea.onbeforeunload = function() {
-            console.log('Content area external window closed!');
-            self.windowContentArea = null;
-            self.setContentAreaAsExternalWindow(false);
-        };
+        this.windowContentArea.addEventListener('beforeunload', function(event) {
+            self.onWindowContentAreaClosed();
+        });
+    };
+
+    this.onWindowContentAreaClosed = function() {
+        console.log('Content area external window closed!');
+        
+        this.setContentAreaAsExternalWindow(false);
+        this.setRecordingEnabledToggle(false);        
+        
+        this.stopRecording();
+        this.destroyRecorder();
+        this.runElementById(this.DEFAULT_RUN_ELEMENT);
+
+        this.windowContentArea = null;        
     };
 
     this.setContentAreaPopupUrl = function(url) {
-        if(!this.isUsingContentAreaAsExternalWindow()) {
-            return;
-        }
-
         if(!this.windowContentArea) {
             this.popupContentArea(url);
         }
@@ -326,8 +428,7 @@ var LBK = new function() {
         console.log('Set content url:', finalUrl);
         this.contentAreaUrl = finalUrl;
 
-        this.setContentAreaIframeUrl(finalUrl);
-        this.setContentAreaPopupUrl(finalUrl);
+        return this.contentAreaUrl;
     };
 
     this.loadAnimations = function(files, callback) {
@@ -392,7 +493,7 @@ var LBK = new function() {
         screens.forEach(function(screen) {
             var option = document.createElement('option');
 
-            option.value = screen.url;
+            option.value = screen.id;
             option.text = screen.name;
             select.appendChild(option);
         });
@@ -545,6 +646,21 @@ var LBK = new function() {
         console.log('self.recordingData', this.recordingData);
     };
 
+    this.destroyRecorder = function() {
+        if(this.recorder && this.recorder.state != 'inactive') {
+            this.recorder.stop();
+        }
+
+        if(this.recorderStream) {
+            this.recorderStream.getTracks().forEach(function(track) {
+                track.stop();
+            });
+        }
+
+        this.recorder = null;
+        this.recorderStream = null;
+    };
+
     this.createRecorder = async function() {
         var self = this;
         let gumStream, gdmStream;
@@ -580,7 +696,6 @@ var LBK = new function() {
     
         this.recorderStream.addEventListener('inactive', function() {
             console.log('Capture stream inactive');
-            self.stopRecording();
         });
     };
 
@@ -621,7 +736,9 @@ var LBK = new function() {
     };
 
     this.stopRecording = function () {
-        this.recorder.stop();
+        if(this.recorder && this.recorder.state != 'inactive') {
+            this.recorder.stop();
+        }
         this.isProcessingRecordingResult = true;        
     };
 
