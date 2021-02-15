@@ -33,6 +33,9 @@ var LBK = new function() {
     this.recordingPanel = null;
     this.recordButton = null;
 
+    this.testButton = null;    
+    this.addButton = null;
+
     this.boot = function() {
         var self = this;
 
@@ -142,6 +145,34 @@ var LBK = new function() {
         });
     };
 
+    this.buildTestAddUI = function() {
+        var self = this;
+
+        this.testButton = document.getElementById('btnTest');
+        this.addButton = document.getElementById('btnAdd');
+
+        $(this.testButton).on('click', function(event) {
+            self.onTestButtonClick();
+        });
+
+        $(this.addButton).on('click', function(event) {
+            self.onAddButtonClick();
+        });        
+    };
+    
+    this.getCreationPanelScreenId = function() {
+        var screenId = $('#settingsCreationType').val();
+        return screenId;
+    };
+
+    this.onTestButtonClick = function() {
+        this.runCreationPanelElement();
+    };
+    
+    this.onAddButtonClick = function() {
+        console.log('onAddButtonClick', this);
+    };
+
     this.refreshElementsPanel = function() {
         var self = this;
         var content = '';
@@ -187,8 +218,10 @@ var LBK = new function() {
         this.runElement(element);
     };
 
-    this.runElement = function(element) {
-        console.debug('Running element:', element);
+    this.runElement = function(element, params) {
+        var elementParams = params || {};
+
+        console.debug('Running element:', element, elementParams);
 
         this.elementBeingRun = element;
         var finalUrl = this.setContentAreaURL(element.url);
@@ -235,6 +268,7 @@ var LBK = new function() {
 
         this.buildSizePresetsSelect();
         this.buildRecordingUI();
+        this.buildTestAddUI();
 
         $('#settingsContentExternaWindow').on('change', function(event) {
             var checked = event.currentTarget.checked;
@@ -303,23 +337,36 @@ var LBK = new function() {
         console.debug('onEffectSelectChange', value, element);
     };
 
+    this.getCreationPanelParams = function() {
+        return this.getFormValuesAsObject('.screenParam');
+    };
+
     this.onScreenSelectChange = function(screenId, element) {
+        this.runCreationPanelElement(screenId);
+    };
+
+    this.runCreationPanelElement = function(informedScreenId) {
+        var screenId = informedScreenId || this.getCreationPanelScreenId();
         var screen = this.getScreenById(screenId);
+        var params = this.getCreationPanelParams();
 
         if(!screen) {
             console.warn('Unable to find screen with id:', screenId);
         }
 
-        // TODO: create element from screen here
         this.runElement({
             url: screen.url
-        });
+        }, params);
     };
 
     this.getContentAreaURLParams = function() {
+        return this.getFormValuesAsObject('.contentParam');
+    };
+
+    this.getFormValuesAsObject = function(selector) {
         var data = {};
 
-        $('.contentParam').each(function(idx, el) {
+        $(selector).each(function(idx, el) {
             var name = $(el).attr('id');
             var value = $(el).val();
 
