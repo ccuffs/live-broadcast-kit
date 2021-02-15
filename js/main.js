@@ -350,7 +350,7 @@ var LBK = new function() {
         this.buildRecordingUI();
         this.buildTestAddUI();
 
-        $('#settingsContentExternaWindow').on('change', function(event) {
+        $('#settingsContentExternaWindow').off().on('change', function(event) {
             var checked = event.currentTarget.checked;
             self.setContentAreaAsExternalWindow(checked);
         });
@@ -647,6 +647,7 @@ var LBK = new function() {
 
         } else if(!value && this.windowContentArea) {
             this.windowContentArea.window.close();
+            this.windowContentArea = null;
         }
     };
 
@@ -680,7 +681,7 @@ var LBK = new function() {
         this.windowContentArea.resizeTo(w, h);
 
         this.windowContentArea.addEventListener('beforeunload', function(event) {
-            self.onWindowContentAreaClosed();
+            // FIX call to self.onWindowContentAreaClosed();
         });
     };
 
