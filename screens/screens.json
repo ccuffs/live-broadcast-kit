@@ -2,11 +2,21 @@
     {
         "id": "basic.overlay",
         "name": "Basic overlay",
-        "url": "screens/basic-overlay/?ttl=20&${est}&delay=0.3&message=hello&adjusts=elements,width;${settingsContentWidth}px,height;1080px,justifyContent;flex-start"
+        "url": "screens/basic-overlay/?ttl=20&${est}&delay=0.3&message=hello&adjusts=elements,width;${settingsContentWidth}px,height;1080px,justifyContent;flex-start",
+        "params": {
+            "title": {"label": "Title", "type":"text", "value": "hi"},
+            "subtitle": "text",
+            "content": "textarea"
+        }
     },
     {
         "id": "notification.run",
         "name": "Run",
-        "url": "screens/notification/run.html?text=Fernando Bevilacqua&subtext=Coordenador, Curso de Ciência da Computação (UFFS)&ttl=20&icon=cc.svg&delay=0.3&effect=thumbslider"
+        "url": "screens/notification/run.html?text=Fernando Bevilacqua&subtext=Coordenador, Curso de Ciência da Computação (UFFS)&ttl=20&icon=cc.svg&delay=0.3&effect=thumbslider",
+        "params": {
+            "a": "text",
+            "b": "text",
+            "c": ["one", "two", "three"]
+        }        
     }
 ]

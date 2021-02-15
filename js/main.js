@@ -338,12 +338,76 @@ var LBK = new function() {
     };
 
     this.getCreationPanelParams = function() {
-        return this.getFormValuesAsObject('.screenParam');
+        return this.getFormValuesAsObject('.screenParam', 'name');
     };
 
     this.onScreenSelectChange = function(screenId, element) {
+        this.buildCreationPanelParamsFromScreenId(screenId);
         this.runCreationPanelElement(screenId);
     };
+
+    this.buildCreationPanelParamsFromScreenId = function(screenId) {
+        var screen = this.getScreenById(screenId);
+        var inputs = '';
+        var prefix = 'settingsCreationParam_';
+
+        if(!screen) {
+            console.warn('Unable to find screen with id:', screenId);
+        }
+
+        if(!screen.params) {
+            return;
+        }
+
+        for(var name in screen.params) {
+            var entry = screen.params[name];
+            var id = prefix + name;            
+            var label, type, type = 'text', value = '';
+
+            if(this.isString(entry)) {
+                label = name;
+                type = entry;
+            } else if(this.isArray(entry) || entry.options){
+                label = entry.label || name;
+                type = 'select';
+                value = entry.options || entry;
+            } else {
+                label = entry.label;
+                type = entry.type;
+                value = entry.value;
+            }
+
+            inputs += '<label for="' + id + '">' + label + '</label>';
+
+            switch(type) {
+                case 'text':
+                    inputs += '<input type="text" class="form-control contentParam screenParam" id="' + id + '" name="' + name + '" value="' + value + '" />';
+                    break;
+                case 'textarea':
+                    inputs += '<textarea class="form-control contentParam screenParam" id="' + id + '" name="' + name + '" rows="3">' + value + '</textarea>';
+                    break;                    
+                case 'select':
+                    inputs += '<select class="form-control contentParam screenParam" id="' + id + '" name="' + name + '">';
+                    value.map(function(option) {
+                        inputs += '<option>' + option + '</option>';
+                    });
+                    inputs += '</select>';
+                    break;                      
+            }
+        }
+
+        $('#settingsCreationScreenParams').empty().html(inputs);
+    };
+
+    // https://stackoverflow.com/a/9436948
+    this.isString = function(obj) {
+        return (typeof obj === 'string' || obj instanceof String)
+    }
+
+    // https://stackoverflow.com/a/4775737
+    this.isArray = function(obj) {
+        return (Object.prototype.toString.call( obj ) === '[object Array]')
+    }
 
     this.runCreationPanelElement = function(informedScreenId) {
         var screenId = informedScreenId || this.getCreationPanelScreenId();
@@ -363,11 +427,12 @@ var LBK = new function() {
         return this.getFormValuesAsObject('.contentParam');
     };
 
-    this.getFormValuesAsObject = function(selector) {
+    this.getFormValuesAsObject = function(selector, attributeAsName) {
         var data = {};
+        var attr = attributeAsName || 'id';
 
         $(selector).each(function(idx, el) {
-            var name = $(el).attr('id');
+            var name = $(el).attr(attr);
             var value = $(el).val();
 
             data[name] = value;
