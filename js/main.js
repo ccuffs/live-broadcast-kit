@@ -3,6 +3,7 @@
  * @license MIT
  */
 var LBK = new function() {
+    this.SAVE_KEY = 'livebroadcastkit_store_v1';
     this.DEFAULT_RUN_ELEMENT = 'default.blank';
     this.SCREENS_FILE = 'screens/screens.json';
     this.ANIMATION_FILES = [
@@ -52,6 +53,7 @@ var LBK = new function() {
             self.buildScreensUI();
         });
 
+        this.restoreState();
         this.buildSidePanelUI();
         this.runElementById(this.DEFAULT_RUN_ELEMENT);
         
@@ -171,7 +173,36 @@ var LBK = new function() {
     };
     
     this.onAddButtonClick = function() {
-        console.log('onAddButtonClick', this);
+        this.addElementFromCreationPanel();
+        this.refreshElementsPanel();
+        this.saveState();
+    };
+
+    this.saveState = function() {
+        var state = {
+            version: 1,
+            elements: this.elements,
+            panel: this.getFormValuesAsObject('.contentParam')
+        }
+
+        console.log('Saving app state to local storage:', state);
+        store.set(this.SAVE_KEY, state);
+    };
+
+    this.restoreState = function() {
+        var state = store.get(this.SAVE_KEY);
+
+        if(!state) {
+            console.log('App has no saved state, so this is a cold boot.');
+            return;
+        }
+
+        console.log('Restoring app state from local storage', state);
+
+        this.elements = state.elements;
+        for(var prop in state.panel) {
+            $('#' + prop).val(state.panel[prop])
+        }
     };
 
     this.refreshElementsPanel = function() {
@@ -183,8 +214,8 @@ var LBK = new function() {
         for(var id in this.elements) {
             var element = this.elements[id];
             content += '<li class="list-group-item">' +
-                            '<a href="javascript:void(0);" class="click-run" data-element="' + id + '">'+ element.name +'</a>' +
-                            '<a href="javascript:void(0);" class="click-record" data-element="' + id + '">'+ element.name +'</a>' +
+                            '<a href="javascript:void(0);" class="click-run" data-element="' + id + '">'+ element.name +'</a> ' +
+                            //'<a href="javascript:void(0);" class="click-record" data-element="' + id + '">'+ element.name +'</a>' +
                         '</li>';
         }
 
@@ -222,6 +253,11 @@ var LBK = new function() {
     this.playElementBeingRun = function(element, params) {
         var win = this.windowElementBeingRun;
 
+        if(!win) {
+            console.warn('Unable to play element being run because of invalid window.');
+            return;
+        }
+
         if(win.play) {
             win.play(params);
         }
@@ -232,6 +268,11 @@ var LBK = new function() {
     this.initElementBeingRun = function() {
         var win = this.windowElementBeingRun;
         var params = this.getCreationPanelParams();
+        
+        if(!win) {
+            console.warn('Unable to init element being run because of invalid window.');
+            return;
+        }
 
         if(win.init) {
             win.init(params);
@@ -334,6 +375,8 @@ var LBK = new function() {
             this.resizeContentArea(width, height);
             $('#settingsSizePreset').val('custom');
         }
+
+        this.saveState();
     };
 
     this.buildScreensUI = function() {
@@ -452,6 +495,42 @@ var LBK = new function() {
             url: screen.url
         }, params);
     };
+
+    // https://gist.github.com/codeguy/6684588
+    this.slugify = function(str) {
+        str = str.replace(/^\s+|\s+$/g, ''); // trim
+        str = str.toLowerCase();
+      
+        // remove accents, swap ñ for n, etc
+        var from = "àáäâèéëêìíïîòóöôùúüûñç·/_,:;";
+        var to   = "aaaaeeeeiiiioooouuuunc------";
+        for (var i=0, l=from.length ; i<l ; i++) {
+            str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
+        }
+    
+        str = str.replace(/[^a-z0-9 -]/g, '') // remove invalid chars
+            .replace(/\s+/g, '-') // collapse whitespace and replace by -
+            .replace(/-+/g, '-'); // collapse dashes
+    
+        return str;
+    }
+
+    this.addElementFromCreationPanel = function() {
+        var screenId = this.getCreationPanelScreenId();
+        var screen = this.getScreenById(screenId);
+        var name = $('#settingsCreationName').val();
+        var id = screenId + '_' + this.slugify(name);
+
+        var element = {
+            name: name,
+            url: screen ? screen.url : '',
+            screenId: screenId,
+            params: this.getCreationPanelParams()
+        }
+
+        console.debug('Saving element:', id, element);
+        this.elements[id] = element;
+    };    
 
     this.getContentAreaURLParams = function() {
         return this.getFormValuesAsObject('.contentParam');
