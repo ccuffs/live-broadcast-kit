@@ -26,7 +26,8 @@
         "params": {
             "a": "text",
             "b": "text",
-            "c": ["one", "two", "three", "four"]
+            "c": ["one", "two", "three", "four"],
+            "file": {"label": "File", "type": "file"}
         }        
     }
 ]

@@ -450,26 +450,80 @@ var LBK = new function() {
                 value = entry.value;
             }
 
-            inputs += '<label for="' + id + '">' + label + '</label>';
-
-            switch(type) {
-                case 'text':
-                    inputs += '<input type="text" class="form-control contentParam screenParam" id="' + id + '" name="' + name + '" value="' + value + '" />';
-                    break;
-                case 'textarea':
-                    inputs += '<textarea class="form-control contentParam screenParam" id="' + id + '" name="' + name + '" rows="3">' + value + '</textarea>';
-                    break;                    
-                case 'select':
-                    inputs += '<select class="form-control contentParam screenParam" id="' + id + '" name="' + name + '">';
-                    value.map(function(option) {
-                        inputs += '<option>' + option + '</option>';
-                    });
-                    inputs += '</select>';
-                    break;                      
-            }
+            inputs += '<label for="' + id + '" class="mt-2">' + label + '</label>';
+            inputs += this.generateFormElementFromScreenEntry(type, id, name, value);
         }
 
         $('#settingsCreationScreenParams').empty().html(inputs);
+        this.hidrateCreationPanelParamInputs();
+    };
+
+    this.getBase64 = function(file, callback) {
+        var reader = new FileReader();
+        reader.addEventListener('load', function() { callback(reader.result) });
+        reader.readAsDataURL(file);
+    };
+
+    this.hidrateCreationPanelParamInputs = function() {
+        var self = this;
+
+        $('#settingsCreationScreenParams input').each(function(idx, el) {
+            var type = $(el).attr('type');
+
+            if(type != 'file') {
+                return;
+            }
+
+            $(el).on('change', function(event) {
+                var element = event.currentTarget;
+
+                if(element.files.length == 0) {
+                    return;
+                }
+
+                var file = element.files[0];
+
+                self.getBase64(file, function(base64Data){
+                    $(el).data('value-base64', base64Data);
+                });
+                
+                var id = $(element).attr('id');
+                var objURL = window.URL.createObjectURL(file);
+
+                $('#preview_' + id)
+                    .empty()
+                    .html('<img src="' + objURL + '" />')
+                    .show();
+                $(element).hide();
+            });
+        });
+    };
+
+    this.generateFormElementFromScreenEntry = function(type, id, name, value) {
+        var inputs = '';
+
+        switch(type) {
+            case 'text':
+                inputs += '<input type="text" class="form-control contentParam screenParam" id="' + id + '" name="' + name + '" value="' + value + '" />';
+                break;
+            case 'textarea':
+                inputs += '<textarea class="form-control contentParam screenParam" id="' + id + '" name="' + name + '" rows="3">' + value + '</textarea>';
+                break;                    
+            case 'select':
+                inputs += '<select class="form-control contentParam screenParam" id="' + id + '" name="' + name + '">';
+                value.map(function(option) {
+                    inputs += '<option>' + option + '</option>';
+                });
+                inputs += '</select>';
+                break; 
+            case 'file':
+                inputs += 
+                    '<input type="file" class="form-control contentParam screenParam" id="' + id + '" name="' + name + '" accept="image/*" />' +
+                    '<div id="preview_' + id + '" style="display:none;" class="file-preview"></div>';
+                break;  
+        }
+
+        return inputs;
     };
 
     // https://stackoverflow.com/a/9436948
@@ -543,6 +597,11 @@ var LBK = new function() {
         $(selector).each(function(idx, el) {
             var name = $(el).attr(attr);
             var value = $(el).val();
+            var type = $(el).attr('type');
+
+            if(type == 'file') {
+                value = $(el).data('value-base64');
+            }
 
             data[name] = value;
         });
