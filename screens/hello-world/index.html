@@ -1,0 +1,57 @@
+<!-- https://www.twilio.com/blog/add-an-overlay-to-web-video-chat -->
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hello world</title>
+    <!--[if IE]>
+  		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+
+    <style type="text/css">
+        @import url('https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&display=swap');
+
+        body {
+            display: none;
+            margin: 0;
+            padding: 0;
+            background: #ff00ff;
+            position: relative;
+            font-family: 'Roboto';
+        }
+    </style>
+</head>
+
+<body>
+    <div id="elements">
+        <div class="overlay cssanimation hu__hu__">
+            <div class="wrapper">
+                <div class="start"></div>
+                <div class="content">
+                    <h1>Fernando Bevilacqua</h1>
+                    <small>Test test</small>
+                    <small>- Test test</small>
+                </div>
+                <div class="end"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../js/jquery-3.5.1.min.js"></script>
+    <script>
+        var parentWindow = window.opener || window.parent;
+        var LBK = parentWindow.LBK.init(window);
+
+        function init(params) {
+            console.log('LBK requested the init of this screen with the following params:', params);
+        }
+
+        function play(params) {
+            console.log('LBK requested the play of this screen using these params:', params);
+        }
+    </script>
+</body>
+
+</html>

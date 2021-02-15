@@ -18,5 +18,15 @@
             "b": "text",
             "c": ["one", "two", "three"]
         }        
+    },
+    {
+        "id": "helloworld",
+        "name": "Hello world",
+        "url": "screens/hello-world/index.html",
+        "params": {
+            "a": "text",
+            "b": "text",
+            "c": ["one", "two", "three", "four"]
+        }        
     }
 ]

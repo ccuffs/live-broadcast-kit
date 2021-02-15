@@ -95,6 +95,11 @@
                 <div id="settingsCreation" class="collapse show panel">
                     <div class="form-row">
                         <div class="form-group col-md-12">
+                            <label for="settingsCreationName">Name</label>
+                            <input type="text" class="form-control contentParam" name="settingsCreationName" id="settingsCreationName" value="" placeholder="E.g. Show ad bottom corner">
+
+                        </div>
+                        <div class="form-group col-md-12">
                             <label for="settingsCreationType">Type</label>
                             <select class="form-control contentParam" id="settingsCreationType">
                                 <option></option>
@@ -105,14 +110,7 @@
                     <div class="form-row">
                         <!-- screen params -->
                         <div class="form-group col-md-12" id="settingsCreationScreenParams">
-                            <label for="title">Title</label>
-                            <input type="text" class="form-control contentParam screenParam" name="title" value="">
-
-                            <label for="subtitle">Subtitle</label>
-                            <input type="text" class="form-control contentParam screenParam" name="subtitle" value="">
-
-                            <label for="content">Content</label>
-                            <textarea class="form-control contentParam screenParam" name="content" rows="3"></textarea>
+                            <!-- will be populated dynamically -->
                         </div>
 
                         <!-- creation in -->

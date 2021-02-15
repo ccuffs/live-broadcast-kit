@@ -19,6 +19,7 @@ var LBK = new function() {
     };
 
     this.elementBeingRun = undefined;
+    this.windowElementBeingRun = undefined;
 
     this.animations = [];
     this.screens = [];
@@ -218,8 +219,37 @@ var LBK = new function() {
         this.runElement(element);
     };
 
+    this.playElementBeingRun = function(element, params) {
+        var win = this.windowElementBeingRun;
+
+        if(win.play) {
+            win.play(params);
+        }
+
+        console.debug('Already loaded element should play now:', element, params);
+    };
+
+    this.initElementBeingRun = function() {
+        var win = this.windowElementBeingRun;
+        var params = this.getCreationPanelParams();
+
+        if(win.init) {
+            win.init(params);
+        }
+
+        console.debug('Already loaded element should init', params);
+    };
+
     this.runElement = function(element, params) {
         var elementParams = params || {};
+
+        if(this.elementBeingRun && this.elementBeingRun.url == element.url) {
+            // Element already loaded, no need to init it again.
+            // We just need to play.
+            console.debug('Asking to run an element that is already running, calling play instead');
+            this.playElementBeingRun(element, params);
+            return;
+        }
 
         console.debug('Running element:', element, elementParams);
 
@@ -230,13 +260,13 @@ var LBK = new function() {
         // previwer. In such case, we don't update if, only the external
         // window url (pop up)
         if(!this.isRecordingEnabled()) {
-            this.setContentAreaIframeUrl(finalUrl);
+            this.setContentAreaIframeUrl(finalUrl, elementParams);
         }
 
         if(this.isUsingContentAreaAsExternalWindow() || this.isRecordingEnabled()) {
-            this.setContentAreaPopupUrl(finalUrl);
+            this.setContentAreaPopupUrl(finalUrl, elementParams);
         }
-    }
+    };
 
     this.onRecordButtonClick = async function() {
         if(!this.recorder) {
@@ -520,7 +550,7 @@ var LBK = new function() {
         this.windowContentArea = null;        
     };
 
-    this.setContentAreaPopupUrl = function(url) {
+    this.setContentAreaPopupUrl = function(url, params) {
         if(!this.windowContentArea) {
             this.popupContentArea(url);
         }
@@ -528,7 +558,7 @@ var LBK = new function() {
         this.windowContentArea.location = url;
     };
 
-    this.setContentAreaIframeUrl = function(url) {
+    this.setContentAreaIframeUrl = function(url, params) {
         var contentIframe = document.getElementById('content');
         contentIframe.src = url;
     };
@@ -617,12 +647,14 @@ var LBK = new function() {
         var self = this;
         console.debug('[child:init] ', win.location.href);
 
+        this.windowElementBeingRun = win;
         this.loadChildStyles(win);
         
         if(!ignoreAdjustList) {
-            console.log('run stuff');
             this.runElementsAdjustmentsList(win);
         }
+
+        this.initElementBeingRun();
 
         return {
             param: function(name, defaultValue) {
