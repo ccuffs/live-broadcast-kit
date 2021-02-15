@@ -173,7 +173,7 @@
                             <a class="btn btn-block btn-primary" id="btnAdd"><i class="fa fa-plus-square"></i> Add</a>
                         </div>
                         <div class="form-group col-md-6">
-                            <a class="btn btn-block btn-primary" id="btnRecord"><i class="fa fa-plus-square"></i> Record</a>
+                            <a class="btn btn-block btn-primary" id="btnRecord" style="display: none;"><i class="fa fa-plus-square"></i> Record</a>
                         </div>
                     </div>
                 </div>
@@ -232,6 +232,19 @@
                         <li class="list-group-item"></li>
                         <li class="list-group-item"><a href="./screens/notification/icon-content.html?text=Fernando Bevilacqua&subtext=&ttl=20&icon=cc.svg" target="content">icon-content</a></li>
                     </ul>
+                </div>
+
+                <p class="title" data-toggle="collapse" data-target="#settingsApplication"><i class="fa fa-cubes"></i> Application</p>
+
+                <div id="settingsApplication" class="collapse show panel">
+                    <div class="form-row">
+                        <div class="form-group col-md-10">
+                            <label for="settingsAppSomething"><strong>Test</strong><br />Configuration settings</label>
+                        </div>
+                        <div class="form-group col-md-2 pt-2">
+                            <input type="checkbox" class="form-control contentParam" id="settingsAppSomething" data-toggle="toggle" data-onstyle="primary" data-offstyle="outline-secondary" data-size="sm">
+                        </div>
+                    </div>                    
                 </div>
             </form>
         </div>

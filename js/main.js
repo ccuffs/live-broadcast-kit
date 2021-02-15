@@ -176,6 +176,15 @@ var LBK = new function() {
         this.addElementFromCreationPanel();
         this.refreshElementsPanel();
         this.saveState();
+
+        $('#settingsApplication').get(0).scrollIntoView({ behavior: 'smooth' });
+
+        this.emptyCreationPanel();
+    };
+
+    this.emptyCreationPanel = function() {
+        $('#settingsCreationType').val('');
+        $('#settingsCreationName').val('');
     };
 
     this.saveState = function() {
@@ -239,7 +248,7 @@ var LBK = new function() {
         return ret;
     };
 
-    this.runElementById = function(elementId) {
+    this.runElementById = function(elementId, params, force) {
         var element = this.elements[elementId];
 
         if(!element) {
@@ -247,7 +256,7 @@ var LBK = new function() {
             return;
         }
 
-        this.runElement(element);
+        this.runElement(element, params, force);
     };
 
     this.playElementBeingRun = function(element, params) {
@@ -281,10 +290,10 @@ var LBK = new function() {
         console.debug('Already loaded element should init', params);
     };
 
-    this.runElement = function(element, params) {
+    this.runElement = function(element, params, force) {
         var elementParams = params || {};
 
-        if(this.elementBeingRun && this.elementBeingRun.url == element.url) {
+        if(this.elementBeingRun && this.elementBeingRun.url == element.url && !force) {
             // Element already loaded, no need to init it again.
             // We just need to play.
             console.debug('Asking to run an element that is already running, calling play instead');
@@ -683,7 +692,7 @@ var LBK = new function() {
         
         this.stopRecording();
         this.destroyRecorder();
-        this.runElementById(this.DEFAULT_RUN_ELEMENT);
+        this.runElementById(this.DEFAULT_RUN_ELEMENT, {}, true);
 
         this.windowContentArea = null;        
     };
@@ -998,8 +1007,11 @@ var LBK = new function() {
                 panel.removeClass('show');
                 panel.addClass('hide');
             }
+            $('#btnRecord').hide();
             return;
         }
+
+        $('#btnRecord').show();
 
         if(!panel.hasClass('show')) {
             panel.removeClass('hide');
