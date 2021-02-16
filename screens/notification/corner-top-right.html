@@ -4,61 +4,50 @@
 		<meta charset="UTF-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge"> 
 		<meta name="viewport" content="width=device-width, initial-scale=1"> 
-		<title>Notification Styles Inspiration | Other Corner Expand</title>
-		<meta name="description" content="Various styles and effects for unobtrusive notifications on a website" />
-		<meta name="keywords" content="notification, inspiration, style, effect, growl, javascript" />
-		<meta name="author" content="Codrops" />
+		<title>Content | Live Broadcast Kit</title>
+
 		<link rel="shortcut icon" href="../favicon.ico">
-		<link href="http://fonts.googleapis.com/css?family=Raleway:400,300,700" rel="stylesheet" type="text/css">
 		<link rel="stylesheet" type="text/css" href="css/normalize.css" />
 		<link rel="stylesheet" type="text/css" href="css/demo.css" />
 		<link rel="stylesheet" type="text/css" href="css/ns-default.css" />
         <link rel="stylesheet" type="text/css" href="css/ns-style-other.css" />
         <link rel="stylesheet" type="text/css" href="css/custom.css" />
         <link rel="stylesheet" type="text/css" href="../../media/fontawesome-5.13.0/css/all.min.css">
+
 		<script src="js/modernizr.custom.js"></script>
 		<script src="js/snap.svg-min.js"></script>
 		<!--[if IE]>
   		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
-
-        <style type="text/css">
-            body {
-                margin: 0;
-                padding: 0;
-                background: #ff00ff;
-            }
-
-            #notification-shape {
-                top: 40px;
-                right: 40px;
-            }
-         </style>
-
 	</head>
 	<body>
 		<div class="notification-shape shape-box" id="notification-shape" data-path-to="m 0,0 500,0 0,500 -500,0 z">
 			<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 500 500" preserveAspectRatio="none">
-				<path d="m 0,0 500,0 0,500 0,-500 z"/>
+				<path id="notification-path" d="m 0,0 500,0 0,500 0,-500 z"/>
 			</svg>
 		</div>
-		<div class="container">
-			<div class="main clearfix">
-			</div>
-		</div><!-- /container -->
+
 		<script src="js/classie.js"></script>
 		<script src="js/notificationFx.js"></script>
 		<script>
-			(function() {
-                var queryString = window.location.search;
-                var urlParams = new URLSearchParams(queryString);
+			var parentWindow = window.opener || window.parent;
+			var LBK = parentWindow.LBK.init(window);
 
-                var icon = urlParams.get('icon') || 'twitch';
-                var frame = urlParams.get('frame') || 'icon fa-2x';
-                var title = urlParams.get('title') || '';
-                var text = urlParams.get('text') || '';
-                var pallet = urlParams.get('pallet') || '';
-                var ttl = parseInt(urlParams.get('ttl') || 6) * 1000;
+			function init(params) {
+				console.log('LBK requested the init of this screen with the following params:', params);
+				play(params);
+			}
+
+			function play(params) {
+				console.log('LBK requested the play of this screen using these params:', params);
+
+				var icon = params['icon'] || 'twitch';
+                var frame = params['frame'] || 'icon fa-2x';
+                var title = params['title'] || '';
+                var text = params['text'] || '';
+                var bgColor = params['bgColor'] || '#ff0000';
+                var textColor = params['textColor'] || '#ffffff';
+                var ttl = parseInt(params['ttl'] || 6) * 1000;
 
 				var svgshape = document.getElementById('notification-shape');
 				var	s = Snap( svgshape.querySelector('svg'));
@@ -68,34 +57,33 @@
                     to : svgshape.getAttribute('data-path-to')
                 };
 
-                window.addEventListener('load', function() {
-					setTimeout( function() {
-						path.animate({ 'path' : pathConfig.to }, 300, mina.easeinout);
+				path.animate({ 'path' : pathConfig.to }, 300, mina.easeinout);
 						
-						// create the notification
-						var notification = new NotificationFx({
-							wrapper : svgshape,
-							message : '<p><span class="' + frame + '"><i class="fab fa-' + icon + ' fa-2x"></i></span><br />'+ (title ? '<strong>' + title + '</strong><br/>' : '') + text +'</p>',
-							layout : 'other',
-							effect : 'cornerexpand',
-							ttl : ttl,
-							type : 'notice', // notice, warning or error
-							onClose : function() {
-								setTimeout(function() {
-									path.animate( { 'path' : pathConfig.from }, 300, mina.easeinout );
-								}, 200 );
-							}
-						});
+				// create the notification
+				var notification = new NotificationFx({
+					wrapper : svgshape,
+					message : '<p id="text"><span class="' + frame + '"><i id="icon" class="' + icon + ' fa-2x"></i></span><br />'+ (title ? '<strong>' + title + '</strong><br/>' : '') + text +'</p>',
+					layout : 'other',
+					effect : 'cornerexpand',
+					ttl : ttl,
+					type : 'notice', // notice, warning or error
+					onClose : function() {
+						setTimeout(function() {
+							path.animate( { 'path' : pathConfig.from }, 300, mina.easeinout );
+						}, 200 );
+					}
+				});
 
-						// show the notification
-						notification.show();
+				// show the notification
+				notification.show();
 
-                        if(pallet) {
-                            classie.add(notification.options.wrapper, pallet);
-                        }
-					}, 1000);
-				} );
-			})();
+				document.getElementById('notification-path').style.fill = bgColor;
+				document.getElementById('icon').style.color = bgColor;
+				document.getElementById('text').style.color = textColor;
+				document.querySelectorAll('.ns-effect-cornerexpand').forEach(function(element) {
+					element.style.background = bgColor;
+				});
+			}
 		</script>
 	</body>
 </html>

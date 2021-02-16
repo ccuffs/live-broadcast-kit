@@ -1,3 +1,13 @@
+body {
+	margin: 0;
+	padding: 0;
+}
+
+#notification-shape {
+	top: 40px;
+	right: 40px;
+}
+
 .ns-close {
     display: none;
 }
@@ -6,7 +16,6 @@
     width: 80px;
     height: 80px;
 }
-
 
 .ns-effect-thumbslider .ns-content {
 	background: #fff;
@@ -35,8 +44,8 @@
 	display: block;
 	width: 4em;
 	height: 4em;
-	line-height: 5.3;
-	margin: 0.25em auto 0;
+	line-height: 4.7;
+	margin: 0.10em auto 0;
 	border-radius: 50%;
 }
 
@@ -46,44 +55,4 @@
 
 .ns-effect-cornerexpand strong {
     font-size: 1.3em;
-}
-
-.red .ns-effect-cornerexpand {
-	background: red;
-}
-
-.red .ns-effect-cornerexpand .icon {
-	color: red;
-}
-
-.purple .ns-effect-cornerexpand {
-	background: #9147FF;
-}
-
-.purple .ns-effect-cornerexpand .icon {
-	color: #9147FF;
-}
-
-.blueish .ns-effect-cornerexpand {
-	background: #7085D5;
-}
-
-.blueish .ns-effect-cornerexpand .icon {
-	color: #7085D5;
-}
-
-.pink .ns-effect-cornerexpand {
-	background: #D62976;
-}
-
-.pink .ns-effect-cornerexpand .icon {
-	color: #D62976;
-}
-
-.black .ns-effect-cornerexpand {
-	background: #000;
-}
-
-.black .ns-effect-cornerexpand .icon {
-	color: #000;
 }
