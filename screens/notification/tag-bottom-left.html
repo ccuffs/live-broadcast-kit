@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+		<meta name="viewport" content="width=device-width, initial-scale=1"> 
+		<title>Content | Live Broadcast Kit</title>
+
+		<link rel="stylesheet" type="text/css" href="css/normalize.css" />
+		<link rel="stylesheet" type="text/css" href="css/demo.css" />
+		<link rel="stylesheet" type="text/css" href="css/ns-default.css" />
+		<link rel="stylesheet" type="text/css" href="css/ns-style-other.css" />
+		<link rel="stylesheet" type="text/css" href="css/custom.css" />
+		<script src="js/modernizr.custom.js"></script>
+		<!--[if IE]>
+  		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+
+        <style type="text/css">
+			.ns-effect-boxspinner {
+				background: #2f00ff;
+			}
+         </style>
+
+	</head>
+	<body>
+		<script src="js/classie.js"></script>
+		<script src="js/notificationFx.js"></script>
+		<script>
+			var parentWindow = window.opener || window.parent;
+			var LBK = parentWindow.LBK.init(window);
+
+			function init(params) {
+				play(params);
+			}
+
+			function play(params) {
+				var icon = params['icon'] || 'img/cc.svg';
+				var text = params['text'] || '';
+				var subtext = params['subtext'] || '';
+				var effect = params['effect'] || 'thumbslider';
+				var layout = params['layout'] || 'other';
+				var paddingTop = parseInt(params['paddingTop'] || 950);
+				var paddingLeft = parseInt(params['paddingLeft'] || 20);
+				var delay = parseFloat(params['delay'] || 1.0) * 1000;
+				var ttl = parseFloat(params['ttl'] || 6.0) * 1000;
+
+				setTimeout(function() {
+					var notification = new NotificationFx({
+						message : '<div class="ns-thumb cc"><img src="' + icon + '"/></div><div class="ns-content"><p style="'+ (!subtext ? 'padding-top: 12px;' : '') +'">' + text + '</p>' + (subtext ? '<small>' + subtext + '</small>' : '') + '</div>',
+						layout : layout,
+						ttl : ttl,
+						effect : effect,
+						type : 'warning', // notice, warning, error or success
+					});
+					notification.show();
+				}, delay);
+
+				document.body.style.paddingTop = paddingTop + 'px';
+				document.body.style.paddingLeft = paddingLeft + 'px';
+			}
+		</script>
+	</body>
+</html>

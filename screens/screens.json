@@ -36,12 +36,28 @@
         "url": "screens/notification/corner-top-right.html",
         "params": {
             "icon": {"type": "text", "label": "icon", "value": "fab fa-twitch"},
-            "frame": {"type": "text", "label": "frame", "value": "icon"},
+            "frame": {"type": "text", "label": "frame", "value": "icon fa-2x"},
             "title": {"type": "text", "label": "title", "value": ""},
             "text": {"type": "text", "label": "text", "value": ""},
             "bgColor": {"type": "color", "label": "Background color", "value": "#ff0000"},
             "textColor": {"type": "color", "label": "Text color", "value": "#ffffff"},
             "ttl": {"type": "text", "label": "Duration (seconds)", "value": "6"}
         }
+    },
+    {
+        "id": "notification.tag.bottomleft",
+        "name": "Tag - Bottom Left",
+        "url": "screens/notification/tag-bottom-left.html",
+        "params": {
+            "icon": {"type": "file", "label": "Icon"},
+            "text": {"type": "text", "label": "Text", "value": "John Snow"},
+            "subtext": {"type": "text", "label": "Subtext", "value": "I know nothing"},
+            "effect": ["thumbslider"],
+            "layout": ["other"],
+            "paddingTop": {"type": "text", "label": "Spacing to top (pixels)", "value": "900"},
+            "paddingLeft": {"type": "text", "label": "Spacing to the left (pixels)", "value": "20"},
+            "delay": {"type": "text", "label": "Delay (seconds)", "value": "1"},
+            "ttl": {"type": "text", "label": "Duration (seconds)", "value": "6"}
+        }        
     }
 ]
