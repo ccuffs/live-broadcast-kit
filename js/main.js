@@ -260,7 +260,7 @@ var LBK = new function() {
     };
 
     this.playElementBeingRun = function(element, params) {
-        var win = this.windowElementBeingRun;
+        var win = this.windowContentArea;
 
         if(!win) {
             console.warn('Unable to play element being run because of invalid window.');
@@ -275,7 +275,7 @@ var LBK = new function() {
     };
 
     this.initElementBeingRun = function() {
-        var win = this.windowElementBeingRun;
+        var win = this.windowContentArea;
         var params = this.getCreationPanelParams();
         
         if(!win) {
@@ -435,6 +435,7 @@ var LBK = new function() {
 
         if(!screen) {
             console.warn('Unable to find screen with id:', screenId);
+            return;
         }
 
         if(!screen.params) {
@@ -513,7 +514,8 @@ var LBK = new function() {
 
         switch(type) {
             case 'text':
-                inputs += '<input type="text" class="form-control contentParam screenParam" id="' + id + '" name="' + name + '" value="' + value + '" />';
+            case 'color':
+                inputs += '<input type="' + type + '" class="form-control contentParam screenParam" id="' + id + '" name="' + name + '" value="' + value + '" />';
                 break;
             case 'textarea':
                 inputs += '<textarea class="form-control contentParam screenParam" id="' + id + '" name="' + name + '" rows="3">' + value + '</textarea>';
@@ -552,6 +554,7 @@ var LBK = new function() {
 
         if(!screen) {
             console.warn('Unable to find screen with id:', screenId);
+            return;
         }
 
         this.runElement({

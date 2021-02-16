@@ -29,5 +29,19 @@
             "c": ["one", "two", "three", "four"],
             "file": {"label": "File", "type": "file"}
         }        
+    },
+    {
+        "id": "toprightcorner",
+        "name": "Rect - Top Right Corner",
+        "url": "screens/notification/corner-top-right.html",
+        "params": {
+            "icon": {"type": "text", "label": "icon", "value": "fab fa-twitch"},
+            "frame": {"type": "text", "label": "frame", "value": "icon"},
+            "title": {"type": "text", "label": "title", "value": ""},
+            "text": {"type": "text", "label": "text", "value": ""},
+            "bgColor": {"type": "color", "label": "Background color", "value": "#ff0000"},
+            "textColor": {"type": "color", "label": "Text color", "value": "#ffffff"},
+            "ttl": {"type": "text", "label": "Duration (seconds)", "value": "6"}
+        }
     }
 ]
