@@ -325,10 +325,15 @@ var LBK = new function() {
     this.initElementBeingRun = function() {
         var win = this.isUsingContentAreaAsExternalWindow() ? this.windowContentArea : this.windowElementBeingRun;
         var params = this.getCreationPanelParams();
-        
+       
         if(!win) {
             console.warn('Unable to init element being run because of invalid window.');
             return;
+        }
+
+        if(this.elementBeingRun.params) {
+            console.debug('initElementBeingRun with its own params: ', params);
+            params = this.elementBeingRun.params;
         }
 
         this.initElementStylesFromContentAreaSettings(win, params);
