@@ -3,6 +3,10 @@
  * @license MIT
  */
 var LBK = new function() {
+    this.settings = {
+        ignoreInitIfAlreadyPlaying: false
+    };
+
     this.SAVE_KEY = 'livebroadcastkit_store_v1';
     this.DEFAULT_RUN_ELEMENT = 'default.blank';
     this.SCREENS_FILE = 'screens/screens.json';
@@ -274,14 +278,24 @@ var LBK = new function() {
         console.debug('Already loaded element should play now:', element, params);
     };
 
+    this.initElementStylesFromContentAreaSettings = function(win) {
+        var body = win.document.body;
+        var settings = this.getContentAreaURLParams();
+
+        this.changeElementStyleProp(win, body, 'backgroundColor', settings.settingsContentBgColor);
+        console.debug('Changing background-color of element window to conform with settingsContentBgColor', settings.settingsContentBgColor, win);
+    };
+
     this.initElementBeingRun = function() {
-        var win = this.windowContentArea;
+        var win = this.isUsingContentAreaAsExternalWindow() ? this.windowContentArea : this.windowElementBeingRun;
         var params = this.getCreationPanelParams();
         
         if(!win) {
             console.warn('Unable to init element being run because of invalid window.');
             return;
         }
+
+        this.initElementStylesFromContentAreaSettings(win, params);
 
         if(win.init) {
             win.init(params);
@@ -292,8 +306,9 @@ var LBK = new function() {
 
     this.runElement = function(element, params, force) {
         var elementParams = params || {};
+        var isElementAlreadyRunning = this.elementBeingRun && this.elementBeingRun.url == element.url;
 
-        if(this.elementBeingRun && this.elementBeingRun.url == element.url && !force) {
+        if(isElementAlreadyRunning && !force && this.settings.ignoreInitIfAlreadyPlaying) {
             // Element already loaded, no need to init it again.
             // We just need to play.
             console.debug('Asking to run an element that is already running, calling play instead');
