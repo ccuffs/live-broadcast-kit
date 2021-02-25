@@ -226,18 +226,41 @@ var LBK = new function() {
 
         for(var id in this.elements) {
             var element = this.elements[id];
+            var isDeletable = id.indexOf('default.') == -1;
+            var isRecordable = false; // TODO: implement this
+
             content += '<li class="list-group-item">' +
-                            '<a href="javascript:void(0);" class="click-run" data-element="' + id + '">'+ element.name +'</a> ' +
-                            //'<a href="javascript:void(0);" class="click-record" data-element="' + id + '">'+ element.name +'</a>' +
+                            '<a href="javascript:void(0);" data-action="run" data-element="' + id + '">'+ element.name +'</a> ' +
+                            (isDeletable ? '<a href="javascript:void(0);" class="float-right" data-action="delete" data-element="' + id + '">[Delete]</a> ' : '') +
+                            (isRecordable ? '<a href="javascript:void(0);" class="float-right" data-action="record" data-element="' + id + '">[Record]</a>' : '') +
                         '</li>';
         }
 
         $('#settingsElements ul').html(content);
 
-        $('#settingsElements a.click-run').on('click', function(event) {
+        $('#settingsElements a').on('click', function(event) {
             var id = $(event.currentTarget).data('element');
-            self.runElementById(id);
+            var action = $(event.currentTarget).data('action');
+
+            if (action == 'run') {
+                self.runElementById(id);
+            } else if (action == 'delete') {
+                if(!confirm('Are you sure you want to remove this?')) {
+                    return;
+                }
+                self.removeElementFromElementsList(id);
+            }
         });
+    };
+
+    this.removeElementFromElementsList = function(elementId) {
+        var removed = this.removeElementById(elementId);
+
+        if (removed) {
+            console.debug('Removed entry from elements list, element id is: ', elementId);
+            this.refreshElementsPanel();
+            this.saveState();
+        }
     };
 
     this.getScreenById = function(id) {
@@ -261,6 +284,19 @@ var LBK = new function() {
         }
 
         this.runElement(element, params, force);
+    };
+
+    this.removeElementById = function(elementId) {
+        var element = this.elements[elementId];
+
+        if(!element) {
+            return false;
+        }
+
+        this.elements[elementId] = null;
+        delete this.elements[elementId];
+
+        return true;
     };
 
     this.playElementBeingRun = function(element, params) {
