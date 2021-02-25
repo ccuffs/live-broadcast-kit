@@ -24,10 +24,13 @@
 			var LBK = parentWindow.LBK.init(window);
 
 			function init(params) {
+				console.debug('Init tag-spaced-top-left');
 				play(params);
 			}
 
 			function play(params) {
+				console.debug('Play tag-spaced-top-left');
+
 				var icon = params['icon'] || 'img/cc.svg';
 				var text = params['text'] || '';
 				var subtext = params['subtext'] || '';
