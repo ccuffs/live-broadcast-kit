@@ -83,6 +83,27 @@ input[type="file"] {
     background-color: #343434;
 }
 
+#settingsApplication small {
+    font-size: 0.9em;
+    color: #969696;
+}
+
+#configFileDrop {
+    border: 1px dashed #343434;
+    height: 80px;
+    margin: 1px;
+    width: 100%;
+    text-align: center;
+    padding: 26px 5px 5px 5px;
+    color: #707070;
+}
+
+#configFileDrop.active {
+    border: 1px dashed #d6d6d6;
+    color: #9b9b9b;
+    background-color: #343434;
+}
+
 .pulse {
     animation: pulse 2s infinite;
 }

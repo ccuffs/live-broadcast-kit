@@ -4,7 +4,9 @@
  */
 var LBK = new function() {
     this.settings = {
-        ignoreInitIfAlreadyPlaying: false
+        ignoreInitIfAlreadyPlaying: false,
+        autosave: true,
+        autoplayOnTypeChange: true,
     };
 
     this.SAVE_KEY = 'livebroadcastkit_store_v1';
@@ -176,6 +178,95 @@ var LBK = new function() {
             self.refreshAddButtonLabel();
         });
     };
+
+    this.hidrateAppSettingsUI = function() {
+        var self = this;
+
+        $('#settingsApplication input').each(function(index, element) {
+            const name = element.name;
+            const value = self.settings[name];
+
+            $(element).val(value);
+
+            if (element.type == 'checkbox') {
+                $(element).bootstrapToggle(value ? 'on' : 'off');
+            }
+
+            console.debug('Settings: ' + name + ' = ' + self.settings[name]);
+
+            $(element).on('change', function(event) {
+                const isToogle = event.currentTarget.type == 'checkbox';
+                const value = isToogle ? event.currentTarget.checked : event.currentTarget.value;
+                self.settings[name] = value;
+            });
+        });
+
+        this.initAppDownloadImportUI();
+    }
+
+    this.initAppDownloadImportUI = function() {
+        var self = this;
+        const btnDownload = document.getElementById('btnDownloadConfig');
+        const dropzone = document.getElementById('configFileDrop');
+
+        $(btnDownload).off();
+        $(dropzone).off();
+
+        btnDownload.addEventListener('click', function(event) {
+            const json = JSON.stringify(self.getState());
+
+            self.makeDownload(
+                new Blob([json], {type: 'application/json'}),
+                `livebk-config-${new Date().toISOString()}.json`
+            );
+        });
+
+        dropzone.addEventListener('dragenter', this.onAppConfigFileDragEvent, false);
+        dropzone.addEventListener('dragover', this.onAppConfigFileDragEvent, false);
+        dropzone.addEventListener('dragleave', this.onAppConfigFileDragEvent, false);
+        dropzone.addEventListener('drop', function(event) { self.onAppConfigFileDropEvent(event); }, false);
+    };
+
+    this.onAppConfigFileDragEvent = function(event) {
+        const type = event.type;
+
+        event.stopPropagation();
+        event.preventDefault();
+
+        if (type == 'dragenter') {
+            event.currentTarget.className = 'active';
+
+        } else if (type == 'dragleave') {
+            event.currentTarget.className = '';
+        }
+    }
+
+    this.onAppConfigFileDropEvent = function(event) {
+        event.stopPropagation();
+        event.preventDefault();
+          
+        const dt = event.dataTransfer;
+        const files = dt.files;
+      
+        if (files.length == 0) {
+            return;
+        }
+
+        const self = this;
+        const dropzone = event.currentTarget;
+        const file = files[0];
+        const reader = new FileReader();
+
+        reader.onload = function(event) {
+            const json = event.target.result;
+            self.setState(JSON.parse(json));
+            self.saveState();
+
+            dropzone.innerHTML = 'Config loaded!';
+            dropzone.className = '';
+        };
+        reader.readAsText(file);
+    }
     
     this.getCreationPanelScreenId = function() {
         var screenId = $('#settingsCreationType').val();
@@ -207,31 +298,61 @@ var LBK = new function() {
         $('#settingsCreationScreenParams').empty();
     };
 
-    this.saveState = function() {
-        var state = {
+    this.getState = function() {
+        return {
             version: 1,
             elements: this.elements,
+            settings: this.settings,
             panel: this.getFormValuesAsObject('.contentParam')
+        };
+    }
+
+    this.setState = function(state) {
+        console.log('Setting app state', state);
+
+        for(var id in state.elements) {
+            if (id.indexOf('default.') != -1) {
+                continue;
+            }
+            var element = state.elements[id];
+            this.elements[id] = element;
+            console.debug('Set element from state:', id, element);
         }
 
-        console.log('Saving app state to local storage:', state);
-        store.set(this.SAVE_KEY, state);
+        this.setFormValuesFromObject(state.panel);
+        this.refreshElementsPanel();
+        this.hidrateAppSettingsUI();
+
+        for(var prop in state.panel) {
+            $('#' + prop).val(state.panel[prop])
+        }
+    }
+
+    this.saveState = function() {
+        const state = this.getState();
+        console.log('Saving app state: ', state);
+        this.writeToLocalStorage(state);
     };
 
+    this.writeToLocalStorage = function(state) {
+        console.debug('Writing state to local storage:', state);
+        store.set(this.SAVE_KEY, state);
+    }
+
+    this.loadFromLocalStorage = function() {
+        return store.get(this.SAVE_KEY);
+    }
+
     this.restoreState = function() {
-        var state = store.get(this.SAVE_KEY);
+        var state = this.loadFromLocalStorage();
 
         if(!state) {
             console.log('App has no saved state, so this is a cold boot.');
             return;
         }
 
-        console.log('Restoring app state from local storage', state);
-
-        this.elements = state.elements;
-        for(var prop in state.panel) {
-            $('#' + prop).val(state.panel[prop])
-        }
+        console.log('Restoring app state from saved state', state);
+        this.setState(state);
     };
 
     this.refreshElementsPanel = function() {
@@ -246,6 +367,7 @@ var LBK = new function() {
             var isRecordable = false; // TODO: implement this
             const screen = self.getScreenById(element.screenId);
             const isActive = this.elementBeingRun == element;
+            const hasOptions = id.indexOf('default.') == -1;
 
             content += `
                 <li class="list-group-item ${isActive ? 'active' : ''}">
@@ -254,7 +376,7 @@ var LBK = new function() {
                         ${isActive ? '<span class="badge badge-primary pulse">active</span> ' : ''}                        
                         <small>${screen ? screen.name : '' }</small>
                     </a>
-                    <div class="dropdown show float-right">
+                    <div class="dropdown show float-right ${!hasOptions ? 'd-none' : ''}">
                         <a href="javascript:void(0);" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fas fa-sliders-h"></i>
                         </a>
@@ -468,6 +590,7 @@ var LBK = new function() {
         this.buildSizePresetsSelect();
         this.buildRecordingUI();
         this.buildTestAddUI();
+        this.hidrateAppSettingsUI();
 
         $('#settingsContentExternaWindow').off().on('change', function(event) {
             var checked = event.currentTarget.checked;
@@ -768,6 +891,23 @@ var LBK = new function() {
         });
 
         return data;
+    };
+
+    this.setFormValuesFromObject = function(data, attributeAsName) {
+        var attr = attributeAsName || 'id';
+
+        for(var key in data) {
+            var value = data[key];
+            var selector = attr == 'id' ? '#' + key : '[name="' + key + '"]';
+            var el = $(selector);
+            var type = el.attr('type');
+
+            if(type == 'file') {
+                el.data('value-base64', value);
+            } else {
+                el.val(value);
+            }
+        }
     };
 
     this.makeFinalContentURL = function(url, params) {
@@ -1220,6 +1360,15 @@ var LBK = new function() {
             window.URL.revokeObjectURL(url);
             console.log(`${a.download} save option shown`);
         }, 100);
+    };
+
+    this.makeDownload = function(blob, filename) {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        a.click();
+        URL.revokeObjectURL(url);
     };
 };
 

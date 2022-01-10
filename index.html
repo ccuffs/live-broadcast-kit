@@ -241,12 +241,46 @@
                 <div id="settingsApplication" class="collapse show panel">
                     <div class="form-row">
                         <div class="form-group col-md-10">
-                            <label for="settingsAppSomething"><strong>Test</strong><br />Configuration settings</label>
+                            <label for="autosave"><strong>Autosave</strong><br /><small>Locally save configuration.</small></label>
                         </div>
                         <div class="form-group col-md-2 pt-2">
-                            <input type="checkbox" class="form-control contentParam" id="settingsAppSomething" data-toggle="toggle" data-onstyle="primary" data-offstyle="outline-secondary" data-size="sm">
+                            <input type="checkbox" class="form-control contentParam" name="autosave" data-toggle="toggle" data-onstyle="primary" data-offstyle="outline-secondary" data-size="sm">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-10">
+                            <label for="ignoreInitIfAlreadyPlaying"><strong>Init once</strong><br /><small>Ignore element init if already playing</small></label>
+                        </div>
+                        <div class="form-group col-md-2">
+                            <input type="checkbox" class="form-control contentParam" name="ignoreInitIfAlreadyPlaying" data-toggle="toggle" data-onstyle="primary" data-offstyle="outline-secondary" data-size="sm">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-10">
+                            <label for="autoplayOnTypeChange"><strong>Play on type change</strong><br /><small>Preview element on type selection.</small></label>
+                        </div>
+                        <div class="form-group col-md-2">
+                            <input type="checkbox" class="form-control contentParam" name="autoplayOnTypeChange" data-toggle="toggle" data-onstyle="primary" data-offstyle="outline-secondary" data-size="sm">
                         </div>
                     </div>                    
+                    
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label for="settingsAppSomething"><strong>Save (or import)</strong><br /><small>Download current configuration (or drag a file to import).</small></label>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <a href="javascript:void(0)" class="btn btn-primary btn-block" id="btnDownloadConfig">
+                                <i class="fas fa-cloud-download-alt"></i> Download configuration
+                            </a>
+                        </div>                        
+                        <div class="form-group col-md-12">
+                            <div id="configFileDrop">
+                                <i class="fa fa-cloud-upload-alt mr-1"></i> Drog a configuration file here
+                            </div>
+                        </div>
+                    </div> 
                 </div>
             </form>
         </div>
