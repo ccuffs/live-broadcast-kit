@@ -245,11 +245,13 @@ var LBK = new function() {
             var isDeletable = id.indexOf('default.') == -1;
             var isRecordable = false; // TODO: implement this
             const screen = self.getScreenById(element.screenId);
+            const isActive = this.elementBeingRun == element;
 
             content += `
-                <li class="list-group-item">
+                <li class="list-group-item ${isActive ? 'active' : ''}">
                     <a href="javascript:void(0);" data-action="run" data-element="${id}" class="float-left element">
                         ${element.name}<br>
+                        ${isActive ? '<span class="badge badge-primary pulse">active</span> ' : ''}                        
                         <small>${screen ? screen.name : '' }</small>
                     </a>
                     <div class="dropdown show float-right">
@@ -278,6 +280,7 @@ var LBK = new function() {
     this.handleElementsPanelAction = function(action, id) {
         if (action == 'run') {
             this.runElementById(id);
+            this.refreshElementsPanel();
 
         } else if (action == 'delete') {
             if(!confirm('Are you sure you want to remove this?')) {

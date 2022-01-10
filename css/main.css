@@ -79,6 +79,26 @@ input[type="file"] {
     color: #6d6d6d;
 }
 
+#settingsElements li.list-group-item.active {
+    background-color: #343434;
+}
+
+.pulse {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 0.3;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.3;
+    }
+}
+
 /*
 -----------------------------------------------------
 Custom scrollbars
