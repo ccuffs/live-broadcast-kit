@@ -42,6 +42,10 @@ var LBK = new function() {
     this.testButton = null;    
     this.addButton = null;
 
+    this.EDIT_ICON = '<i class="far fa-edit"></i>';
+    this.DELETE_ICON = '<i class="far fa-trash-alt"></i>';
+    this.RECORD_ICON = '<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>';
+
     this.boot = function() {
         var self = this;
 
@@ -177,7 +181,12 @@ var LBK = new function() {
     };
     
     this.onAddButtonClick = function() {
-        this.addElementFromCreationPanel();
+        const element = this.addElementFromCreationPanel();
+
+        if (!element) {
+            return;
+        }
+
         this.refreshElementsPanel();
         this.saveState();
 
@@ -189,6 +198,7 @@ var LBK = new function() {
     this.emptyCreationPanel = function() {
         $('#settingsCreationType').val('');
         $('#settingsCreationName').val('');
+        $('#settingsCreationScreenParams').empty();
     };
 
     this.saveState = function() {
@@ -230,9 +240,10 @@ var LBK = new function() {
             var isRecordable = false; // TODO: implement this
 
             content += '<li class="list-group-item">' +
-                            '<a href="javascript:void(0);" data-action="run" data-element="' + id + '">'+ element.name +'</a> ' +
-                            (isDeletable ? '<a href="javascript:void(0);" class="float-right" data-action="delete" data-element="' + id + '">[Delete]</a> ' : '') +
-                            (isRecordable ? '<a href="javascript:void(0);" class="float-right" data-action="record" data-element="' + id + '">[Record]</a>' : '') +
+                          '<a href="javascript:void(0);" data-action="run" data-element="' + id + '">'+ element.name +'</a> ' +
+                          '<a href="javascript:void(0);" class="float-right" data-action="edit" data-element="' + id + '">' + self.EDIT_ICON + '</a> ' +
+                          (isDeletable ? '<a href="javascript:void(0);" class="float-right" data-action="delete" data-element="' + id + '">' + self.DELETE_ICON + '</a> ' : '') +
+                          (isRecordable ? '<a href="javascript:void(0);" class="float-right" data-action="record" data-element="' + id + '">[Record]</a>' : '') +
                         '</li>';
         }
 
@@ -241,17 +252,24 @@ var LBK = new function() {
         $('#settingsElements a').on('click', function(event) {
             var id = $(event.currentTarget).data('element');
             var action = $(event.currentTarget).data('action');
-
-            if (action == 'run') {
-                self.runElementById(id);
-            } else if (action == 'delete') {
-                if(!confirm('Are you sure you want to remove this?')) {
-                    return;
-                }
-                self.removeElementFromElementsList(id);
-            }
+            self.handleElementsPanelAction(action, id);
         });
     };
+
+    this.handleElementsPanelAction = function(action, id) {
+        if (action == 'run') {
+            this.runElementById(id);
+
+        } else if (action == 'delete') {
+            if(!confirm('Are you sure you want to remove this?')) {
+                return;
+            }
+            this.removeElementFromElementsList(id);
+
+        } else if (action == 'edit') {
+            this.editElementFromElementsList(id);
+        }
+    }
 
     this.removeElementFromElementsList = function(elementId) {
         var removed = this.removeElementById(elementId);
@@ -262,6 +280,28 @@ var LBK = new function() {
             this.saveState();
         }
     };
+
+    this.editElementFromElementsList = function(elementId) {
+        var element = this.elements[elementId];
+
+        if(!element) {
+            console.warn('Unable to edit element: ', elementId);
+            return false;
+        }
+
+        $('#settingsCreationType').val(element.screenId);
+        $('#settingsCreationName').val(element.name);
+
+        this.buildCreationPanelParamsFromScreenId(element.screenId);
+        
+        $('#settingsCreationScreenParams input').each(function(idx, el) {
+            var name = $(el).attr('name');
+            var value = element.params[name];
+            $(el).val(value);
+        });
+
+        $('#settingsCreation').get(0).scrollIntoView({ behavior: 'smooth' });
+    };    
 
     this.getScreenById = function(id) {
         var ret = null;
@@ -643,6 +683,15 @@ var LBK = new function() {
         var name = $('#settingsCreationName').val();
         var id = screenId + '_' + this.slugify(name);
 
+        if (!screenId) {
+            console.warn('Unable to save item without type');
+            return null;
+        }
+
+        if (!name) {
+            name = screenId + ' ' + Math.random().toString(36).substring(7);
+        }
+
         var element = {
             name: name,
             url: screen ? screen.url : '',
@@ -652,6 +701,8 @@ var LBK = new function() {
 
         console.debug('Saving element:', id, element);
         this.elements[id] = element;
+
+        return element;
     };    
 
     this.getContentAreaURLParams = function() {
