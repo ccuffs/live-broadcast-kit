@@ -41,6 +41,7 @@ var LBK = new function() {
 
     this.testButton = null;    
     this.addButton = null;
+    this.creationNameInput = null;
 
     this.EDIT_ICON = '<i class="far fa-edit"></i>';
     this.DELETE_ICON = '<i class="far fa-trash-alt"></i>';
@@ -161,6 +162,7 @@ var LBK = new function() {
 
         this.testButton = document.getElementById('btnTest');
         this.addButton = document.getElementById('btnAdd');
+        this.creationNameInput = document.getElementById('settingsCreationName');
 
         $(this.testButton).on('click', function(event) {
             self.onTestButtonClick();
@@ -168,7 +170,11 @@ var LBK = new function() {
 
         $(this.addButton).on('click', function(event) {
             self.onAddButtonClick();
-        });        
+        });
+
+        $(this.creationNameInput).on('keyup', function(event) {
+            self.refreshAddButtonLabel();
+        });
     };
     
     this.getCreationPanelScreenId = function() {
@@ -238,20 +244,33 @@ var LBK = new function() {
             var element = this.elements[id];
             var isDeletable = id.indexOf('default.') == -1;
             var isRecordable = false; // TODO: implement this
+            const screen = self.getScreenById(element.screenId);
 
-            content += '<li class="list-group-item">' +
-                          '<a href="javascript:void(0);" data-action="run" data-element="' + id + '">'+ element.name +'</a> ' +
-                          '<a href="javascript:void(0);" class="float-right" data-action="edit" data-element="' + id + '">' + self.EDIT_ICON + '</a> ' +
-                          (isDeletable ? '<a href="javascript:void(0);" class="float-right" data-action="delete" data-element="' + id + '">' + self.DELETE_ICON + '</a> ' : '') +
-                          (isRecordable ? '<a href="javascript:void(0);" class="float-right" data-action="record" data-element="' + id + '">[Record]</a>' : '') +
-                        '</li>';
+            content += `
+                <li class="list-group-item">
+                    <a href="javascript:void(0);" data-action="run" data-element="${id}" class="float-left element">
+                        ${element.name}<br>
+                        <small>${screen ? screen.name : '' }</small>
+                    </a>
+                    <div class="dropdown show float-right">
+                        <a href="javascript:void(0);" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-sliders-h"></i>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <a href="javascript:void(0);" data-action="edit" data-element="${id}" class="dropdown-item">${self.EDIT_ICON} Editar</a>
+                            ${isDeletable ? `<a href="javascript:void(0);" data-action="delete" data-element="${id}" class="dropdown-item">${self.DELETE_ICON} Apagar</a>` : ''}
+                            ${isRecordable ? `<a href="javascript:void(0);" data-action="record" data-element="${id}" class="dropdown-item">${self.RECORD_ICON} Gravar</a>` : ''}
+                        </div>
+                    </div>
+                </li>`;
         }
 
         $('#settingsElements ul').html(content);
 
         $('#settingsElements a').on('click', function(event) {
-            var id = $(event.currentTarget).data('element');
-            var action = $(event.currentTarget).data('action');
+            const el = $(event.currentTarget);
+            const action = el.data('action');
+            const id = el.data('element');
             self.handleElementsPanelAction(action, id);
         });
     };
@@ -293,6 +312,7 @@ var LBK = new function() {
         $('#settingsCreationName').val(element.name);
 
         this.buildCreationPanelParamsFromScreenId(element.screenId);
+        this.refreshAddButtonLabel();
         
         $('#settingsCreationScreenParams input').each(function(idx, el) {
             var name = $(el).attr('name');
@@ -472,7 +492,7 @@ var LBK = new function() {
     };
 
     this.onSettingsChange = function(name, value) {
-        if(name == 'settingsContentWidth' || name == 'settingsContentHeight') {
+        if (name == 'settingsContentWidth' || name == 'settingsContentHeight') {
             var sizes = this.getSettingsContentSizes();
             var width = name == 'settingsContentWidth' ? value : sizes.width;
             var height = name == 'settingsContentHeight' ? value : sizes.height;
@@ -492,6 +512,8 @@ var LBK = new function() {
             var screenId = $(this).val();
             self.onScreenSelectChange(screenId, event.currentTarget);
         });
+
+        this.refreshElementsPanel();
     };
 
     this.buildEffectsUI = function() {
@@ -568,6 +590,23 @@ var LBK = new function() {
         var reader = new FileReader();
         reader.addEventListener('load', function() { callback(reader.result) });
         reader.readAsDataURL(file);
+    };
+
+    this.refreshAddButtonLabel = function() {
+        const screenId = $('#settingsCreationType').val();
+        const name = $('#settingsCreationName').val();
+        const id = screenId + '_' + this.slugify(name);
+
+        const isEditing = this.elements[id] != null;
+
+        console.log(id, isEditing);
+
+        if (isEditing) {
+            this.addButton.innerHTML = `<i class="far fa-save"></i> Save`;
+            return;
+        }
+
+        this.addButton.innerHTML = `<i class="fa fa-plus-square"></i> Add`;
     };
 
     this.hidrateCreationPanelParamInputs = function() {

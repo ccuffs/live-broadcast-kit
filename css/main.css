@@ -75,6 +75,10 @@ input[type="file"] {
   height: 3rem;
 }
 
+#settingsElements .element small {
+    color: #6d6d6d;
+}
+
 /*
 -----------------------------------------------------
 Custom scrollbars
