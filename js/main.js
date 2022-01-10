@@ -21,8 +21,8 @@ var LBK = new function() {
     };
 
     this.elements = {
-        'default.blank': {url: './screens/blank', name: 'Blank'},
-        'default.test': {url: './screens/test', name: 'Color test'},
+        'default.blank': {id: 'default.blank', url: './screens/blank', name: 'Blank'},
+        'default.test': {id: 'default.test', url: './screens/test', name: 'Color test'},
     };
 
     this.elementBeingRun = undefined;
@@ -625,6 +625,12 @@ var LBK = new function() {
             
             this.resizeContentArea(width, height);
             $('#settingsSizePreset').val('custom');
+        }
+
+        const isRunningDefaultElement = this.elementBeingRun && this.elementBeingRun.id.indexOf('default.') != -1;
+
+        if (name == 'settingsContentBgColor' && isRunningDefaultElement) {
+            this.initElementBeingRun();
         }
 
         this.saveState();
